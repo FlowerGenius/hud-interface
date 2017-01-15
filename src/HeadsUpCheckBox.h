@@ -15,6 +15,19 @@ public:
 	void			setChecked(bool state);
 	void 			getState(void);
 	void			draw(bool c, int x, int y);
+
+	void setBackgroundColour(const XColor& backgroundColour) {
+		background_colour = backgroundColour;
+	}
+
+	void setBorderColour(const XColor& borderColour) {
+		border_colour = borderColour;
+	}
+
+	void setCheckColour(const XColor& checkColour) {
+		check_colour = checkColour;
+	}
+
 private:
 	XColor 			background_colour;
 	XColor			border_colour;
