@@ -53,6 +53,8 @@
 #define USE_CHOOSE_FBCONFIG
 #define MAP_FG 0.0,0.6,0.6,0.9
 #define MAP_BG 0.0,0.3,0.6,0.3
+#define COCK_HEIGHT
+
 
 extern int height,width;
 #define OBJECTIVE_TEXT_HEIGHT 	20

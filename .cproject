@@ -18,7 +18,7 @@
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.1852054340" name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1030582738" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.468540455" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/HUD2}/Default" id="cdt.managedbuild.target.gnu.builder.base.283597330" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
+							<builder buildPath="${workspace_loc:/HUD2}/Release/bin" id="cdt.managedbuild.target.gnu.builder.base.283597330" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1836148196" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1863190760" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.include.paths.585775478" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
@@ -73,9 +73,19 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.751093070" name="/" resourcePath="include">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1380708686" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base" unusedChildren="">
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.747919651" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1836148196"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.458587201" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1863190760"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1642847153" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.1136122059"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.132120160" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1051612436"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.11680294" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base.936583287"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1464376591" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base.181552019"/>
+						</toolChain>
+					</folderInfo>
 					<sourceEntries>
-						<entry excluding="fonts|headers|src|tests|tizen|bench|android" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="tizen|android|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -154,7 +164,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="fonts|headers|src|tests|tizen|bench|android" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -234,7 +244,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="fonts|headers|src|tests|tizen|bench|android" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -314,7 +324,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="fonts|headers|src|tests|tizen|bench|android" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -394,7 +404,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="fonts|headers|src|tests|tizen|bench|android" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -474,7 +484,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="fonts|headers|src|tests|tizen|bench|android" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -487,6 +497,11 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="mac-osx"/>
+		<configuration configurationName="linux-x86"/>
+		<configuration configurationName="linux-x64"/>
+		<configuration configurationName="windows-x86"/>
+		<configuration configurationName="windows-x64"/>
 		<configuration configurationName="Default">
 			<resource resourceType="PROJECT" workspacePath="/HUD2"/>
 		</configuration>
