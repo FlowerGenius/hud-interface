@@ -23,10 +23,12 @@
 							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1863190760" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.include.paths.585775478" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
+									<listOptionValue builtIn="false" value="/home/erin/workspace/HUD2/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.491222772" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.other.1722692095" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
+								<option id="gnu.cpp.compiler.option.dialect.flags.726219014" superClass="gnu.cpp.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=c++11" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.68462560" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1136122059" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
@@ -71,16 +73,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.base.181552019" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.187117718" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.751093070" name="/" resourcePath="include">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1380708686" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base" unusedChildren="">
-							<tool id="cdt.managedbuild.tool.gnu.archiver.base.747919651" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1836148196"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.458587201" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1863190760"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1642847153" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.1136122059"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.132120160" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1051612436"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.11680294" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base.936583287"/>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1464376591" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base.181552019"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
