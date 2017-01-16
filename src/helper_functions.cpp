@@ -27,3 +27,9 @@ bool all(std::list<bool> L){
 	return true;
 
 }
+
+
+
+
+
+

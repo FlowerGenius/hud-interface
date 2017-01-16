@@ -25,10 +25,27 @@
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 									<listOptionValue builtIn="false" value="/home/erin/workspace/HUD2/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geometry/0.9.0/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/variant/1.1.4/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geojsonvt/6.1.3/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/boost/1.62.0/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/earcut/0.12.1/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/kdbush/0.1.1/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/pixelmatch/0.10.0/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/polylabel/1.0.2/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/rapidjson/1.1.0/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/supercluster/0.2.0/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/protozero/1.4.2/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/unique_resource/dev/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geojson/0.4.0/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/linux-x86_64/glfw/3.2.1/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/default}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.491222772" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.other.1722692095" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
-								<option id="gnu.cpp.compiler.option.dialect.flags.726219014" superClass="gnu.cpp.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=c++11" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.dialect.flags.726219014" name="Other dialect flags" superClass="gnu.cpp.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=c++1y" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.68462560" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1136122059" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
@@ -39,6 +56,7 @@
 							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.936583287" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
 								<option id="gnu.cpp.link.option.libs.229601365" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="X11"/>
+									<listOptionValue builtIn="false" value="png16"/>
 									<listOptionValue builtIn="false" value="opencv_shape"/>
 									<listOptionValue builtIn="false" value="opencv_stitching"/>
 									<listOptionValue builtIn="false" value="opencv_objdetect"/>
@@ -63,6 +81,10 @@
 								<option id="gnu.cpp.link.option.flags.304791048" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.314774736" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
 									<listOptionValue builtIn="false" value="/usr/local/lib"/>
+									<listOptionValue builtIn="false" value="/usr/include/libpng16"/>
+								</option>
+								<option id="gnu.cpp.link.option.userobjs.1436083805" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
+									<listOptionValue builtIn="false" value="/usr/lib/libSOIL.a"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.168644720" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -76,7 +98,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tizen|android|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="default|mason_packages|tizen|android|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>

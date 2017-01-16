@@ -204,19 +204,18 @@ Timer        m_timer;
 			texture.copyFrom(m, true);
 		}
 
-#if defined(__linux__)
 		XWindowAttributes window_attributes;
 		XGetWindowAttributes(Xdisplay, window_handle, &window_attributes);
 		glViewport(0, 0, window_attributes.width, window_attributes.height);
-#endif
+
 		glPushMatrix();
 
 		glColor4f(0.5, 0.5, 0.5, 0.9);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		glEnable(GL_TEXTURE_2D);
 
-		texture.bind();
+		glEnable(GL_TEXTURE_2D);
+		//texture.bind();
 
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 0.1f);
@@ -224,7 +223,12 @@ Timer        m_timer;
 		glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, -1.0f, 0.1f);
 		glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, 0.1f);
 		glEnd();
+
+
+
 		glDisable(GL_TEXTURE_2D);
+
+
 		glPopMatrix();
 
 		clock.draw(width - 650 ,height - 150);

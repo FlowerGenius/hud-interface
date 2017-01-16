@@ -20,6 +20,8 @@
 #include "Timer.hpp"
 #include "HeadsUpInterface.h"
 
+
+
 int width, height;
 Display *Xdisplay;
 GC gc;
@@ -62,6 +64,8 @@ static void fatalError(const char *why)
 	fprintf(stderr, "%s", why);
 	exit(0x666);
 }
+
+
 
 static int isExtensionSupported(const char *extList, const char *extension)
 {
@@ -359,6 +363,8 @@ static void redrawTheWindow()
 
 	int main(int argc, char *argv[])
 	{
+
+
 		interface = HeadsUpInterface();
 		HeadsUpTask task1 = HeadsUpTask("Make Some Good Plans");
 		task1.addObjective(HeadsUpObjective("Implement changeText method",0));
