@@ -9,30 +9,38 @@
 
 #include "header.h"
 
-	HeadsUpDigitalClock::HeadsUpDigitalClock(){
-		time_format = true;
-		x=0;
-		y = 0;
-	}
 
-	void HeadsUpDigitalClock::draw(int ax, int ay){
-		time_t rawtime;
-		struct tm * timeinfo;
-		char buffer [80];
-		x = ax;
-		y = ay;
-		time (&rawtime);
-		timeinfo = localtime (&rawtime);
+/* */
+//void updateClock(HeadsUpDigitalClock clk){
+//	clk.draw();
+//}
 
-		strftime (buffer,80,"%I:%M:%S%p",timeinfo);
-		//std::string k;
-		ScalableVectorString l = ScalableVectorString(buffer,255,0,0,200,100);
-		l.rdraw(x,y,4.0);
-	}
+HeadsUpDigitalClock::HeadsUpDigitalClock(){
+	time_format = true;
+	y=0,x=0;
+}
 
-	void HeadsUpDigitalClock::update(){
+void HeadsUpDigitalClock::init(){
 
-	}
+}
+
+int	HeadsUpDigitalClock::draw(int ax, int ay){
+	y= height - TOP_MARGIN - CLOCK_FONT_SIZE;
+	x=ax;
+	time_t rawtime;
+	struct tm * timeinfo;
+	char buffer [80];
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+	strftime (buffer,80,"%I:%M:%S%p",timeinfo);
+	ScalableVectorString l = ScalableVectorString(buffer,255,0,0,200,CLOCK_FONT_SIZE);
+	l.rdraw(x,y,4.0);
+	return 0;
+}
+
+void HeadsUpDigitalClock::update(){
+
+}
 
 
 

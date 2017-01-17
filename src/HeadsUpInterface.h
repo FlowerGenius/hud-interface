@@ -39,7 +39,7 @@ private:
 	void		drawGLComponents(void);
 	int			queryBatteryLife(void);
 	HeadsUpMap	map;
-	HeadsUpDigitalClock clock;
+	HeadsUpDigitalClock clockk;
 	HeadsUpBatteryInfo batinfo;
 };
 

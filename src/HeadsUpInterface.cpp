@@ -10,6 +10,8 @@
 #include "header.h"
 #include "HeadsUpBatteryInfo.h"
 #include "HeadsUpDigitalClock.h"
+#include "TileBuilder.h"
+
 #include "HeadsUpMap.h"
 #include "HeadsUpCheckBox.h"
 #include "HeadsUpObjective.h"
@@ -23,6 +25,10 @@ enum MODE
 	MODE_GPU
 };
 
+void foo(){
+
+}
+
 
 bool m_shutdown        = false;
 bool m_use_buffer      = false;
@@ -34,6 +40,7 @@ MODE get_mode()          { return m_mode; }
 void set_mode(MODE mode) { m_mode = mode; }
 std::list<HeadsUpTask> tasks;
 std::list<HeadsUpObjective> current_objectives;
+
 extern cv::VideoCapture m_cap;
 extern cv::Mat            m_frame_bgr;
 extern cv::Mat            m_frame_rgba;
@@ -41,6 +48,8 @@ extern cv::String         m_oclDevName;
 extern int height,width;
 extern Display *Xdisplay;
 extern Window window_handle;
+
+extern void computerGetBatteryInformation();
 
 Timer        m_timer;
 
@@ -129,8 +138,9 @@ Timer        m_timer;
 		m_oclDevName = cv::ocl::useOpenCL() ?
 				cv::ocl::Context::getDefault().device(0).name() :
 				(char*) "No OpenCL device";
+
+//		std::thread clockRunTime(runClock,clockk);
 		batinfo = HeadsUpBatteryInfo();
-		clock = HeadsUpDigitalClock();
 		map = HeadsUpMap();
 	}
 
@@ -208,36 +218,40 @@ Timer        m_timer;
 		XGetWindowAttributes(Xdisplay, window_handle, &window_attributes);
 		glViewport(0, 0, window_attributes.width, window_attributes.height);
 
-		glPushMatrix();
+		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		{
+			glColor4f(0.5, 0.5, 0.5, 0.9);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glLoadIdentity();
 
-		glColor4f(0.5, 0.5, 0.5, 0.9);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
+			glEnable(GL_TEXTURE_2D);
+			texture.bind();
 
-		glEnable(GL_TEXTURE_2D);
-		//texture.bind();
+			glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 0.1f);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, -1.0f, 0.1f);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, -1.0f, 0.1f);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, 0.1f);
+			glEnd();
 
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 0.1f);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, -1.0f, 0.1f);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, -1.0f, 0.1f);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, 0.1f);
-		glEnd();
-
-
-
-		glDisable(GL_TEXTURE_2D);
+			glDisable(GL_TEXTURE_2D);
+		}
+		glPopAttrib();
+		glFlush();
 
 
-		glPopMatrix();
+		clockk.draw( MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
 
-		clock.draw(width - 650 ,height - 150);
+		computerGetBatteryInformation();
+		batinfo.draw( MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*2, height - 100);
+
 		if (!tasks.front().isComplete()){
 			tasks.front().drawGL();
 		} else {
 			tasks.pop_front();
 			tasks.front().drawGL();
 		}
+
 		map.draw();
 
 

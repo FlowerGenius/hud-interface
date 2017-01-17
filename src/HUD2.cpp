@@ -14,6 +14,7 @@
 #include "HeadsUpBatteryInfo.h"
 #include "HeadsUpCheckBox.h"
 #include "HeadsUpDigitalClock.h"
+#include "TileBuilder.h"
 #include "HeadsUpMap.h"
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"

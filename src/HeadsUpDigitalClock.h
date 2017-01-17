@@ -12,8 +12,11 @@ class HeadsUpDigitalClock
 {
 public:
 					HeadsUpDigitalClock();
-	void			draw(int ax, int ay);
 	void			update(void);
+	void			run(void);
+	void			init();
+	int				draw(int ax, int ay);
+
 private:
 	bool			time_format;
 	int				x;

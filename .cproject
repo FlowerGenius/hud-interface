@@ -56,6 +56,8 @@
 							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.936583287" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
 								<option id="gnu.cpp.link.option.libs.229601365" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="X11"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="curl"/>
 									<listOptionValue builtIn="false" value="png16"/>
 									<listOptionValue builtIn="false" value="opencv_shape"/>
 									<listOptionValue builtIn="false" value="opencv_stitching"/>
@@ -81,9 +83,9 @@
 								<option id="gnu.cpp.link.option.flags.304791048" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.314774736" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
 									<listOptionValue builtIn="false" value="/usr/local/lib"/>
-									<listOptionValue builtIn="false" value="/usr/include/libpng16"/>
+									<listOptionValue builtIn="false" value="/usr/include/libpng"/>
 								</option>
-								<option id="gnu.cpp.link.option.userobjs.1436083805" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
+								<option id="gnu.cpp.link.option.userobjs.1436083805" name="Other objects" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
 									<listOptionValue builtIn="false" value="/usr/lib/libSOIL.a"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.168644720" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">

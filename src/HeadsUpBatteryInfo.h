@@ -12,6 +12,7 @@ class HeadsUpBatteryInfo
 {
 public:
 						HeadsUpBatteryInfo();
+	void				draw(int ax,int ay);
 };
 
 
