@@ -51,13 +51,17 @@ extern Window window_handle;
 
 extern void computerGetBatteryInformation();
 
+
 Timer        m_timer;
 
-
+void runClock(HeadsUpDigitalClock clockk){
+		clockk.timestring+="X";
+}
 	HeadsUpInterface::HeadsUpInterface()
 	{
 		batteryLife = queryBatteryLife();
 		waypointFontSize = 6;
+
 	}
 
 	int HeadsUpInterface::get_frame(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer)
@@ -139,9 +143,10 @@ Timer        m_timer;
 				cv::ocl::Context::getDefault().device(0).name() :
 				(char*) "No OpenCL device";
 
-//		std::thread clockRunTime(runClock,clockk);
+		clockk = HeadsUpDigitalClock();
 		batinfo = HeadsUpBatteryInfo();
 		map = HeadsUpMap();
+
 	}
 
 	void HeadsUpInterface::updateGL(void)
@@ -239,8 +244,7 @@ Timer        m_timer;
 		glPopAttrib();
 		glFlush();
 
-
-		clockk.draw( MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
+		clockk.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
 
 		computerGetBatteryInformation();
 		batinfo.draw( MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*2, height - 100);
@@ -251,6 +255,7 @@ Timer        m_timer;
 			tasks.pop_front();
 			tasks.front().drawGL();
 		}
+
 
 		map.draw();
 

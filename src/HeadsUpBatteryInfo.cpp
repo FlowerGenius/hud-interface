@@ -179,32 +179,20 @@ void HeadsUpBatteryInfo::draw(int ax,int ay){
 			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
 			glColor4f(0.0, 0.6, 0.6, 0.9);
 
-			glVertex2f(-0.7,0.7);
-			glVertex2f(-0.7,0.0);
-			glVertex2f(0.7,0.0);
-			glVertex2f(0.7,0.7);
+			glVertex2f(-0.8,-0.8);
+			glVertex2f(-0.2,0.8);
+			glVertex2f(0.0,0.6);
 
 			glEnd();
 		}
 		{
 			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-			glColor4f(0.6, 0.6, 0.6, 0.9);
 
-			glVertex2f(-0.6,0.6);
-			glVertex2f(-0.6,0.1);
-			glVertex2f(0.6,0.1);
-			glVertex2f(0.6,0.6);
-
-			glEnd();
-		}
-		{
-			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
 			glColor4f(0.0, 0.6, 0.6, 0.9);
 
-			glVertex2f(-0.8,-0.35);
-			glVertex2f(-0.7,0.0);
-			glVertex2f(0.7,0.0);
-			glVertex2f(0.8,-0.35);
+			glVertex2f(0.8,-0.8);
+			glVertex2f(0.2,0.8);
+			glVertex2f(0.0,0.6);
 
 			glEnd();
 		}
@@ -212,12 +200,12 @@ void HeadsUpBatteryInfo::draw(int ax,int ay){
 		{
 			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
 			glColor4f(1.0, 1.0, 0.0, 0.9);
-			glVertex2f(0.0,0.4);
-			glVertex2f(0.0,0.9);
-			glVertex2f(-0.2,0.2);
-			glVertex2f(0.0,0.2);
+			glVertex2f(0.0,0.0);
+			glVertex2f(0.0,0.5);
+			glVertex2f(-0.2,-0.2);
 			glVertex2f(0.0,-0.2);
-			glVertex2f(0.2,0.4);
+			glVertex2f(0.0,-0.6);
+			glVertex2f(0.2,0.0);
 
 			glEnd();
 		}

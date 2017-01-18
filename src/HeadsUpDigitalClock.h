@@ -12,12 +12,14 @@ class HeadsUpDigitalClock
 {
 public:
 					HeadsUpDigitalClock();
-	void			update(void);
-	void			run(void);
-	void			init();
+	void			getTime(void);
 	int				draw(int ax, int ay);
+	std::string timestring;
+
 
 private:
+	time_t rawtime;
+	struct tm * timeinfo;
 	bool			time_format;
 	int				x;
 	int				y;

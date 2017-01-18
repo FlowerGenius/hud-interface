@@ -16,6 +16,7 @@ public:
 	void		transform(int,int,int,int);
 private:
 	int x,y,w,h;
+	TileBuilder tiles;
 
 };
 

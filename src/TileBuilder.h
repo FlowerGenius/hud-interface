@@ -10,13 +10,23 @@
 
 class TileBuilder {
 public:
-	TileBuilder(std::string datasource,int zoom=18);
+	TileBuilder();
 	virtual ~TileBuilder();
-	void 	draw(void);
+	void 	draw();
+	std::pair<double,double> coords;
+	std::pair<double,double> getCoords(int timeout);
+	void setCoords();
+
 private:
-	std::pair<double,double>	getCoords(int timeout=10);
-	std::list<std::string> 		getTileUrls();
+	std::vector<std::string> 		getTileUrls();
 	std::string	dsource;
+	std::string getTileUrl();
+	std::string leftbound;
+	std::string coordsep;
+	std::string rightbound;
+	std::string sub1,coordstring,longstring,latstring;
+	size_t pos=0;
+
 	int z;
 };
 
