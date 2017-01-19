@@ -10,15 +10,21 @@
 
 class HeadsUpWaypoint {
 public:
-	HeadsUpWaypoint();
-	virtual ~HeadsUpWaypoint();
-	void	changeText();
-	void 	changeColour();
-	void	setPos();
-	void	getPos();
+								HeadsUpWaypoint();
+	virtual 					~HeadsUpWaypoint();
+	int							setText(std::string);
+	int 						setColour(int,int,int,int);
+	void						draw(void);
 protected:
-	//std::string text;
+	int							setIcon(void);
+	int							set(std::pair<double,double>);
+	std::pair<double,double>	get(void);
+	std::string 				getText(void);
+private:
 	int r,g,b,a;
+	std::pair<double,double>   	gps_coordinates;
+	std::string text;
+	//uchar*		icon;
 };
 
 

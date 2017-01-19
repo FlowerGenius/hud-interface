@@ -11,8 +11,6 @@
 #include "HeadsUpTask.h"
 
 extern int height,width;
-//extern std::list<HeadsUpObjective> current_objectives;
-
 
 	HeadsUpTask::HeadsUpTask(std::string t)
 	{
@@ -20,6 +18,7 @@ extern int height,width;
 		state_changed = true;
 		current_stage = 0;
 		completed = false;
+		index = 0;
 	}
 
 	void HeadsUpTask::confirmObjective(int position){
@@ -32,7 +31,7 @@ extern int height,width;
 
 	void HeadsUpTask::drawGL(void)
 	{
-		int index = 0;
+		index = 0;
 		bool total_complete_flag = true;
 		bool incomplete_flag = false;
 		for (std::vector<HeadsUpObjective>::const_iterator iterator = objectives.begin(), end = objectives.end(); iterator != end; ++iterator) {
@@ -69,8 +68,12 @@ extern int height,width;
 	void HeadsUpTask::addObjective(HeadsUpObjective o)
 	{
 		objectives.push_back(o);
-		//current_objectives = objectives;
 		state_changed = true;
+		names.clear();
+		for (std::vector<HeadsUpObjective>::const_iterator iterator = objectives.begin(), end = objectives.end(); iterator != end; ++iterator) {
+			HeadsUpObjective current = *iterator;
+			names.push_back(current.getName());
+		}
 	}
 
 	std::string HeadsUpTask::getTitle(void)
@@ -80,11 +83,7 @@ extern int height,width;
 
 	std::list<std::string> HeadsUpTask::displayObjectives(void)
 	{
-		std::list<std::string> names;
-		for (std::vector<HeadsUpObjective>::const_iterator iterator = objectives.begin(), end = objectives.end(); iterator != end; ++iterator) {
-			HeadsUpObjective current = *iterator;
-			names.push_back(current.getName());
-		}
+
 		return names;
 	}
 

@@ -47,8 +47,10 @@
 
 #include <iostream>
 #include <list>
+#include <mutex>
+#include <atomic>
 #include <vector>
-#include <thread>         // std::thread
+#include <thread>
 
 #define USE_CHOOSE_FBCONFIG
 #define MAP_FG 0.0,0.6,0.6,0.9
@@ -59,7 +61,7 @@
 extern int height,width;
 #define OBJECTIVE_TEXT_HEIGHT 	20
 #define MAP_HEIGHT			  	(height / 5  )
-#define MAP_WIDTH				MAP_HEIGHT*1.3
+#define MAP_WIDTH				MAP_HEIGHT
 
 #define BAT_WIDTH				(width  / 20)
 #define BAT_HEIGHT				BAT_WIDTH*0.4

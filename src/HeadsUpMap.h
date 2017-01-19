@@ -13,9 +13,7 @@ class HeadsUpMap
 public:
 				HeadsUpMap();
 	void		draw(void);
-	void		transform(int,int,int,int);
 private:
-	int x,y,w,h;
 	TileBuilder tiles;
 
 };

@@ -19,6 +19,13 @@
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"
 #include "Timer.hpp"
+
+enum MODE
+{
+	MODE_CPU = 0,
+	MODE_GPU
+};
+
 #include "HeadsUpInterface.h"
 
 
@@ -43,11 +50,31 @@ cv::Mat            m_frame_rgba;
 cv::String         m_oclDevName;
 
 HeadsUpInterface interface;
-extern std::list<HeadsUpTask> tasks;
+
+//Task Management Subsystem
+std::list<HeadsUpTask> tasks;
+std::list<HeadsUpObjective> current_objectives;
+extern void	computerGetLocalTime();
+
+
+//Power Management Subsystem
+std::string battery_state;
+std::atomic<double> battery_life;
+std::atomic<double> dev_battery_life;
+std::atomic<bool> is_charging;
+std::atomic<bool> dev_is_charging;
+std::atomic<bool> dev_is_connected;
+extern void computerGetBatteryInformation();
+
+
+//Map Subsystem
+std::atomic<double> m_latitude;
+std::atomic<double> m_longitude;
+std::pair<double,double> coords;
 
 
 
-//static HeadsUpInterface interface;
+
 static int VisData[] = {
 		GLX_RENDER_TYPE, GLX_RGBA_BIT,
 		GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
@@ -353,12 +380,21 @@ static int updateTheMessageQueue()
 
 static void redrawTheWindow()
 {
+	std::thread _bat_th(computerGetBatteryInformation);
+	std::thread _clk_th(computerGetLocalTime);
 
-
-
+	XWindowAttributes window_attributes;
+	XGetWindowAttributes(Xdisplay, window_handle, &window_attributes);
+	glViewport(0, 0, window_attributes.width, window_attributes.height);
 
 
 	interface.updateGL();
+
+	if(_clk_th.joinable())
+		_clk_th.join();
+	if(_bat_th.joinable())
+		_bat_th.join();
+
 	glXSwapBuffers(Xdisplay, glX_window_handle);
 }
 
@@ -391,6 +427,7 @@ static void redrawTheWindow()
 			return -1;
 		}
 		m_cap = cap;
+
 		while (updateTheMessageQueue()) {
 			redrawTheWindow();
 		}

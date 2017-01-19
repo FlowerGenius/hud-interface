@@ -24,7 +24,10 @@ public:
 	std::vector<HeadsUpObjective> objectives;
 	bool operator == (const HeadsUpTask& s) const { return title == s.title && objectives == s.objectives; }
 	bool operator != (const HeadsUpTask& s) const { return !operator==(s); }
+
 private:
+	std::list<std::string> names;
+	int index = 0;
 	int						current_stage;
 	bool					completed;
 	void					deleteObjective(HeadsUpObjective);

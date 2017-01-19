@@ -31,7 +31,10 @@ private:
 	int			objectivesFontSize;
 	int			batteryLife;
 	int			waypointFontSize;
-
+	cv::ogl::Texture2D cam_texture;
+	cv::ogl::Buffer cam_buffer;
+	MODE		cam_mode;
+	bool		cam_do_buffer;
 	std::list<HeadsUpTask> taskQueue;
 
 

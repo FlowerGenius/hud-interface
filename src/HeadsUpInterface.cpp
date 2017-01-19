@@ -17,17 +17,12 @@
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"
 #include "Timer.hpp"
-#include "HeadsUpInterface.h"
-
 enum MODE
 {
 	MODE_CPU = 0,
 	MODE_GPU
 };
-
-void foo(){
-
-}
+#include "HeadsUpInterface.h"
 
 
 bool m_shutdown        = false;
@@ -38,8 +33,9 @@ bool use_buffer()        { return m_use_buffer; }
 void toggle_buffer()     { m_use_buffer = !m_use_buffer; }
 MODE get_mode()          { return m_mode; }
 void set_mode(MODE mode) { m_mode = mode; }
-std::list<HeadsUpTask> tasks;
-std::list<HeadsUpObjective> current_objectives;
+
+extern std::list<HeadsUpTask> tasks;
+extern std::list<HeadsUpObjective> current_objectives;
 
 extern cv::VideoCapture m_cap;
 extern cv::Mat            m_frame_bgr;
@@ -49,17 +45,11 @@ extern int height,width;
 extern Display *Xdisplay;
 extern Window window_handle;
 
-extern void computerGetBatteryInformation();
-
 
 Timer        m_timer;
 
-void runClock(HeadsUpDigitalClock clockk){
-		clockk.timestring+="X";
-}
 	HeadsUpInterface::HeadsUpInterface()
 	{
-		batteryLife = queryBatteryLife();
 		waypointFontSize = 6;
 
 	}
@@ -176,61 +166,60 @@ void runClock(HeadsUpDigitalClock clockk){
 	}
 
 
+void drawClock(HeadsUpDigitalClock c){
+	c.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
+}
 
-	void HeadsUpInterface::drawXComponents()
+void drawBat(HeadsUpBatteryInfo b){
+	b.draw( MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*2, height - 100);
+}
+
+void drawMap(HeadsUpMap m){
+	m.draw();
+}
+
+void drawTask(HeadsUpTask t){
+	t.drawGL();
+}
+
+	void HeadsUpInterface::draw()
 	{
+		cam_texture.setAutoRelease(true);
+		cam_buffer.setAutoRelease(true);
 
-	}
+		cam_mode = get_mode();
+		cam_do_buffer = use_buffer();
 
-	void HeadsUpInterface::drawGLComponents()
-	{
-
-		int r;
-		cv::ogl::Texture2D texture;
-		cv::ogl::Buffer buffer;
-
-		texture.setAutoRelease(true);
-		buffer.setAutoRelease(true);
-
-		MODE mode = get_mode();
-		bool do_buffer = use_buffer();
-
-		r = get_frame(texture, buffer, do_buffer);
-		if (r != 0)
+		if (get_frame(cam_texture, cam_buffer, cam_do_buffer) != 0)
 		{
 
 		}
 
-		switch (mode)
+		switch (cam_mode)
 		{
 		case MODE_CPU: // process frame on CPU
-			processFrameCPU(texture, buffer, do_buffer);
+			processFrameCPU(cam_texture, cam_buffer, cam_do_buffer);
 			break;
 
 		case MODE_GPU: // process frame on GPU
-			processFrameGPU(texture, buffer, do_buffer);
+			processFrameGPU(cam_texture, cam_buffer, cam_do_buffer);
 			break;
 		} // switch
 
-		if (do_buffer) // buffer -> texture
+		if (cam_do_buffer) // buffer -> texture
 		{
 			cv::Mat m(height, width, CV_8UC4);
-			buffer.copyTo(m);
-			texture.copyFrom(m, true);
+			cam_buffer.copyTo(m);
+			cam_texture.copyFrom(m, true);
 		}
-
-		XWindowAttributes window_attributes;
-		XGetWindowAttributes(Xdisplay, window_handle, &window_attributes);
-		glViewport(0, 0, window_attributes.width, window_attributes.height);
 
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 			glColor4f(0.5, 0.5, 0.5, 0.9);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glLoadIdentity();
 
 			glEnable(GL_TEXTURE_2D);
-			texture.bind();
+			cam_texture.bind();
 
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 0.1f);
@@ -242,29 +231,23 @@ void runClock(HeadsUpDigitalClock clockk){
 			glDisable(GL_TEXTURE_2D);
 		}
 		glPopAttrib();
-		glFlush();
-
-		clockk.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
-
-		computerGetBatteryInformation();
-		batinfo.draw( MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*2, height - 100);
-
-		if (!tasks.front().isComplete()){
-			tasks.front().drawGL();
-		} else {
-			tasks.pop_front();
-			tasks.front().drawGL();
-		}
-
-
-		map.draw();
-
 
 	}
 
-	int HeadsUpInterface::queryBatteryLife()
+	void HeadsUpInterface::drawGLComponents()
 	{
-		return 100;
+		if (tasks.front().isComplete()){
+			tasks.pop_front();
+		}
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glFlush();
+
+		draw();
+
+		drawClock(clockk);
+		drawBat(batinfo);
+		drawMap(map);
+		drawTask(tasks.front());
 	}
 
 

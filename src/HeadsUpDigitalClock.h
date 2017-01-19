@@ -14,13 +14,10 @@ public:
 					HeadsUpDigitalClock();
 	void			getTime(void);
 	int				draw(int ax, int ay);
-	std::string timestring;
 
 
 private:
-	time_t rawtime;
-	struct tm * timeinfo;
-	bool			time_format;
+
 	int				x;
 	int				y;
 };

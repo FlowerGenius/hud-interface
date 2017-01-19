@@ -4,19 +4,27 @@
  *  Created on: Jan 16, 2017
  *      Author: erin
  */
+ 
 #include "header.h"
 #include "TileBuilder.h"
 #include "png.h"
 
-
-std::string tilesource = "";
+std::vector<std::string> tilesource;
 GLuint tex;
-std::string data;
 
-extern cv::Mat BindCVMat2GLTexture(cv::Mat& image, GLuint& imageTexture);
-extern int long2tilex(double lon,int z);
-extern int lat2tiley(double lat,int z);
+extern std::pair<double,double> coords;
+float bw = 0.03;
+extern float long2tilex(double lon,int z);
+extern float lat2tiley(double lat,int z);
+extern double m_longitude;
+extern double m_latitude;
+std::pair<float,float> map_location;
+
+float zoom = 0.3333;
+
 cv::Mat m_image;
+cv::Mat m1_image;
+
 std::string datsource = "http://a.tile.openstreetmap.org";
 
 size_t write_data(char *ptr, size_t size, size_t nmemb, void *userdata)
@@ -25,18 +33,6 @@ size_t write_data(char *ptr, size_t size, size_t nmemb, void *userdata)
     size_t count = size * nmemb;
     stream->insert(stream->end(), ptr, ptr + count);
     return count;
-}
-
-size_t writeCallback(char* buf, size_t size, size_t nmemb, void* up)
-{ //callback must have this declaration
-    //buf is a pointer to the data that curl has for us
-    //size*nmemb is the size of the buffer
-
-    for (int c = 0; c<size*nmemb; c++)
-    {
-        data.push_back(buf[c]);
-    }
-    return size*nmemb; //tell curl how many bytes we handled
 }
 
 //function to retrieve the image as cv::Mat data type
@@ -59,109 +55,64 @@ TileBuilder::~TileBuilder() {
 }
 
 
-
-std::pair<double,double> TileBuilder::getCoords(int timeout=10)
-{
-    std::vector<uchar> stream;
-    CURL *curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://whatismycountry.com/1"); //the img url
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
-	curl_easy_setopt(curl, CURLOPT_VERBOSE, 0); //tell curl to output its progress
-
-	curl_easy_perform(curl);
-	leftbound 	= "<p>Coordinates ";
-	coordsep 	= " ";
-	rightbound	= "</p>";
-
-	sub1		= data.substr(data.find(leftbound)+leftbound.size());
-	coordstring	= sub1.substr(0,sub1.find(rightbound));
-
-	pos 		= coordstring.find(coordsep);
-
-	latstring=coordstring.substr(0,pos);
-	longstring=coordstring.substr(pos+1);
-
-	curl_easy_cleanup(curl);
-	curl_global_cleanup();
-
-	return {std::atof(latstring.c_str()),std::atof(longstring.c_str())};
-
-
-}
-
-
-
-int interval=0;
-void doGetCoords(TileBuilder t){	
-	
-	while(1){
-		if (interval % 10 == 0){
-			t.setCoords();
-		}
-		interval++;
-	}
-}
-
 TileBuilder::TileBuilder() {
 	dsource = datsource;
-	z = 18;
-	coords = getCoords();
-
+	z = 17;
 }
 
-// std::vector<std::string> TileBuilder::getTileUrls(){
-// 	std::string str = dsource;
-// 
-// 	int x = long2tilex(coords.second,z);
-// 	int y = lat2tiley(coords.first,z);
-// 
-// 	std::string z_str =std::to_string(z);
-// 	std::string x_str = std::to_string(x);
-// 	std::string xp1_str = std::to_string(x+1);
-// 	std::string xm1_str = std::to_string(x-1);
-// 
-// 
-// 
-// 	std::string y_str  = std::to_string(y);
-// 	std::string yp1_str  = std::to_string(y+1);
-// 	std::string ym1_str  = std::to_string(y-1);
-// 
-// 
-// 	std::vector<std::string> urls = {
-// 			str+"/"+z_str+"/"+xm1_str+"/"+yp1_str+".png",
-// 			str+"/"+z_str+"/"+x_str+"/"+yp1_str+".png",
-// 			str+"/"+z_str+"/"+xp1_str+"/"+yp1_str+".png",
-// 			str+"/"+z_str+"/"+xm1_str+"/"+y_str+".png",
-// 			str+"/"+z_str+"/"+x_str+"/"+y_str+".png",
-// 			str+"/"+z_str+"/"+xp1_str+"/"+y_str+".png",
-// 			str+"/"+z_str+"/"+xm1_str+"/"+ym1_str+".png",
-// 			str+"/"+z_str+"/"+x_str+"/"+ym1_str+".png",
-// 			str+"/"+z_str+"/"+xp1_str+"/"+ym1_str+".png",
-// 			};
-// 
-// 	return urls;
-// }
+ std::vector<std::string> TileBuilder::getTileUrls(){
+
+	 int x = ((int)(floor(long2tilex(m_longitude,z))));
+	 int y = ((int)(floor(lat2tiley(m_latitude,z))));
+	 map_location.first = (long2tilex(m_longitude,z)-x);
+	 map_location.second = (lat2tiley(m_latitude,z)-y);
+ 	std::string yp1_str  = std::to_string(y+1);
+ 	std::string ym1_str  = std::to_string(y-1);
+
+
+ 	return {
+//			dsource+"/"+std::to_string(z)+"/"+std::to_string( ((int)(floor(long2tilex(m_longitude,z)))-1)+"/"+yp1_str+".png",
+ 			dsource+"/"+std::to_string(z)+"/"+std::to_string(x-1)+"/"+yp1_str+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(x)+"/"+yp1_str+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(x+1)+"/"+yp1_str+".png",
+
+// 			dsource+"/"+std::to_string(z)+"/"+std::to_string( x-2)+"/"+y_str+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(x-1)+"/"+std::to_string(y)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(x)+"/"+std::to_string(y)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(x+1)+"/"+std::to_string(y)+".png",
+
+// 			dsource+"/"+std::to_string(z)+"/"+std::to_string( x-2)+"/"+ym1_str+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(x-1)+"/"+ym1_str+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(x)+"/"+ym1_str+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(x+1)+"/"+ym1_str+".png",
+
+ 	};
+ }
+
 
 std::string TileBuilder::getTileUrl(){
-
-	std::string url = dsource+"/"+std::to_string(z)+"/"+std::to_string(long2tilex(coords.second,z))+"/"+std::to_string(lat2tiley(coords.first,z))+".png";
+	url = dsource+"/"+std::to_string(z)+"/"+std::to_string(long2tilex(m_longitude,z))+"/"+std::to_string((int)(floor(lat2tiley(m_latitude,z))))+".png";
 	return url;
 }
-
-void TileBuilder::setCoords(){
-	coords = getCoords();
-}
+cv::Mat resultImg;
+cv::Mat al,bl,cl,dl,ar,br,cr,dr,top,mid,bottom,c0_image,c1_image,c2_image,c3_image,c4_image,c5_image,c6_image,c7_image,c8_image,c9_image,c10_image,c11_image,c12_image,c13_image,c14_image,c15_image;
+std::vector<std::string> vstr;
 
 
 void TileBuilder::draw(){
-		
-		//std::vector<std::string> str = getTileUrls();
-		setCoords();
-		std::string str = getTileUrl();
+
+		//std::string str = getTileUrl();
+//		m_latitude+=0.0001;
+//		m_longitude+=0.0001;
+		vstr = getTileUrls();
+		float mx = ((map_location.first*2)-1)/2;
+		float my = ((map_location.second*2)-1)/2;
+		float from_tile_origin_x = mx;
+		float from_tile_origin_y = my;
 
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
-				glColor4f(0.5, 0.5, 0.5, 0.9);
+				glColor4f(0.3, 0.5, 0.8, 0.98);
 
 				glEnable(GL_TEXTURE_2D);
 				// Create Texture
@@ -171,26 +122,73 @@ void TileBuilder::draw(){
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
 
-				if (str != tilesource){
-					m_image =  curlImg(str.c_str());
-					tilesource = str;
+				if (vstr != tilesource){
+
+
+					c0_image = curlImg(vstr[0].c_str());
+					c1_image = curlImg(vstr[1].c_str());
+					c2_image = curlImg(vstr[2].c_str());
+					cv::hconcat(std::vector<cv::Mat>({c0_image,c1_image,c2_image}),top);
+
+					c4_image = curlImg(vstr[3].c_str());
+					c5_image = curlImg(vstr[4].c_str());
+					c6_image = curlImg(vstr[5].c_str());
+					cv::hconcat(std::vector<cv::Mat>({c4_image,c5_image,c6_image}),mid);
+
+					c8_image = curlImg(vstr[6].c_str());
+					c9_image = curlImg(vstr[7].c_str());
+					c10_image = curlImg(vstr[8].c_str());
+					cv::hconcat(std::vector<cv::Mat>({c8_image,c9_image,c10_image}),bottom);
+
+					cv::vconcat(std::vector<cv::Mat>({bottom,mid,top}),resultImg);
+
+					tilesource = vstr;
 				}
-				glTexImage2D(GL_TEXTURE_2D, 0, 3, m_image.cols, m_image.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, m_image.data);
+
+				glTexImage2D(GL_TEXTURE_2D, 0, 3, resultImg.cols, resultImg.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, resultImg.data);
 
 				glBindTexture(GL_TEXTURE_2D, tex); // choose the texture to use.
-				glBegin(GL_QUADS);
-				glTexCoord2f (0.0, 0.0);
-				glVertex3f (-1.0,1.0, 0.1);
-				glTexCoord2f (1.0, 0.0);
-				glVertex3f (1.0, 1.0, 0.1);
-				glTexCoord2f (1.0, 1.0);
-				glVertex3f (1.0, -1.0, 0.1);
-				glTexCoord2f (0.0, 1.0);
-				glVertex3f (-1.0, -1.0, 0.1);
+				glBegin(GL_POLYGON);
+
+
+
+				glTexCoord2f (0.0*zoom + 0.3333 + mx*zoom, 0.1*zoom + 0.3333 + my*zoom);
+				glVertex2f(-1+bw, 0.8-bw);
+				glTexCoord2f (0.1*zoom + 0.3333 + mx*zoom, 0.0*zoom + 0.3333 + my*zoom);
+				glVertex2f(-0.8+bw, 1-bw);
+
+				glTexCoord2f (1.0*zoom + 0.3333 + mx*zoom, 0.0*zoom + 0.3333 + my*zoom);
+				glVertex2f(1-bw, 1-bw);
+
+				glTexCoord2f (1.0*zoom + 0.3333 + mx*zoom, 0.9*zoom + 0.3333 + my*zoom);
+				glVertex2f(1-bw, -0.8+bw);
+				glTexCoord2f (0.9*zoom + 0.3333 + mx*zoom, 1.0*zoom + 0.3333 + my*zoom);
+				glVertex2f(0.8-bw, -1+bw);
+
+				glTexCoord2f (0.0*zoom + 0.3333 + mx*zoom, 1.0*zoom + 0.3333 + my*zoom);
+				glVertex2f(-1+bw, -1+bw);
+
 
 				glEnd();
+
+
 				glDisable(GL_TEXTURE_2D);
 
+
+
+			}
+			glPopAttrib();
+			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			{
+				glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
+				glColor4f(0.0, 0.0, 1.0, 1.0);
+				glVertex2f(0.0,0.0);
+				glVertex2f(0.1,-0.1);
+				glVertex2f(0.0,+0.1);
+				glVertex2f(-0.1,-0.1);
+
+
+				glEnd();
 			}
 			glPopAttrib();
 }

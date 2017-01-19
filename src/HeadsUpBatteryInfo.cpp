@@ -7,28 +7,26 @@
 #include "header.h"
 #include "HeadsUpBatteryInfo.h"
 
-#include "header.h"
-
 extern std::string exec(const char*);
 
-double battery_life 	= 0.00;
-double dev_battery_life	= 0.00;
+extern std::atomic<double> battery_life;
+extern std::atomic<double> dev_battery_life;
 
-std::string battery_state;
+extern std::string battery_state;
 
-bool is_charging;
-bool dev_is_charging;
-extern bool dev_is_connected;
+extern std::atomic<bool> is_charging;
+extern std::atomic<bool> dev_is_charging;
+extern std::atomic<bool> dev_is_connected;
 
+std::string pinf;
+std::string ssinf;
 
 void computerGetBatteryInformation(){
-		std::string pinf = exec("upower -i `upower -e | grep 'BAT'` | grep percentage");
-		std::string sinf = exec("upower -i `upower -e | grep 'BAT'` | grep state");
+		pinf = exec("upower -i `upower -e | grep 'BAT'` | grep percentage");
+		ssinf = exec("upower -i `upower -e | grep 'BAT'` | grep state");
 
 		battery_life = atof(pinf.substr(pinf.find('%')-3).c_str());
-		battery_state = sinf.substr(sinf.find(':')+1);
-
-
+		battery_state = ssinf.substr(ssinf.find(':')+1);
 
 		while (battery_state.substr(0,1) == " ")
 			battery_state = battery_state.substr(1);
@@ -36,17 +34,14 @@ void computerGetBatteryInformation(){
 		while (battery_state.substr(battery_state.size()-1)==" " or battery_state.substr(battery_state.size()-1)=="\n")
 			battery_state = battery_state.substr(0,battery_state.size()-1);
 
-
 		if(battery_state == "discharging")
 			is_charging = false;
 		else if (battery_state == "charging")
 			is_charging = true;
-
 	}
 
-
-
 	HeadsUpBatteryInfo::HeadsUpBatteryInfo(){
+
 	}
 
 void HeadsUpBatteryInfo::draw(int ax,int ay){
@@ -82,9 +77,7 @@ void HeadsUpBatteryInfo::draw(int ax,int ay){
 			glVertex2f( ((battery_life/125.0)*2.0 - 0.9),-0.8);
 			glEnd();
 		}
-		std::string str = std::to_string(battery_life);
-		str.erase(5);
-		ScalableVectorString l = ScalableVectorString(str,167,167,255,200,BAT_HEIGHT/2);
+		ScalableVectorString l = ScalableVectorString(std::to_string(battery_life).erase(5),167,167,255,200,BAT_HEIGHT/2);
 		l.ldraw(width-ax+(BAT_WIDTH/6),height-TOP_MARGIN-BAT_HEIGHT*0.8,0);
 
 
@@ -118,9 +111,7 @@ void HeadsUpBatteryInfo::draw(int ax,int ay){
 			glVertex2f( ((dev_battery_life/125.0)*2.0 - 0.9),-0.8);
 			glEnd();
 		}
-		std::string strr = std::to_string(dev_battery_life);
-		strr.erase(5);
-		ScalableVectorString o = ScalableVectorString(strr,167,167,255,200,BAT_HEIGHT/2);
+		ScalableVectorString o = ScalableVectorString(std::to_string(dev_battery_life).erase(5),167,167,255,200,BAT_HEIGHT/2);
 		o.ldraw(width-ax+(BAT_WIDTH/6),height-TOP_MARGIN-BAT_HEIGHT*2 - height/70 +BAT_HEIGHT*0.2,0);
 
 
