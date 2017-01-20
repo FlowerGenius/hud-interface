@@ -11,31 +11,37 @@
 
 time_t rawtime;
 struct tm * timeinfo;
-bool			time_format;
+bool time_format;
 std::string timestring;
+extern std::atomic<bool> EXIT_THREADS;
 
-
-void computerGetLocalTime(){
-	time (&rawtime);
-	timeinfo = localtime (&rawtime);
-	char buffer[80];
-	strftime (buffer,80,"%I:%M:%S%p",timeinfo);
+void getTime() {
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	char* buffer = (char*) malloc(sizeof(char) * 80);
+	strftime(buffer, 80, "%I:%M:%S%p", timeinfo);
 	timestring = std::string(buffer);
+	free(buffer);
 }
 
+void computerGetLocalTime() {
+	while (!EXIT_THREADS) {
+		getTime();
+	}
+	puts("Computer Local Time Thread Exited Successfully");
+}
 
-HeadsUpDigitalClock::HeadsUpDigitalClock(){
+HeadsUpDigitalClock::HeadsUpDigitalClock() {
 	time_format = true;
-	y=0,x=0;
+	y = 0, x = 0;
+	getTime();
 }
 
-
-
-int	HeadsUpDigitalClock::draw(int ax, int ay){
-	ScalableVectorString l = ScalableVectorString(timestring,0,167,167,200,CLOCK_FONT_SIZE);
-	l.rdraw(ax,height - TOP_MARGIN - CLOCK_FONT_SIZE,4.0);
+int HeadsUpDigitalClock::draw(int ax, int ay) {
+	time_text.setText(timestring);
+	time_text.setColour(0, 167, 167, 200);
+	time_text.rdraw(ax, height - TOP_MARGIN - CLOCK_FONT_SIZE, 4.0,
+			CLOCK_FONT_SIZE);
 	return 0;
 }
-
-
 

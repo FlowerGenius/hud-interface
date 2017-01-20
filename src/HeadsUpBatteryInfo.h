@@ -13,6 +13,9 @@ class HeadsUpBatteryInfo
 public:
 						HeadsUpBatteryInfo();
 	void				draw(int ax,int ay);
+private:
+	ScalableVectorString comp_text;
+	ScalableVectorString dev_text;
 };
 
 

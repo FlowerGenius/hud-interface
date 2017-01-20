@@ -8,12 +8,11 @@
 #include "fonts/kombat.hpp"
 
 extern int width, height;
-	ScalableVectorString::ScalableVectorString(std::string s, int red, int green, int blue, int alpha, int font_size) {
+	ScalableVectorString::ScalableVectorString() {
 		// TODO Auto-generated constructor stub
-		text = s;
+		text = "";
 		bytes = text.c_str();
-		ht = font_size;
-		r=(float)red/255;g=(float)green/255,b=(float)blue/255,a=1.0;
+		r=255;g=255,b=255,a=1.0;
 		xx=0;
 		length=0;
 		i=0;
@@ -25,9 +24,11 @@ extern int width, height;
 		w=0;
 		hw=0;
 		vw=0;
+		ht=0;
 	}
 
-	void ScalableVectorString::ldraw(int x, int y, int border){
+	void ScalableVectorString::ldraw(int x, int y, int border,int font_size){
+		ht = font_size;
 
 		i=0;
 		if(border>0){
@@ -71,8 +72,8 @@ extern int width, height;
 		return xx;
 	}
 
-	void ScalableVectorString::rdraw(int x, int y, int border){
-
+	void ScalableVectorString::rdraw(int x, int y, int border, int font_size){
+			ht = font_size;
 			i = 0;
 			if(border>0){
 				float br,bg,bb,ba;
@@ -106,13 +107,13 @@ extern int width, height;
 			}
 		}
 
-	void ScalableVectorString::changeText(std::string s){
+	void ScalableVectorString::setText(std::string s){
 		text = s;
 		bytes = text.c_str();
 	}
 
-	void ScalableVectorString::changeColour(int red, int green, int blue){
-		r=(float)red/255;g=(float)green/255,b=(float)blue/255,a=1.0;
+	void ScalableVectorString::setColour(int red, int green, int blue,int alpha){
+		r=(float)red/255;g=(float)green/255,b=(float)blue/255,a=(float)alpha/255;
 	}
 
 	void ScalableVectorString::vectorize(char c, int x, int y,float red,float green,float blue,float alpha)

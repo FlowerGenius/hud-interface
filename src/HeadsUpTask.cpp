@@ -7,11 +7,13 @@
 
 
 #include "header.h"
+#include "HeadsUpCheckBox.h"
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"
 
 extern int height,width;
-
+bool total_complete_flag;
+bool incomplete_flag;
 	HeadsUpTask::HeadsUpTask(std::string t)
 	{
 		title = t;
@@ -32,8 +34,8 @@ extern int height,width;
 	void HeadsUpTask::drawGL(void)
 	{
 		index = 0;
-		bool total_complete_flag = true;
-		bool incomplete_flag = false;
+		total_complete_flag = true;
+		incomplete_flag = false;
 		for (std::vector<HeadsUpObjective>::const_iterator iterator = objectives.begin(), end = objectives.end(); iterator != end; ++iterator) {
 				HeadsUpObjective current = *iterator;
 				if (current.getStage() == current_stage){
@@ -55,9 +57,9 @@ extern int height,width;
 			completed = true;
 		}
 
-		float bw=1.5;
-		ScalableVectorString s = ScalableVectorString(getTitle(),76,200,255,200,20);
-		s.rdraw(RIGHT_MARGIN,height-(30+TOP_MARGIN+MAP_HEIGHT),bw);
+		tit_text.setText(getTitle());
+		tit_text.setColour(76,200,255,200);
+		tit_text.rdraw(RIGHT_MARGIN,height-(30+TOP_MARGIN+MAP_HEIGHT),1.5,TASK_TEXT_HEIGHT);
 
 
 		state_changed = false;

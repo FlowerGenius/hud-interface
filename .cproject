@@ -1,545 +1,923 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?>
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.toolchain.gnu.base.604359116">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.toolchain.gnu.base.604359116" moduleId="org.eclipse.cdt.core.settings" name="Release">
-				<externalSettings/>
+			<storageModule
+				buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider"
+				id="cdt.managedbuild.toolchain.gnu.base.604359116" moduleId="org.eclipse.cdt.core.settings"
+				name="Release">
+				<externalSettings />
 				<extensions>
-					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser" />
+					<extension id="org.eclipse.cdt.core.GASErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GLDErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GCCErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.604359116" name="Release" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.1852054340" name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1030582738" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.468540455" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/HUD2}/Release/bin" id="cdt.managedbuild.target.gnu.builder.base.283597330" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1836148196" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1863190760" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
-								<option id="gnu.cpp.compiler.option.include.paths.585775478" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/home/erin/workspace/HUD2/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geometry/0.9.0/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/variant/1.1.4/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geojsonvt/6.1.3/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/boost/1.62.0/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/earcut/0.12.1/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/kdbush/0.1.1/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/pixelmatch/0.10.0/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/polylabel/1.0.2/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/rapidjson/1.1.0/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/supercluster/0.2.0/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/protozero/1.4.2/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/unique_resource/dev/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geojson/0.4.0/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/mason_packages/linux-x86_64/glfw/3.2.1/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/default}&quot;"/>
+				<configuration artifactName="${ProjName}"
+					buildProperties="" description=""
+					id="cdt.managedbuild.toolchain.gnu.base.604359116" name="Release"
+					parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo
+						id="cdt.managedbuild.toolchain.gnu.base.604359116.1852054340"
+						name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1030582738"
+							name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+							<targetPlatform archList="all"
+								binaryParser="org.eclipse.cdt.core.GNU_ELF"
+								id="cdt.managedbuild.target.gnu.platform.base.468540455" name="Debug Platform"
+								osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base" />
+							<builder buildPath="${workspace_loc:/HUD2}/Release/bin"
+								id="cdt.managedbuild.target.gnu.builder.base.283597330"
+								keepEnvironmentInBuildfile="false" managedBuildOn="true"
+								name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base" />
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1836148196"
+								name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1863190760"
+								name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
+								<option id="gnu.cpp.compiler.option.include.paths.585775478"
+									name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths"
+									useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include" />
+									<listOptionValue builtIn="false"
+										value="/home/erin/workspace/HUD2/include" />
+									<listOptionValue builtIn="false"
+										value="/usr/local/include/opencv" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geometry/0.9.0/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/variant/1.1.4/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geojsonvt/6.1.3/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/boost/1.62.0/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/earcut/0.12.1/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/kdbush/0.1.1/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/pixelmatch/0.10.0/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/polylabel/1.0.2/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/rapidjson/1.1.0/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/supercluster/0.2.0/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/protozero/1.4.2/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/unique_resource/dev/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/src}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/headers/geojson/0.4.0/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/mason_packages/linux-x86_64/glfw/3.2.1/include}&quot;" />
+									<listOptionValue builtIn="false"
+										value="&quot;${workspace_loc:/HUD2/default}&quot;" />
 								</option>
-								<option id="gnu.cpp.compiler.option.dialect.std.491222772" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.1722692095" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
-								<option id="gnu.cpp.compiler.option.dialect.flags.726219014" name="Other dialect flags" superClass="gnu.cpp.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=c++1y" valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.68462560" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.491222772"
+									name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std"
+									useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default"
+									valueType="enumerated" />
+								<option id="gnu.cpp.compiler.option.other.other.1722692095"
+									name="Other flags" superClass="gnu.cpp.compiler.option.other.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0  "
+									valueType="string" />
+								<option id="gnu.cpp.compiler.option.dialect.flags.726219014"
+									name="Other dialect flags" superClass="gnu.cpp.compiler.option.dialect.flags"
+									useByScannerDiscovery="true" value="-std=c++1y" valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.compiler.input.68462560"
+									superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1136122059" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
-								<option id="gnu.c.compiler.option.misc.other.804400975" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0" valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.191432738" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1136122059"
+								name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
+								<option id="gnu.c.compiler.option.misc.other.804400975"
+									name="Other flags" superClass="gnu.c.compiler.option.misc.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0"
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.c.compiler.input.191432738"
+									superClass="cdt.managedbuild.tool.gnu.c.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1051612436" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.936583287" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
-								<option id="gnu.cpp.link.option.libs.229601365" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-									<listOptionValue builtIn="false" value="X11"/>
-									<listOptionValue builtIn="false" value="pthread"/>
-									<listOptionValue builtIn="false" value="curl"/>
-									<listOptionValue builtIn="false" value="png16"/>
-									<listOptionValue builtIn="false" value="opencv_shape"/>
-									<listOptionValue builtIn="false" value="opencv_stitching"/>
-									<listOptionValue builtIn="false" value="opencv_objdetect"/>
-									<listOptionValue builtIn="false" value="opencv_superres"/>
-									<listOptionValue builtIn="false" value="opencv_videostab"/>
-									<listOptionValue builtIn="false" value="opencv_calib3d"/>
-									<listOptionValue builtIn="false" value="opencv_features2d"/>
-									<listOptionValue builtIn="false" value="opencv_highgui"/>
-									<listOptionValue builtIn="false" value="opencv_videoio"/>
-									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
-									<listOptionValue builtIn="false" value="opencv_video"/>
-									<listOptionValue builtIn="false" value="opencv_photo"/>
-									<listOptionValue builtIn="false" value="opencv_ml"/>
-									<listOptionValue builtIn="false" value="opencv_imgproc"/>
-									<listOptionValue builtIn="false" value="opencv_flann"/>
-									<listOptionValue builtIn="false" value="opencv_viz"/>
-									<listOptionValue builtIn="false" value="opencv_core"/>
-									<listOptionValue builtIn="false" value="Xm"/>
-									<listOptionValue builtIn="false" value="Xrender"/>
-									<listOptionValue builtIn="false" value="GL"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1051612436"
+								name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.linker.base.936583287" name="GCC C++ Linker"
+								superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<option id="gnu.cpp.link.option.libs.229601365" name="Libraries (-l)"
+									superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false"
+									valueType="libs">
+									<listOptionValue builtIn="false" value="X11" />
+									<listOptionValue builtIn="false" value="pthread" />
+									<listOptionValue builtIn="false" value="curl" />
+									<listOptionValue builtIn="false" value="png16" />
+									<listOptionValue builtIn="false" value="opencv_shape" />
+									<listOptionValue builtIn="false" value="opencv_stitching" />
+									<listOptionValue builtIn="false" value="opencv_objdetect" />
+									<listOptionValue builtIn="false" value="opencv_superres" />
+									<listOptionValue builtIn="false" value="opencv_videostab" />
+									<listOptionValue builtIn="false" value="opencv_calib3d" />
+									<listOptionValue builtIn="false" value="opencv_features2d" />
+									<listOptionValue builtIn="false" value="opencv_highgui" />
+									<listOptionValue builtIn="false" value="opencv_videoio" />
+									<listOptionValue builtIn="false" value="opencv_imgcodecs" />
+									<listOptionValue builtIn="false" value="opencv_video" />
+									<listOptionValue builtIn="false" value="opencv_photo" />
+									<listOptionValue builtIn="false" value="opencv_ml" />
+									<listOptionValue builtIn="false" value="opencv_imgproc" />
+									<listOptionValue builtIn="false" value="opencv_flann" />
+									<listOptionValue builtIn="false" value="opencv_viz" />
+									<listOptionValue builtIn="false" value="opencv_core" />
+									<listOptionValue builtIn="false" value="Xm" />
+									<listOptionValue builtIn="false" value="Xrender" />
+									<listOptionValue builtIn="false" value="GL" />
 								</option>
-								<option id="gnu.cpp.link.option.flags.304791048" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
-								<option id="gnu.cpp.link.option.paths.314774736" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/usr/local/lib"/>
-									<listOptionValue builtIn="false" value="/usr/include/libpng"/>
+								<option id="gnu.cpp.link.option.flags.304791048" name="Linker flags"
+									superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false"
+									value="" valueType="string" />
+								<option id="gnu.cpp.link.option.paths.314774736" name="Library search path (-L)"
+									superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"
+									valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/local/lib" />
+									<listOptionValue builtIn="false" value="/usr/include/libpng" />
 								</option>
-								<option id="gnu.cpp.link.option.userobjs.1436083805" name="Other objects" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
-									<listOptionValue builtIn="false" value="/usr/lib/libSOIL.a"/>
+								<option id="gnu.cpp.link.option.userobjs.1436083805"
+									name="Other objects" superClass="gnu.cpp.link.option.userobjs"
+									useByScannerDiscovery="false" valueType="userObjs">
+									<listOptionValue builtIn="false" value="/usr/lib/libSOIL.a" />
 								</option>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.168644720" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
-									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
-									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.input.168644720"
+									superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency"
+										paths="$(USER_OBJS)" />
+									<additionalInput kind="additionalinput" paths="$(LIBS)" />
 								</inputType>
-								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.output.602214743" outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output"/>
+								<outputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.output.602214743"
+									outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.base.181552019" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.187117718" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.181552019"
+								name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.187117718"
+									superClass="cdt.managedbuild.tool.gnu.assembler.input" />
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="default|mason_packages|tizen|android|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry
+							excluding="default|mason_packages|tizen|android|tests|fonts|bench|src"
+							flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath"
+							name="src" />
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings" />
 		</cconfiguration>
-		<cconfiguration id="cdt.managedbuild.toolchain.gnu.base.604359116.1451252782">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.toolchain.gnu.base.604359116.1451252782" moduleId="org.eclipse.cdt.core.settings" name="linux-x86">
-				<externalSettings/>
+		<cconfiguration
+			id="cdt.managedbuild.toolchain.gnu.base.604359116.1451252782">
+			<storageModule
+				buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider"
+				id="cdt.managedbuild.toolchain.gnu.base.604359116.1451252782"
+				moduleId="org.eclipse.cdt.core.settings" name="linux-x86">
+				<externalSettings />
 				<extensions>
-					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser" />
+					<extension id="org.eclipse.cdt.core.GASErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GLDErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GCCErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.604359116.1451252782" name="linux-x86" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.1451252782." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.base.78315196" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.350747047" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/HUD2}/Default" id="cdt.managedbuild.target.gnu.builder.base.755730578" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1822201419" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1635310568" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
-								<option id="gnu.cpp.compiler.option.include.paths.623217929" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
+				<configuration artifactName="${ProjName}"
+					buildProperties="" description=""
+					id="cdt.managedbuild.toolchain.gnu.base.604359116.1451252782" name="linux-x86"
+					parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo
+						id="cdt.managedbuild.toolchain.gnu.base.604359116.1451252782."
+						name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.78315196"
+							name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+							<targetPlatform archList="all"
+								binaryParser="org.eclipse.cdt.core.GNU_ELF"
+								id="cdt.managedbuild.target.gnu.platform.base.350747047" name="Debug Platform"
+								osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base" />
+							<builder buildPath="${workspace_loc:/HUD2}/Default"
+								id="cdt.managedbuild.target.gnu.builder.base.755730578"
+								keepEnvironmentInBuildfile="false" managedBuildOn="true"
+								name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base" />
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1822201419"
+								name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1635310568"
+								name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
+								<option id="gnu.cpp.compiler.option.include.paths.623217929"
+									name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths"
+									useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include" />
+									<listOptionValue builtIn="false"
+										value="/usr/local/include/opencv" />
 								</option>
-								<option id="gnu.cpp.compiler.option.dialect.std.1020387511" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.640317780" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1312226088" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.1020387511"
+									name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std"
+									useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default"
+									valueType="enumerated" />
+								<option id="gnu.cpp.compiler.option.other.other.640317780"
+									name="Other flags" superClass="gnu.cpp.compiler.option.other.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0  "
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1312226088"
+									superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1505549099" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
-								<option id="gnu.c.compiler.option.misc.other.1499860032" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0" valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.990537307" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1505549099"
+								name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
+								<option id="gnu.c.compiler.option.misc.other.1499860032"
+									name="Other flags" superClass="gnu.c.compiler.option.misc.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0"
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.c.compiler.input.990537307"
+									superClass="cdt.managedbuild.tool.gnu.c.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1539812174" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.1007906271" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
-								<option id="gnu.cpp.link.option.libs.558854136" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-									<listOptionValue builtIn="false" value="X11"/>
-									<listOptionValue builtIn="false" value="opencv_shape"/>
-									<listOptionValue builtIn="false" value="opencv_stitching"/>
-									<listOptionValue builtIn="false" value="opencv_objdetect"/>
-									<listOptionValue builtIn="false" value="opencv_superres"/>
-									<listOptionValue builtIn="false" value="opencv_videostab"/>
-									<listOptionValue builtIn="false" value="opencv_calib3d"/>
-									<listOptionValue builtIn="false" value="opencv_features2d"/>
-									<listOptionValue builtIn="false" value="opencv_highgui"/>
-									<listOptionValue builtIn="false" value="opencv_videoio"/>
-									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
-									<listOptionValue builtIn="false" value="opencv_video"/>
-									<listOptionValue builtIn="false" value="opencv_photo"/>
-									<listOptionValue builtIn="false" value="opencv_ml"/>
-									<listOptionValue builtIn="false" value="opencv_imgproc"/>
-									<listOptionValue builtIn="false" value="opencv_flann"/>
-									<listOptionValue builtIn="false" value="opencv_viz"/>
-									<listOptionValue builtIn="false" value="opencv_core"/>
-									<listOptionValue builtIn="false" value="Xm"/>
-									<listOptionValue builtIn="false" value="Xrender"/>
-									<listOptionValue builtIn="false" value="GL"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1539812174"
+								name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.linker.base.1007906271" name="GCC C++ Linker"
+								superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<option id="gnu.cpp.link.option.libs.558854136" name="Libraries (-l)"
+									superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false"
+									valueType="libs">
+									<listOptionValue builtIn="false" value="X11" />
+									<listOptionValue builtIn="false" value="opencv_shape" />
+									<listOptionValue builtIn="false" value="opencv_stitching" />
+									<listOptionValue builtIn="false" value="opencv_objdetect" />
+									<listOptionValue builtIn="false" value="opencv_superres" />
+									<listOptionValue builtIn="false" value="opencv_videostab" />
+									<listOptionValue builtIn="false" value="opencv_calib3d" />
+									<listOptionValue builtIn="false" value="opencv_features2d" />
+									<listOptionValue builtIn="false" value="opencv_highgui" />
+									<listOptionValue builtIn="false" value="opencv_videoio" />
+									<listOptionValue builtIn="false" value="opencv_imgcodecs" />
+									<listOptionValue builtIn="false" value="opencv_video" />
+									<listOptionValue builtIn="false" value="opencv_photo" />
+									<listOptionValue builtIn="false" value="opencv_ml" />
+									<listOptionValue builtIn="false" value="opencv_imgproc" />
+									<listOptionValue builtIn="false" value="opencv_flann" />
+									<listOptionValue builtIn="false" value="opencv_viz" />
+									<listOptionValue builtIn="false" value="opencv_core" />
+									<listOptionValue builtIn="false" value="Xm" />
+									<listOptionValue builtIn="false" value="Xrender" />
+									<listOptionValue builtIn="false" value="GL" />
 								</option>
-								<option id="gnu.cpp.link.option.flags.85260363" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
-								<option id="gnu.cpp.link.option.paths.1048152526" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/usr/local/lib"/>
+								<option id="gnu.cpp.link.option.flags.85260363" name="Linker flags"
+									superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false"
+									value="" valueType="string" />
+								<option id="gnu.cpp.link.option.paths.1048152526" name="Library search path (-L)"
+									superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"
+									valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/local/lib" />
 								</option>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1328003633" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
-									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
-									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.input.1328003633"
+									superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency"
+										paths="$(USER_OBJS)" />
+									<additionalInput kind="additionalinput" paths="$(LIBS)" />
 								</inputType>
-								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.output.999003271" outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output"/>
+								<outputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.output.999003271"
+									outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.base.159014057" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.45449294" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.159014057"
+								name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.45449294"
+									superClass="cdt.managedbuild.tool.gnu.assembler.input" />
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src"
+							flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="" />
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src" />
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings" />
 		</cconfiguration>
-		<cconfiguration id="cdt.managedbuild.toolchain.gnu.base.604359116.2122685906">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.toolchain.gnu.base.604359116.2122685906" moduleId="org.eclipse.cdt.core.settings" name="linux-x64">
-				<externalSettings/>
+		<cconfiguration
+			id="cdt.managedbuild.toolchain.gnu.base.604359116.2122685906">
+			<storageModule
+				buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider"
+				id="cdt.managedbuild.toolchain.gnu.base.604359116.2122685906"
+				moduleId="org.eclipse.cdt.core.settings" name="linux-x64">
+				<externalSettings />
 				<extensions>
-					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser" />
+					<extension id="org.eclipse.cdt.core.GASErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GLDErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GCCErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.604359116.2122685906" name="linux-x64" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.2122685906." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.base.935216986" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.1427107017" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/HUD2}/Default" id="cdt.managedbuild.target.gnu.builder.base.1217920499" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.base.371660488" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.compiler.base.334489373" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
-								<option id="gnu.cpp.compiler.option.include.paths.1715373949" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
+				<configuration artifactName="${ProjName}"
+					buildProperties="" description=""
+					id="cdt.managedbuild.toolchain.gnu.base.604359116.2122685906" name="linux-x64"
+					parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo
+						id="cdt.managedbuild.toolchain.gnu.base.604359116.2122685906."
+						name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.935216986"
+							name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+							<targetPlatform archList="all"
+								binaryParser="org.eclipse.cdt.core.GNU_ELF"
+								id="cdt.managedbuild.target.gnu.platform.base.1427107017" name="Debug Platform"
+								osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base" />
+							<builder buildPath="${workspace_loc:/HUD2}/Default"
+								id="cdt.managedbuild.target.gnu.builder.base.1217920499"
+								keepEnvironmentInBuildfile="false" managedBuildOn="true"
+								name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base" />
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.371660488"
+								name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.compiler.base.334489373" name="GCC C++ Compiler"
+								superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
+								<option id="gnu.cpp.compiler.option.include.paths.1715373949"
+									name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths"
+									useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include" />
+									<listOptionValue builtIn="false"
+										value="/usr/local/include/opencv" />
 								</option>
-								<option id="gnu.cpp.compiler.option.dialect.std.833060836" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.1004671556" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1408471185" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.833060836"
+									name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std"
+									useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default"
+									valueType="enumerated" />
+								<option id="gnu.cpp.compiler.option.other.other.1004671556"
+									name="Other flags" superClass="gnu.cpp.compiler.option.other.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0  "
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1408471185"
+									superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1336704867" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
-								<option id="gnu.c.compiler.option.misc.other.829597326" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0" valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1500837566" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1336704867"
+								name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
+								<option id="gnu.c.compiler.option.misc.other.829597326"
+									name="Other flags" superClass="gnu.c.compiler.option.misc.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0"
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.c.compiler.input.1500837566"
+									superClass="cdt.managedbuild.tool.gnu.c.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.848620194" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.155647235" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
-								<option id="gnu.cpp.link.option.libs.445317896" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-									<listOptionValue builtIn="false" value="X11"/>
-									<listOptionValue builtIn="false" value="opencv_shape"/>
-									<listOptionValue builtIn="false" value="opencv_stitching"/>
-									<listOptionValue builtIn="false" value="opencv_objdetect"/>
-									<listOptionValue builtIn="false" value="opencv_superres"/>
-									<listOptionValue builtIn="false" value="opencv_videostab"/>
-									<listOptionValue builtIn="false" value="opencv_calib3d"/>
-									<listOptionValue builtIn="false" value="opencv_features2d"/>
-									<listOptionValue builtIn="false" value="opencv_highgui"/>
-									<listOptionValue builtIn="false" value="opencv_videoio"/>
-									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
-									<listOptionValue builtIn="false" value="opencv_video"/>
-									<listOptionValue builtIn="false" value="opencv_photo"/>
-									<listOptionValue builtIn="false" value="opencv_ml"/>
-									<listOptionValue builtIn="false" value="opencv_imgproc"/>
-									<listOptionValue builtIn="false" value="opencv_flann"/>
-									<listOptionValue builtIn="false" value="opencv_viz"/>
-									<listOptionValue builtIn="false" value="opencv_core"/>
-									<listOptionValue builtIn="false" value="Xm"/>
-									<listOptionValue builtIn="false" value="Xrender"/>
-									<listOptionValue builtIn="false" value="GL"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.848620194"
+								name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.linker.base.155647235" name="GCC C++ Linker"
+								superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<option id="gnu.cpp.link.option.libs.445317896" name="Libraries (-l)"
+									superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false"
+									valueType="libs">
+									<listOptionValue builtIn="false" value="X11" />
+									<listOptionValue builtIn="false" value="opencv_shape" />
+									<listOptionValue builtIn="false" value="opencv_stitching" />
+									<listOptionValue builtIn="false" value="opencv_objdetect" />
+									<listOptionValue builtIn="false" value="opencv_superres" />
+									<listOptionValue builtIn="false" value="opencv_videostab" />
+									<listOptionValue builtIn="false" value="opencv_calib3d" />
+									<listOptionValue builtIn="false" value="opencv_features2d" />
+									<listOptionValue builtIn="false" value="opencv_highgui" />
+									<listOptionValue builtIn="false" value="opencv_videoio" />
+									<listOptionValue builtIn="false" value="opencv_imgcodecs" />
+									<listOptionValue builtIn="false" value="opencv_video" />
+									<listOptionValue builtIn="false" value="opencv_photo" />
+									<listOptionValue builtIn="false" value="opencv_ml" />
+									<listOptionValue builtIn="false" value="opencv_imgproc" />
+									<listOptionValue builtIn="false" value="opencv_flann" />
+									<listOptionValue builtIn="false" value="opencv_viz" />
+									<listOptionValue builtIn="false" value="opencv_core" />
+									<listOptionValue builtIn="false" value="Xm" />
+									<listOptionValue builtIn="false" value="Xrender" />
+									<listOptionValue builtIn="false" value="GL" />
 								</option>
-								<option id="gnu.cpp.link.option.flags.2131204242" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
-								<option id="gnu.cpp.link.option.paths.1765863103" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/usr/local/lib"/>
+								<option id="gnu.cpp.link.option.flags.2131204242" name="Linker flags"
+									superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false"
+									value="" valueType="string" />
+								<option id="gnu.cpp.link.option.paths.1765863103" name="Library search path (-L)"
+									superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"
+									valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/local/lib" />
 								</option>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.659067938" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
-									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
-									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.input.659067938"
+									superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency"
+										paths="$(USER_OBJS)" />
+									<additionalInput kind="additionalinput" paths="$(LIBS)" />
 								</inputType>
-								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.output.1932128491" outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output"/>
+								<outputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.output.1932128491"
+									outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.base.202671725" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1917782328" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.202671725"
+								name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<inputType
+									id="cdt.managedbuild.tool.gnu.assembler.input.1917782328"
+									superClass="cdt.managedbuild.tool.gnu.assembler.input" />
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src"
+							flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="" />
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src" />
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings" />
 		</cconfiguration>
-		<cconfiguration id="cdt.managedbuild.toolchain.gnu.base.604359116.1970459747">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.toolchain.gnu.base.604359116.1970459747" moduleId="org.eclipse.cdt.core.settings" name="windows-x86">
-				<externalSettings/>
+		<cconfiguration
+			id="cdt.managedbuild.toolchain.gnu.base.604359116.1970459747">
+			<storageModule
+				buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider"
+				id="cdt.managedbuild.toolchain.gnu.base.604359116.1970459747"
+				moduleId="org.eclipse.cdt.core.settings" name="windows-x86">
+				<externalSettings />
 				<extensions>
-					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser" />
+					<extension id="org.eclipse.cdt.core.GASErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GLDErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GCCErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.604359116.1970459747" name="windows-x86" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.1970459747." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.base.901430168" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.329810554" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/HUD2}/Default" id="cdt.managedbuild.target.gnu.builder.base.113861149" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1829168698" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.compiler.base.64534336" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
-								<option id="gnu.cpp.compiler.option.include.paths.307964029" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
+				<configuration artifactName="${ProjName}"
+					buildProperties="" description=""
+					id="cdt.managedbuild.toolchain.gnu.base.604359116.1970459747" name="windows-x86"
+					parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo
+						id="cdt.managedbuild.toolchain.gnu.base.604359116.1970459747."
+						name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.901430168"
+							name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+							<targetPlatform archList="all"
+								binaryParser="org.eclipse.cdt.core.GNU_ELF"
+								id="cdt.managedbuild.target.gnu.platform.base.329810554" name="Debug Platform"
+								osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base" />
+							<builder buildPath="${workspace_loc:/HUD2}/Default"
+								id="cdt.managedbuild.target.gnu.builder.base.113861149"
+								keepEnvironmentInBuildfile="false" managedBuildOn="true"
+								name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base" />
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1829168698"
+								name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.compiler.base.64534336" name="GCC C++ Compiler"
+								superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
+								<option id="gnu.cpp.compiler.option.include.paths.307964029"
+									name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths"
+									useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include" />
+									<listOptionValue builtIn="false"
+										value="/usr/local/include/opencv" />
 								</option>
-								<option id="gnu.cpp.compiler.option.dialect.std.196805922" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.2078058937" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.800204178" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.196805922"
+									name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std"
+									useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default"
+									valueType="enumerated" />
+								<option id="gnu.cpp.compiler.option.other.other.2078058937"
+									name="Other flags" superClass="gnu.cpp.compiler.option.other.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0  "
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.compiler.input.800204178"
+									superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1566410165" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
-								<option id="gnu.c.compiler.option.misc.other.569252548" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0" valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.2064978240" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1566410165"
+								name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
+								<option id="gnu.c.compiler.option.misc.other.569252548"
+									name="Other flags" superClass="gnu.c.compiler.option.misc.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0"
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.c.compiler.input.2064978240"
+									superClass="cdt.managedbuild.tool.gnu.c.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.155450901" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.1058567341" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
-								<option id="gnu.cpp.link.option.libs.831253307" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-									<listOptionValue builtIn="false" value="X11"/>
-									<listOptionValue builtIn="false" value="opencv_shape"/>
-									<listOptionValue builtIn="false" value="opencv_stitching"/>
-									<listOptionValue builtIn="false" value="opencv_objdetect"/>
-									<listOptionValue builtIn="false" value="opencv_superres"/>
-									<listOptionValue builtIn="false" value="opencv_videostab"/>
-									<listOptionValue builtIn="false" value="opencv_calib3d"/>
-									<listOptionValue builtIn="false" value="opencv_features2d"/>
-									<listOptionValue builtIn="false" value="opencv_highgui"/>
-									<listOptionValue builtIn="false" value="opencv_videoio"/>
-									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
-									<listOptionValue builtIn="false" value="opencv_video"/>
-									<listOptionValue builtIn="false" value="opencv_photo"/>
-									<listOptionValue builtIn="false" value="opencv_ml"/>
-									<listOptionValue builtIn="false" value="opencv_imgproc"/>
-									<listOptionValue builtIn="false" value="opencv_flann"/>
-									<listOptionValue builtIn="false" value="opencv_viz"/>
-									<listOptionValue builtIn="false" value="opencv_core"/>
-									<listOptionValue builtIn="false" value="Xm"/>
-									<listOptionValue builtIn="false" value="Xrender"/>
-									<listOptionValue builtIn="false" value="GL"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.155450901"
+								name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.linker.base.1058567341" name="GCC C++ Linker"
+								superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<option id="gnu.cpp.link.option.libs.831253307" name="Libraries (-l)"
+									superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false"
+									valueType="libs">
+									<listOptionValue builtIn="false" value="X11" />
+									<listOptionValue builtIn="false" value="opencv_shape" />
+									<listOptionValue builtIn="false" value="opencv_stitching" />
+									<listOptionValue builtIn="false" value="opencv_objdetect" />
+									<listOptionValue builtIn="false" value="opencv_superres" />
+									<listOptionValue builtIn="false" value="opencv_videostab" />
+									<listOptionValue builtIn="false" value="opencv_calib3d" />
+									<listOptionValue builtIn="false" value="opencv_features2d" />
+									<listOptionValue builtIn="false" value="opencv_highgui" />
+									<listOptionValue builtIn="false" value="opencv_videoio" />
+									<listOptionValue builtIn="false" value="opencv_imgcodecs" />
+									<listOptionValue builtIn="false" value="opencv_video" />
+									<listOptionValue builtIn="false" value="opencv_photo" />
+									<listOptionValue builtIn="false" value="opencv_ml" />
+									<listOptionValue builtIn="false" value="opencv_imgproc" />
+									<listOptionValue builtIn="false" value="opencv_flann" />
+									<listOptionValue builtIn="false" value="opencv_viz" />
+									<listOptionValue builtIn="false" value="opencv_core" />
+									<listOptionValue builtIn="false" value="Xm" />
+									<listOptionValue builtIn="false" value="Xrender" />
+									<listOptionValue builtIn="false" value="GL" />
 								</option>
-								<option id="gnu.cpp.link.option.flags.330339417" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
-								<option id="gnu.cpp.link.option.paths.837596852" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/usr/local/lib"/>
+								<option id="gnu.cpp.link.option.flags.330339417" name="Linker flags"
+									superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false"
+									value="" valueType="string" />
+								<option id="gnu.cpp.link.option.paths.837596852" name="Library search path (-L)"
+									superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"
+									valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/local/lib" />
 								</option>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.248347464" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
-									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
-									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.input.248347464"
+									superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency"
+										paths="$(USER_OBJS)" />
+									<additionalInput kind="additionalinput" paths="$(LIBS)" />
 								</inputType>
-								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.output.798063122" outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output"/>
+								<outputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.output.798063122"
+									outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.base.167024783" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.514751456" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.167024783"
+								name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.514751456"
+									superClass="cdt.managedbuild.tool.gnu.assembler.input" />
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src"
+							flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="" />
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src" />
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings" />
 		</cconfiguration>
-		<cconfiguration id="cdt.managedbuild.toolchain.gnu.base.604359116.1671371986">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.toolchain.gnu.base.604359116.1671371986" moduleId="org.eclipse.cdt.core.settings" name="windows-x64">
-				<externalSettings/>
+		<cconfiguration
+			id="cdt.managedbuild.toolchain.gnu.base.604359116.1671371986">
+			<storageModule
+				buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider"
+				id="cdt.managedbuild.toolchain.gnu.base.604359116.1671371986"
+				moduleId="org.eclipse.cdt.core.settings" name="windows-x64">
+				<externalSettings />
 				<extensions>
-					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser" />
+					<extension id="org.eclipse.cdt.core.GASErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GLDErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GCCErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.604359116.1671371986" name="windows-x64" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.1671371986." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.base.274537695" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.554307553" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/HUD2}/Default" id="cdt.managedbuild.target.gnu.builder.base.523715812" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1859585818" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1495267645" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
-								<option id="gnu.cpp.compiler.option.include.paths.1006581127" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
+				<configuration artifactName="${ProjName}"
+					buildProperties="" description=""
+					id="cdt.managedbuild.toolchain.gnu.base.604359116.1671371986" name="windows-x64"
+					parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo
+						id="cdt.managedbuild.toolchain.gnu.base.604359116.1671371986."
+						name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.274537695"
+							name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+							<targetPlatform archList="all"
+								binaryParser="org.eclipse.cdt.core.GNU_ELF"
+								id="cdt.managedbuild.target.gnu.platform.base.554307553" name="Debug Platform"
+								osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base" />
+							<builder buildPath="${workspace_loc:/HUD2}/Default"
+								id="cdt.managedbuild.target.gnu.builder.base.523715812"
+								keepEnvironmentInBuildfile="false" managedBuildOn="true"
+								name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base" />
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1859585818"
+								name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1495267645"
+								name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
+								<option id="gnu.cpp.compiler.option.include.paths.1006581127"
+									name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths"
+									useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include" />
+									<listOptionValue builtIn="false"
+										value="/usr/local/include/opencv" />
 								</option>
-								<option id="gnu.cpp.compiler.option.dialect.std.153377069" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.1320258205" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.834836736" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.153377069"
+									name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std"
+									useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default"
+									valueType="enumerated" />
+								<option id="gnu.cpp.compiler.option.other.other.1320258205"
+									name="Other flags" superClass="gnu.cpp.compiler.option.other.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0  "
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.compiler.input.834836736"
+									superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.970337559" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
-								<option id="gnu.c.compiler.option.misc.other.1655860090" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0" valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.370643932" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.970337559"
+								name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
+								<option id="gnu.c.compiler.option.misc.other.1655860090"
+									name="Other flags" superClass="gnu.c.compiler.option.misc.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0"
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.c.compiler.input.370643932"
+									superClass="cdt.managedbuild.tool.gnu.c.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1384639816" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.689183280" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
-								<option id="gnu.cpp.link.option.libs.1531974395" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-									<listOptionValue builtIn="false" value="X11"/>
-									<listOptionValue builtIn="false" value="opencv_shape"/>
-									<listOptionValue builtIn="false" value="opencv_stitching"/>
-									<listOptionValue builtIn="false" value="opencv_objdetect"/>
-									<listOptionValue builtIn="false" value="opencv_superres"/>
-									<listOptionValue builtIn="false" value="opencv_videostab"/>
-									<listOptionValue builtIn="false" value="opencv_calib3d"/>
-									<listOptionValue builtIn="false" value="opencv_features2d"/>
-									<listOptionValue builtIn="false" value="opencv_highgui"/>
-									<listOptionValue builtIn="false" value="opencv_videoio"/>
-									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
-									<listOptionValue builtIn="false" value="opencv_video"/>
-									<listOptionValue builtIn="false" value="opencv_photo"/>
-									<listOptionValue builtIn="false" value="opencv_ml"/>
-									<listOptionValue builtIn="false" value="opencv_imgproc"/>
-									<listOptionValue builtIn="false" value="opencv_flann"/>
-									<listOptionValue builtIn="false" value="opencv_viz"/>
-									<listOptionValue builtIn="false" value="opencv_core"/>
-									<listOptionValue builtIn="false" value="Xm"/>
-									<listOptionValue builtIn="false" value="Xrender"/>
-									<listOptionValue builtIn="false" value="GL"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1384639816"
+								name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.linker.base.689183280" name="GCC C++ Linker"
+								superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<option id="gnu.cpp.link.option.libs.1531974395" name="Libraries (-l)"
+									superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false"
+									valueType="libs">
+									<listOptionValue builtIn="false" value="X11" />
+									<listOptionValue builtIn="false" value="opencv_shape" />
+									<listOptionValue builtIn="false" value="opencv_stitching" />
+									<listOptionValue builtIn="false" value="opencv_objdetect" />
+									<listOptionValue builtIn="false" value="opencv_superres" />
+									<listOptionValue builtIn="false" value="opencv_videostab" />
+									<listOptionValue builtIn="false" value="opencv_calib3d" />
+									<listOptionValue builtIn="false" value="opencv_features2d" />
+									<listOptionValue builtIn="false" value="opencv_highgui" />
+									<listOptionValue builtIn="false" value="opencv_videoio" />
+									<listOptionValue builtIn="false" value="opencv_imgcodecs" />
+									<listOptionValue builtIn="false" value="opencv_video" />
+									<listOptionValue builtIn="false" value="opencv_photo" />
+									<listOptionValue builtIn="false" value="opencv_ml" />
+									<listOptionValue builtIn="false" value="opencv_imgproc" />
+									<listOptionValue builtIn="false" value="opencv_flann" />
+									<listOptionValue builtIn="false" value="opencv_viz" />
+									<listOptionValue builtIn="false" value="opencv_core" />
+									<listOptionValue builtIn="false" value="Xm" />
+									<listOptionValue builtIn="false" value="Xrender" />
+									<listOptionValue builtIn="false" value="GL" />
 								</option>
-								<option id="gnu.cpp.link.option.flags.756527375" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
-								<option id="gnu.cpp.link.option.paths.794087818" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/usr/local/lib"/>
+								<option id="gnu.cpp.link.option.flags.756527375" name="Linker flags"
+									superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false"
+									value="" valueType="string" />
+								<option id="gnu.cpp.link.option.paths.794087818" name="Library search path (-L)"
+									superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"
+									valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/local/lib" />
 								</option>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1281261222" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
-									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
-									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.input.1281261222"
+									superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency"
+										paths="$(USER_OBJS)" />
+									<additionalInput kind="additionalinput" paths="$(LIBS)" />
 								</inputType>
-								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.output.551375746" outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output"/>
+								<outputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.output.551375746"
+									outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1654182848" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1471800252" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1654182848"
+								name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<inputType
+									id="cdt.managedbuild.tool.gnu.assembler.input.1471800252"
+									superClass="cdt.managedbuild.tool.gnu.assembler.input" />
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src"
+							flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="" />
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src" />
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings" />
 		</cconfiguration>
-		<cconfiguration id="cdt.managedbuild.toolchain.gnu.base.604359116.669770168">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.toolchain.gnu.base.604359116.669770168" moduleId="org.eclipse.cdt.core.settings" name="mac-osx">
-				<externalSettings/>
+		<cconfiguration
+			id="cdt.managedbuild.toolchain.gnu.base.604359116.669770168">
+			<storageModule
+				buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider"
+				id="cdt.managedbuild.toolchain.gnu.base.604359116.669770168"
+				moduleId="org.eclipse.cdt.core.settings" name="mac-osx">
+				<externalSettings />
 				<extensions>
-					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser" />
+					<extension id="org.eclipse.cdt.core.GASErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GLDErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser" />
+					<extension id="org.eclipse.cdt.core.GCCErrorParser"
+						point="org.eclipse.cdt.core.ErrorParser" />
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.604359116.669770168" name="mac-osx" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.669770168." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1707935863" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.1582035142" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/HUD2}/Default" id="cdt.managedbuild.target.gnu.builder.base.1769489826" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1695579155" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.compiler.base.228467684" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
-								<option id="gnu.cpp.compiler.option.include.paths.1477518292" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/usr/local/include"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
+				<configuration artifactName="${ProjName}"
+					buildProperties="" description=""
+					id="cdt.managedbuild.toolchain.gnu.base.604359116.669770168" name="mac-osx"
+					parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo
+						id="cdt.managedbuild.toolchain.gnu.base.604359116.669770168."
+						name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1707935863"
+							name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+							<targetPlatform archList="all"
+								binaryParser="org.eclipse.cdt.core.GNU_ELF"
+								id="cdt.managedbuild.target.gnu.platform.base.1582035142" name="Debug Platform"
+								osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base" />
+							<builder buildPath="${workspace_loc:/HUD2}/Default"
+								id="cdt.managedbuild.target.gnu.builder.base.1769489826"
+								keepEnvironmentInBuildfile="false" managedBuildOn="true"
+								name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base" />
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1695579155"
+								name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.compiler.base.228467684" name="GCC C++ Compiler"
+								superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
+								<option id="gnu.cpp.compiler.option.include.paths.1477518292"
+									name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths"
+									useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include" />
+									<listOptionValue builtIn="false"
+										value="/usr/local/include/opencv" />
 								</option>
-								<option id="gnu.cpp.compiler.option.dialect.std.380126043" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.1971173170" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.384092956" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.380126043"
+									name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std"
+									useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default"
+									valueType="enumerated" />
+								<option id="gnu.cpp.compiler.option.other.other.1971173170"
+									name="Other flags" superClass="gnu.cpp.compiler.option.other.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0  "
+									valueType="string" />
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.compiler.input.384092956"
+									superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.46752108" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
-								<option id="gnu.c.compiler.option.misc.other.859898161" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0" valueType="string"/>
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.35015690" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.46752108"
+								name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
+								<option id="gnu.c.compiler.option.misc.other.859898161"
+									name="Other flags" superClass="gnu.c.compiler.option.misc.other"
+									useByScannerDiscovery="false" value="-c -fmessage-length=0"
+									valueType="string" />
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.35015690"
+									superClass="cdt.managedbuild.tool.gnu.c.compiler.input" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1935013764" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
-							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.618409650" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
-								<option id="gnu.cpp.link.option.libs.2063440265" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-									<listOptionValue builtIn="false" value="X11"/>
-									<listOptionValue builtIn="false" value="opencv_shape"/>
-									<listOptionValue builtIn="false" value="opencv_stitching"/>
-									<listOptionValue builtIn="false" value="opencv_objdetect"/>
-									<listOptionValue builtIn="false" value="opencv_superres"/>
-									<listOptionValue builtIn="false" value="opencv_videostab"/>
-									<listOptionValue builtIn="false" value="opencv_calib3d"/>
-									<listOptionValue builtIn="false" value="opencv_features2d"/>
-									<listOptionValue builtIn="false" value="opencv_highgui"/>
-									<listOptionValue builtIn="false" value="opencv_videoio"/>
-									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
-									<listOptionValue builtIn="false" value="opencv_video"/>
-									<listOptionValue builtIn="false" value="opencv_photo"/>
-									<listOptionValue builtIn="false" value="opencv_ml"/>
-									<listOptionValue builtIn="false" value="opencv_imgproc"/>
-									<listOptionValue builtIn="false" value="opencv_flann"/>
-									<listOptionValue builtIn="false" value="opencv_viz"/>
-									<listOptionValue builtIn="false" value="opencv_core"/>
-									<listOptionValue builtIn="false" value="Xm"/>
-									<listOptionValue builtIn="false" value="Xrender"/>
-									<listOptionValue builtIn="false" value="GL"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1935013764"
+								name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base" />
+							<tool command="g++ "
+								id="cdt.managedbuild.tool.gnu.cpp.linker.base.618409650" name="GCC C++ Linker"
+								superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<option id="gnu.cpp.link.option.libs.2063440265" name="Libraries (-l)"
+									superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false"
+									valueType="libs">
+									<listOptionValue builtIn="false" value="X11" />
+									<listOptionValue builtIn="false" value="opencv_shape" />
+									<listOptionValue builtIn="false" value="opencv_stitching" />
+									<listOptionValue builtIn="false" value="opencv_objdetect" />
+									<listOptionValue builtIn="false" value="opencv_superres" />
+									<listOptionValue builtIn="false" value="opencv_videostab" />
+									<listOptionValue builtIn="false" value="opencv_calib3d" />
+									<listOptionValue builtIn="false" value="opencv_features2d" />
+									<listOptionValue builtIn="false" value="opencv_highgui" />
+									<listOptionValue builtIn="false" value="opencv_videoio" />
+									<listOptionValue builtIn="false" value="opencv_imgcodecs" />
+									<listOptionValue builtIn="false" value="opencv_video" />
+									<listOptionValue builtIn="false" value="opencv_photo" />
+									<listOptionValue builtIn="false" value="opencv_ml" />
+									<listOptionValue builtIn="false" value="opencv_imgproc" />
+									<listOptionValue builtIn="false" value="opencv_flann" />
+									<listOptionValue builtIn="false" value="opencv_viz" />
+									<listOptionValue builtIn="false" value="opencv_core" />
+									<listOptionValue builtIn="false" value="Xm" />
+									<listOptionValue builtIn="false" value="Xrender" />
+									<listOptionValue builtIn="false" value="GL" />
 								</option>
-								<option id="gnu.cpp.link.option.flags.960535163" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
-								<option id="gnu.cpp.link.option.paths.1855819073" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/usr/local/lib"/>
+								<option id="gnu.cpp.link.option.flags.960535163" name="Linker flags"
+									superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false"
+									value="" valueType="string" />
+								<option id="gnu.cpp.link.option.paths.1855819073" name="Library search path (-L)"
+									superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"
+									valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/local/lib" />
 								</option>
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1584553065" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
-									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
-									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								<inputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.input.1584553065"
+									superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency"
+										paths="$(USER_OBJS)" />
+									<additionalInput kind="additionalinput" paths="$(LIBS)" />
 								</inputType>
-								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.output.1999215742" outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output"/>
+								<outputType
+									id="cdt.managedbuild.tool.gnu.cpp.linker.output.1999215742"
+									outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output" />
 							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1073525914" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2003605190" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1073525914"
+								name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<inputType
+									id="cdt.managedbuild.tool.gnu.assembler.input.2003605190"
+									superClass="cdt.managedbuild.tool.gnu.assembler.input" />
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tizen|android|include|tests|fonts|bench|src" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="tizen|android|include|tests|fonts|bench|src"
+							flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="" />
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src" />
 					</sourceEntries>
 				</configuration>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings" />
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="HUD2.null.1613724390" name="HUD2"/>
+		<project id="HUD2.null.1613724390" name="HUD2" />
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders" />
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="mac-osx"/>
-		<configuration configurationName="linux-x86"/>
-		<configuration configurationName="linux-x64"/>
-		<configuration configurationName="windows-x86"/>
-		<configuration configurationName="windows-x64"/>
+		<configuration configurationName="mac-osx" />
+		<configuration configurationName="linux-x86" />
+		<configuration configurationName="linux-x64" />
+		<configuration configurationName="windows-x86" />
+		<configuration configurationName="windows-x64" />
 		<configuration configurationName="Default">
-			<resource resourceType="PROJECT" workspacePath="/HUD2"/>
+			<resource resourceType="PROJECT" workspacePath="/HUD2" />
 		</configuration>
 		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/HUD2"/>
+			<resource resourceType="PROJECT" workspacePath="/HUD2" />
 		</configuration>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets" />
+	<storageModule
+		moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings" />
 	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.616480786;cdt.managedbuild.toolchain.gnu.base.616480786.1268275709;cdt.managedbuild.tool.gnu.c.compiler.base.1911574316;cdt.managedbuild.tool.gnu.c.compiler.input.732932625">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<autodiscovery enabled="true" problemReportingEnabled="true"
+			selectedProfileId="" />
+		<scannerConfigBuildInfo
+			instanceId="cdt.managedbuild.toolchain.gnu.base.616480786;cdt.managedbuild.toolchain.gnu.base.616480786.1268275709;cdt.managedbuild.tool.gnu.c.compiler.base.1911574316;cdt.managedbuild.tool.gnu.c.compiler.input.732932625">
+			<autodiscovery enabled="true" problemReportingEnabled="true"
+				selectedProfileId="" />
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.604359116;cdt.managedbuild.toolchain.gnu.base.604359116.1852054340;cdt.managedbuild.tool.gnu.cpp.compiler.base.1863190760;cdt.managedbuild.tool.gnu.cpp.compiler.input.68462560">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo
+			instanceId="cdt.managedbuild.toolchain.gnu.base.604359116;cdt.managedbuild.toolchain.gnu.base.604359116.1852054340;cdt.managedbuild.tool.gnu.cpp.compiler.base.1863190760;cdt.managedbuild.tool.gnu.cpp.compiler.input.68462560">
+			<autodiscovery enabled="true" problemReportingEnabled="true"
+				selectedProfileId="" />
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.604359116;cdt.managedbuild.toolchain.gnu.base.604359116.1852054340;cdt.managedbuild.tool.gnu.c.compiler.base.1136122059;cdt.managedbuild.tool.gnu.c.compiler.input.191432738">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo
+			instanceId="cdt.managedbuild.toolchain.gnu.base.604359116;cdt.managedbuild.toolchain.gnu.base.604359116.1852054340;cdt.managedbuild.tool.gnu.c.compiler.base.1136122059;cdt.managedbuild.tool.gnu.c.compiler.input.191432738">
+			<autodiscovery enabled="true" problemReportingEnabled="true"
+				selectedProfileId="" />
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.616480786;cdt.managedbuild.toolchain.gnu.base.616480786.1268275709;cdt.managedbuild.tool.gnu.cpp.compiler.base.1406932564;cdt.managedbuild.tool.gnu.cpp.compiler.input.181726227">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo
+			instanceId="cdt.managedbuild.toolchain.gnu.base.616480786;cdt.managedbuild.toolchain.gnu.base.616480786.1268275709;cdt.managedbuild.tool.gnu.cpp.compiler.base.1406932564;cdt.managedbuild.tool.gnu.cpp.compiler.input.181726227">
+			<autodiscovery enabled="true" problemReportingEnabled="true"
+				selectedProfileId="" />
 		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>

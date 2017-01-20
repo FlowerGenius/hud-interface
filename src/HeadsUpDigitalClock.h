@@ -12,12 +12,11 @@ class HeadsUpDigitalClock
 {
 public:
 					HeadsUpDigitalClock();
-	void			getTime(void);
 	int				draw(int ax, int ay);
 
 
 private:
-
+	ScalableVectorString time_text;
 	int				x;
 	int				y;
 };

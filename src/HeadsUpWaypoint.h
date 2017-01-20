@@ -14,10 +14,11 @@ public:
 	virtual 					~HeadsUpWaypoint();
 	int							setText(std::string);
 	int 						setColour(int,int,int,int);
+	int							set(std::pair<double,double>);
+
 	void						draw(void);
 protected:
 	int							setIcon(void);
-	int							set(std::pair<double,double>);
 	std::pair<double,double>	get(void);
 	std::string 				getText(void);
 private:

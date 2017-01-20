@@ -7,16 +7,20 @@
 
 #include "header.h"
 #include "TileBuilder.h"
-
-
+#include "HeadsUpWaypoint.h"
 #include "HeadsUpMap.h"
 
 #define LONGITUDE	-79.397019
 #define LATITUDE	43.662603
 
-extern double m_latitude;
-extern double m_longitude;
+extern std::atomic<double> m_latitude;
+extern std::atomic<double> m_longitude;
 extern std::pair<double,double> coords;
+std::atomic<double> counter;
+extern std::atomic<bool> EXIT_THREADS;
+
+HeadsUpWaypoint wayp = HeadsUpWaypoint();
+
 
 int interval=0;
 std::string data;
@@ -27,9 +31,6 @@ std::string sub1,coordstring,longstring,latstring;
 size_t pos=0;
 
 std::atomic<bool> coordschanged (true);
-
-
-
 
 size_t writeCallback(char* buf, size_t size, size_t nmemb, void* up)
 { //callback must have this declaration
@@ -63,25 +64,37 @@ std::pair<double,double> getCoords(int timeout=10)
 	m_latitude  = std::atof(coordstring.substr(0,pos).c_str());
 	m_longitude = std::atof(coordstring.substr(pos+1).c_str());
 
+
 	curl_easy_cleanup(curl);
 	curl_global_cleanup();
+	counter = counter + 1.0;
 
 	return {m_latitude,m_longitude};
 }
 
 void computerGetGeoLocation(){
-	//getCoords();
+	while(!EXIT_THREADS){
+		getCoords();
+	}
+	puts("Geolocation Thread Exited Successfully");
+}
+
+void computerGetDirection(){
+	while(!EXIT_THREADS){
+		getCoords();
+	}
+	puts("Direction Thread Exited Successfully");
 }
 
 HeadsUpMap::HeadsUpMap(){
-		tiles = TileBuilder();
-		getCoords();
+	getCoords();
+//		wayp.setText("WAY1");
+//		double f=m_latitude-0.001,s=m_longitude+0.001;
+//		wayp.set(std::pair<double,double>({f,s}));
+
 }
 
 	void HeadsUpMap::draw(){
-		std::thread _geo_th(computerGetGeoLocation);
-
-
 		glViewport(width-RIGHT_MARGIN-MAP_WIDTH, height-MAP_HEIGHT-TOP_MARGIN,  MAP_WIDTH, MAP_HEIGHT);
 
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -97,10 +110,12 @@ HeadsUpMap::HeadsUpMap(){
 			glEnd();
 		}
 		glPopAttrib();
+		glViewport(width-RIGHT_MARGIN-MAP_WIDTH+2, height-MAP_HEIGHT-TOP_MARGIN+2,  MAP_WIDTH-4, MAP_HEIGHT-4);
 
 		tiles.draw();
-		if(_geo_th.joinable())
-			_geo_th.detach();
+		//wayp.draw();
+
+
 
 	}
 

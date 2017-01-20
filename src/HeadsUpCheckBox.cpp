@@ -11,12 +11,13 @@
 extern int height;
 
 HeadsUpCheckBox::HeadsUpCheckBox(){
-
+	bw = 0.15;
+	checked=false;
 }
 
 void HeadsUpCheckBox::draw(bool c, int x, int y)
 	{
-		bool checked=c;
+		checked=c;
 		y+=(OBJECTIVE_TEXT_HEIGHT/2);
 
 		glViewport(x, height-y, 20,20);
@@ -30,8 +31,6 @@ void HeadsUpCheckBox::draw(bool c, int x, int y)
 		glVertex2f(0.5, -1);
 		glVertex2f(-1, -1);
 		glEnd();
-
-		float bw = 0.15;
 
 		glBegin(GL_POLYGON);   //We want to draw a quad, i.e. shape with four sides
 		glColor4f(0.0, 0.3, 0.6, 0.3);

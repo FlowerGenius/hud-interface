@@ -57,12 +57,10 @@
 #define MAP_BG 0.0,0.3,0.6,0.3
 #define COCK_HEIGHT
 
-
-extern int height,width;
+extern int height, width;
 #define OBJECTIVE_TEXT_HEIGHT 	20
 #define MAP_HEIGHT			  	(height / 5  )
 #define MAP_WIDTH				MAP_HEIGHT
-
 #define BAT_WIDTH				(width  / 20)
 #define BAT_HEIGHT				BAT_WIDTH*0.4
 

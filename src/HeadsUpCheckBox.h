@@ -29,6 +29,8 @@ public:
 	}
 
 private:
+	bool			checked;
+	float 			bw;
 	XColor 			background_colour;
 	XColor			border_colour;
 	XColor			check_colour;

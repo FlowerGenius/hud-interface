@@ -32,6 +32,7 @@ private:
 	bool					completed;
 	void					deleteObjective(HeadsUpObjective);
 	std::string 			title;
+	ScalableVectorString 	tit_text;
 
 };
 

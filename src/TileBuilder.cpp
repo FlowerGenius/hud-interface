@@ -21,11 +21,17 @@ extern double m_latitude;
 std::pair<float,float> map_location;
 
 float zoom = 0.3333;
+float rotation;
 
 cv::Mat m_image;
 cv::Mat m1_image;
 
 std::string datsource = "http://a.tile.openstreetmap.org";
+
+cv::Mat resultImg;
+cv::Mat al,bl,cl,dl,ar,br,cr,dr,top,mid,bottom,c0_image,c1_image,c2_image,c3_image,c4_image,c5_image,c6_image,c7_image,c8_image,c9_image,c10_image,c11_image,c12_image,c13_image,c14_image,c15_image;
+std::vector<std::string> vstr;
+float mmx,mmy;
 
 size_t write_data(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
@@ -57,63 +63,78 @@ TileBuilder::~TileBuilder() {
 
 TileBuilder::TileBuilder() {
 	dsource = datsource;
-	z = 17;
+		z = 17;
 }
-
+int tilex;
+int tiley;
  std::vector<std::string> TileBuilder::getTileUrls(){
 
-	 int x = ((int)(floor(long2tilex(m_longitude,z))));
-	 int y = ((int)(floor(lat2tiley(m_latitude,z))));
-	 map_location.first = (long2tilex(m_longitude,z)-x);
-	 map_location.second = (lat2tiley(m_latitude,z)-y);
- 	std::string yp1_str  = std::to_string(y+1);
- 	std::string ym1_str  = std::to_string(y-1);
+	 tilex = ((int)(floor(long2tilex(m_longitude,z))));
+	 tiley = ((int)(floor(lat2tiley(m_latitude,z))));
+	 map_location.first = (long2tilex(m_longitude,z)-tilex);
+	 map_location.second = (lat2tiley(m_latitude,z)-tiley);
 
 
  	return {
 //			dsource+"/"+std::to_string(z)+"/"+std::to_string( ((int)(floor(long2tilex(m_longitude,z)))-1)+"/"+yp1_str+".png",
- 			dsource+"/"+std::to_string(z)+"/"+std::to_string(x-1)+"/"+yp1_str+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(x)+"/"+yp1_str+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(x+1)+"/"+yp1_str+".png",
+ 			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex-1)+"/"+std::to_string(tiley+1)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex)+"/"+std::to_string(tiley+1)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex+1)+"/"+std::to_string(tiley+1)+".png",
 
 // 			dsource+"/"+std::to_string(z)+"/"+std::to_string( x-2)+"/"+y_str+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(x-1)+"/"+std::to_string(y)+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(x)+"/"+std::to_string(y)+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(x+1)+"/"+std::to_string(y)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex-1)+"/"+std::to_string(tiley)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex)+"/"+std::to_string(tiley)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex+1)+"/"+std::to_string(tiley)+".png",
 
 // 			dsource+"/"+std::to_string(z)+"/"+std::to_string( x-2)+"/"+ym1_str+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(x-1)+"/"+ym1_str+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(x)+"/"+ym1_str+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(x+1)+"/"+ym1_str+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex-1)+"/"+std::to_string(tiley-1)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex)+"/"+std::to_string(tiley-1)+".png",
+			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex+1)+"/"+std::to_string(tiley-1)+".png",
 
  	};
  }
 
 
 std::string TileBuilder::getTileUrl(){
-	url = dsource+"/"+std::to_string(z)+"/"+std::to_string(long2tilex(m_longitude,z))+"/"+std::to_string((int)(floor(lat2tiley(m_latitude,z))))+".png";
-	return url;
+	return dsource+"/"+std::to_string(z)+"/"+std::to_string(long2tilex(m_longitude,z))+"/"+std::to_string((int)(floor(lat2tiley(m_latitude,z))))+".png";
 }
-cv::Mat resultImg;
-cv::Mat al,bl,cl,dl,ar,br,cr,dr,top,mid,bottom,c0_image,c1_image,c2_image,c3_image,c4_image,c5_image,c6_image,c7_image,c8_image,c9_image,c10_image,c11_image,c12_image,c13_image,c14_image,c15_image;
-std::vector<std::string> vstr;
 
 
 void TileBuilder::draw(){
-
-		//std::string str = getTileUrl();
-//		m_latitude+=0.0001;
-//		m_longitude+=0.0001;
+		dsource = datsource;
+		z = 17;
 		vstr = getTileUrls();
-		float mx = ((map_location.first*2)-1)/2;
-		float my = ((map_location.second*2)-1)/2;
-		float from_tile_origin_x = mx;
-		float from_tile_origin_y = my;
+		mmx = ((map_location.first*2)-1)/2;
+		mmy = ((map_location.second*2)-1)/2;
 
+		if (vstr != tilesource){
+
+			c0_image = curlImg(vstr[0].c_str());
+			c1_image = curlImg(vstr[1].c_str());
+			c2_image = curlImg(vstr[2].c_str());
+			cv::hconcat(std::vector<cv::Mat>({c0_image,c1_image,c2_image}),top);
+
+			c4_image = curlImg(vstr[3].c_str());
+			c5_image = curlImg(vstr[4].c_str());
+			c6_image = curlImg(vstr[5].c_str());
+			cv::hconcat(std::vector<cv::Mat>({c4_image,c5_image,c6_image}),mid);
+
+			c8_image = curlImg(vstr[6].c_str());
+			c9_image = curlImg(vstr[7].c_str());
+			c10_image = curlImg(vstr[8].c_str());
+			cv::hconcat(std::vector<cv::Mat>({c8_image,c9_image,c10_image}),bottom);
+
+			cv::vconcat(std::vector<cv::Mat>({bottom,mid,top}),resultImg);
+
+			tilesource = vstr;
+		}
+		if (rotation < 360){
+			rotation+=1;
+		} else { rotation = 0;}
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
-				glColor4f(0.3, 0.5, 0.8, 0.98);
 
+				glColor4f(0.3, 0.5, 0.8, 0.98);
 				glEnable(GL_TEXTURE_2D);
 				// Create Texture
 				glGenTextures(1, &tex);
@@ -122,28 +143,8 @@ void TileBuilder::draw(){
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
 				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
 
-				if (vstr != tilesource){
 
 
-					c0_image = curlImg(vstr[0].c_str());
-					c1_image = curlImg(vstr[1].c_str());
-					c2_image = curlImg(vstr[2].c_str());
-					cv::hconcat(std::vector<cv::Mat>({c0_image,c1_image,c2_image}),top);
-
-					c4_image = curlImg(vstr[3].c_str());
-					c5_image = curlImg(vstr[4].c_str());
-					c6_image = curlImg(vstr[5].c_str());
-					cv::hconcat(std::vector<cv::Mat>({c4_image,c5_image,c6_image}),mid);
-
-					c8_image = curlImg(vstr[6].c_str());
-					c9_image = curlImg(vstr[7].c_str());
-					c10_image = curlImg(vstr[8].c_str());
-					cv::hconcat(std::vector<cv::Mat>({c8_image,c9_image,c10_image}),bottom);
-
-					cv::vconcat(std::vector<cv::Mat>({bottom,mid,top}),resultImg);
-
-					tilesource = vstr;
-				}
 
 				glTexImage2D(GL_TEXTURE_2D, 0, 3, resultImg.cols, resultImg.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, resultImg.data);
 
@@ -152,20 +153,20 @@ void TileBuilder::draw(){
 
 
 
-				glTexCoord2f (0.0*zoom + 0.3333 + mx*zoom, 0.1*zoom + 0.3333 + my*zoom);
+				glTexCoord2f (0.0*zoom + 0.3333 + mmx*zoom, 0.1*zoom + 0.3333 + mmy*zoom);
 				glVertex2f(-1+bw, 0.8-bw);
-				glTexCoord2f (0.1*zoom + 0.3333 + mx*zoom, 0.0*zoom + 0.3333 + my*zoom);
+				glTexCoord2f (0.1*zoom + 0.3333 + mmx*zoom, 0.0*zoom + 0.3333 + mmy*zoom);
 				glVertex2f(-0.8+bw, 1-bw);
 
-				glTexCoord2f (1.0*zoom + 0.3333 + mx*zoom, 0.0*zoom + 0.3333 + my*zoom);
+				glTexCoord2f (1.0*zoom + 0.3333 + mmx*zoom, 0.0*zoom + 0.3333 + mmy*zoom);
 				glVertex2f(1-bw, 1-bw);
 
-				glTexCoord2f (1.0*zoom + 0.3333 + mx*zoom, 0.9*zoom + 0.3333 + my*zoom);
+				glTexCoord2f (1.0*zoom + 0.3333 + mmx*zoom, 0.9*zoom + 0.3333 + mmy*zoom);
 				glVertex2f(1-bw, -0.8+bw);
-				glTexCoord2f (0.9*zoom + 0.3333 + mx*zoom, 1.0*zoom + 0.3333 + my*zoom);
+				glTexCoord2f (0.9*zoom + 0.3333 + mmx*zoom, 1.0*zoom + 0.3333 + mmy*zoom);
 				glVertex2f(0.8-bw, -1+bw);
 
-				glTexCoord2f (0.0*zoom + 0.3333 + mx*zoom, 1.0*zoom + 0.3333 + my*zoom);
+				glTexCoord2f (0.0*zoom + 0.3333 + mmx*zoom, 1.0*zoom + 0.3333 + mmy*zoom);
 				glVertex2f(-1+bw, -1+bw);
 
 
@@ -178,6 +179,8 @@ void TileBuilder::draw(){
 
 			}
 			glPopAttrib();
+			glPushMatrix();
+			glRotatef(rotation, 0, 0, 1);
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
 				glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
@@ -191,6 +194,8 @@ void TileBuilder::draw(){
 				glEnd();
 			}
 			glPopAttrib();
+			glPopMatrix();
+
 }
 
 

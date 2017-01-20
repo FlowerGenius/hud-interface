@@ -21,6 +21,8 @@ public:
 	bool operator == (const HeadsUpObjective& s) const { return name == s.name && completed == s.completed && state_changed == s.state_changed;}
 	bool operator != (const HeadsUpObjective& s) const { return !operator==(s); }
 private:
+	ScalableVectorString obj_text;
+	HeadsUpCheckBox check;
 	std::string 	name;
 	int		active_stage;
 

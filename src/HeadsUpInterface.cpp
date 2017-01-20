@@ -24,7 +24,6 @@ enum MODE
 };
 #include "HeadsUpInterface.h"
 
-
 bool m_shutdown        = false;
 bool m_use_buffer      = false;
 bool m_demo_processing = true;
@@ -44,6 +43,7 @@ extern cv::String         m_oclDevName;
 extern int height,width;
 extern Display *Xdisplay;
 extern Window window_handle;
+extern void computerGetGeoLocation();
 
 
 Timer        m_timer;
@@ -132,11 +132,6 @@ Timer        m_timer;
 		m_oclDevName = cv::ocl::useOpenCL() ?
 				cv::ocl::Context::getDefault().device(0).name() :
 				(char*) "No OpenCL device";
-
-		clockk = HeadsUpDigitalClock();
-		batinfo = HeadsUpBatteryInfo();
-		map = HeadsUpMap();
-
 	}
 
 	void HeadsUpInterface::updateGL(void)
@@ -243,7 +238,6 @@ void drawTask(HeadsUpTask t){
 		glFlush();
 
 		draw();
-
 		drawClock(clockk);
 		drawBat(batinfo);
 		drawMap(map);
