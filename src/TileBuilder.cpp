@@ -6,22 +6,21 @@
  */
  
 #include "header.h"
+#include "HeadsUpWaypoint.h"
 #include "TileBuilder.h"
 #include "png.h"
 
 std::vector<std::string> tilesource;
 GLuint tex;
 
-extern std::pair<double,double> coords;
-float bw = 0.03;
 extern float long2tilex(double lon,int z);
 extern float lat2tiley(double lat,int z);
 extern double m_longitude;
 extern double m_latitude;
 std::pair<float,float> map_location;
 
+float bw = 0.03;
 float zoom = 0.3333;
-float rotation;
 
 cv::Mat m_image;
 cv::Mat m1_image;
@@ -29,9 +28,19 @@ cv::Mat m1_image;
 std::string datsource = "http://a.tile.openstreetmap.org";
 
 cv::Mat resultImg;
-cv::Mat al,bl,cl,dl,ar,br,cr,dr,top,mid,bottom,c0_image,c1_image,c2_image,c3_image,c4_image,c5_image,c6_image,c7_image,c8_image,c9_image,c10_image,c11_image,c12_image,c13_image,c14_image,c15_image;
+cv::Mat top,mid,bottom;
 std::vector<std::string> vstr;
 float mmx,mmy;
+
+extern std::vector<HeadsUpWaypoint> waypoints;
+int tilex;
+int tiley;
+int k = 0;
+
+int previous_tilex,previous_tiley;
+
+extern std::vector<cv::Mat> tiles;
+
 
 size_t write_data(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
@@ -42,99 +51,222 @@ size_t write_data(char *ptr, size_t size, size_t nmemb, void *userdata)
 }
 
 //function to retrieve the image as cv::Mat data type
-cv::Mat curlImg(const char *img_url, int timeout=10)
+cv::Mat curlImg(std::string img_url, int timeout=10)
 {
     std::vector<uchar> stream;
     CURL *curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_URL, img_url); //the img url
+    curl_easy_setopt(curl, CURLOPT_URL, img_url.c_str()); //the img url
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data); // pass the writefunction
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &stream); // pass the stream ptr to the writefunction
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout); // timeout if curl_easy hangs,
-    CURLcode res = curl_easy_perform(curl); // start curl
+    curl_easy_perform(curl); // start curl
     curl_easy_cleanup(curl); // cleanup
     return cv::imdecode(stream, -1); // 'keep-as-is'
 }
 
-
-TileBuilder::~TileBuilder() {
-	// TODO Auto-generated destructor stub
-}
-
-
 TileBuilder::TileBuilder() {
 	dsource = datsource;
-		z = 17;
-}
-int tilex;
-int tiley;
- std::vector<std::string> TileBuilder::getTileUrls(){
-
-	 tilex = ((int)(floor(long2tilex(m_longitude,z))));
-	 tiley = ((int)(floor(lat2tiley(m_latitude,z))));
-	 map_location.first = (long2tilex(m_longitude,z)-tilex);
-	 map_location.second = (lat2tiley(m_latitude,z)-tiley);
-
-
- 	return {
-//			dsource+"/"+std::to_string(z)+"/"+std::to_string( ((int)(floor(long2tilex(m_longitude,z)))-1)+"/"+yp1_str+".png",
- 			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex-1)+"/"+std::to_string(tiley+1)+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex)+"/"+std::to_string(tiley+1)+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex+1)+"/"+std::to_string(tiley+1)+".png",
-
-// 			dsource+"/"+std::to_string(z)+"/"+std::to_string( x-2)+"/"+y_str+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex-1)+"/"+std::to_string(tiley)+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex)+"/"+std::to_string(tiley)+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex+1)+"/"+std::to_string(tiley)+".png",
-
-// 			dsource+"/"+std::to_string(z)+"/"+std::to_string( x-2)+"/"+ym1_str+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex-1)+"/"+std::to_string(tiley-1)+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex)+"/"+std::to_string(tiley-1)+".png",
-			dsource+"/"+std::to_string(z)+"/"+std::to_string(tilex+1)+"/"+std::to_string(tiley-1)+".png",
-
- 	};
- }
-
-
-std::string TileBuilder::getTileUrl(){
-	return dsource+"/"+std::to_string(z)+"/"+std::to_string(long2tilex(m_longitude,z))+"/"+std::to_string((int)(floor(lat2tiley(m_latitude,z))))+".png";
+	z = 17;
 }
 
+cv::Mat getTile(int tilexyx, int tileyxy, int zoom){
+	return curlImg(datsource+"/"+std::to_string(zoom)+"/"+std::to_string(tilexyx)+"/"+std::to_string(tileyxy)+".png");
+}
+
+void assignTile(int i,int tilexx, int tileyy, int zoom){
+
+	if (k % 3) {k=0;}
+
+	switch(k){
+	case 0:
+		datsource = "http://a.tile.openstreetmap.org";
+		k++;
+		break;
+	case 1:
+		datsource = "http://b.tile.openstreetmap.org";
+		k++;
+		break;
+	case 2:
+		datsource = "http://c.tile.openstreetmap.org";
+		k++;
+		break;
+	default:
+		datsource = "http://a.tile.openstreetmap.org";
+		k = 0;
+		break;
+	};
+
+	tiles[i] = getTile(tilexx,tileyy,zoom);
+}
+
+void assignTiles(int tilex, int tileyy, int zoom){
+	std::vector<std::thread> threads;
+	if (tilex == previous_tilex-1){
+			if (tileyy == previous_tiley-1){
+				tiles[8] = tiles[4];
+				tiles[7] = tiles[3];
+				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+
+				tiles[5] = tiles[1];
+				tiles[4] = tiles[0];
+				threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
+
+				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+				threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
+				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+			}
+			else if (tileyy == previous_tiley){
+
+				tiles[2] = tiles[1];
+				tiles[1] = tiles[0];
+				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+
+				tiles[5] = tiles[4];
+				tiles[4] = tiles[3];
+				threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
+
+				tiles[8] = tiles[7];
+				tiles[7] = tiles[6];
+				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+
+			}
+			else if (tileyy == previous_tiley+1){
+
+				tiles[2] = tiles[4];
+				tiles[1] = tiles[3];
+				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+
+				tiles[5] = tiles[7];
+				tiles[4] = tiles[6];
+				threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
+
+				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+				threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
+				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+
+			}
+		}
+		else if (tilex == previous_tilex){
+			if (tileyy == previous_tiley-1){
+
+				tiles[8] = tiles[5];
+				tiles[7] = tiles[4];
+				tiles[6] = tiles[3];
+
+				tiles[5] = tiles[2];
+				tiles[4] = tiles[1];
+				tiles[3] = tiles[0];
+
+				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+				threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
+				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+			}
+			else if (tileyy == previous_tiley){
+
+				//Do nothing because the context has not changed
+			}
+			else if (tileyy == previous_tiley+1){
+				tiles[0] = tiles[3];
+				tiles[1] = tiles[4];
+				tiles[2] = tiles[5];
+
+				tiles[5] = tiles[8];
+				tiles[4] = tiles[7];
+				tiles[3] = tiles[6];
+
+				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+				threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
+				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+			}
+		}
+		else if (tilex == previous_tilex+1){
+			if (tileyy == previous_tiley-1){
+				tiles[6] = tiles[4];
+				tiles[7] = tiles[5];
+				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+
+				tiles[3] = tiles[1];
+				tiles[4] = tiles[2];
+				threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
+
+				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+				threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
+				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+
+			}
+			else if (tileyy == previous_tiley){
+				tiles[0] = tiles[1];
+				tiles[1] = tiles[2];
+				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+
+				tiles[3] = tiles[4];
+				tiles[4] = tiles[5];
+				threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
+
+				tiles[6] = tiles[7];
+				tiles[7] = tiles[8];
+				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+			}
+			else if (tileyy == previous_tiley+1){
+				tiles[0] = tiles[4];
+				tiles[1] = tiles[5];
+				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+
+				tiles[3] = tiles[7];
+				tiles[4] = tiles[8];
+				threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
+
+				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+				threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
+				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+			}
+		}
+		else {
+			threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+			threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
+			threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+
+			threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
+			threads.push_back(std::thread(assignTile,4,tilex,tileyy,zoom));
+			threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
+
+			threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+			threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
+			threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+		}
+
+	for (auto& th : threads) th.join();
+
+	cv::hconcat(std::vector<cv::Mat>({tiles[0],tiles[1],tiles[2]}), top);
+	cv::hconcat(std::vector<cv::Mat>({tiles[3],tiles[4],tiles[5]}), mid);
+	cv::hconcat(std::vector<cv::Mat>({tiles[6],tiles[7],tiles[8]}), bottom);
+
+	cv::vconcat(std::vector<cv::Mat>({top,mid,bottom}),resultImg);
+
+	for (auto& wp : waypoints) {wp.draw();}
+
+}
 
 void TileBuilder::draw(){
 		dsource = datsource;
 		z = 17;
-		vstr = getTileUrls();
+		tilex = ((int)(floor(long2tilex(m_longitude,z))));
+	 	tiley = ((int)(floor(lat2tiley(m_latitude,z))));
+	 	map_location.first = (long2tilex(m_longitude,z)-tilex);
+	 	map_location.second = (lat2tiley(m_latitude,z)-tiley);
 		mmx = ((map_location.first*2)-1)/2;
 		mmy = ((map_location.second*2)-1)/2;
 
-		if (vstr != tilesource){
+		assignTiles(tilex,tiley,z);
 
-			c0_image = curlImg(vstr[0].c_str());
-			c1_image = curlImg(vstr[1].c_str());
-			c2_image = curlImg(vstr[2].c_str());
-			cv::hconcat(std::vector<cv::Mat>({c0_image,c1_image,c2_image}),top);
+		previous_tiley = tiley;
+		previous_tilex = tilex;
 
-			c4_image = curlImg(vstr[3].c_str());
-			c5_image = curlImg(vstr[4].c_str());
-			c6_image = curlImg(vstr[5].c_str());
-			cv::hconcat(std::vector<cv::Mat>({c4_image,c5_image,c6_image}),mid);
 
-			c8_image = curlImg(vstr[6].c_str());
-			c9_image = curlImg(vstr[7].c_str());
-			c10_image = curlImg(vstr[8].c_str());
-			cv::hconcat(std::vector<cv::Mat>({c8_image,c9_image,c10_image}),bottom);
-
-			cv::vconcat(std::vector<cv::Mat>({bottom,mid,top}),resultImg);
-
-			tilesource = vstr;
-		}
-		if (rotation < 360){
-			rotation+=1;
-		} else { rotation = 0;}
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
 
-				glColor4f(0.3, 0.5, 0.8, 0.98);
+				glColor4f(0.5, 0.5, 0.5, 0.98);
 				glEnable(GL_TEXTURE_2D);
 				// Create Texture
 				glGenTextures(1, &tex);
@@ -179,23 +311,12 @@ void TileBuilder::draw(){
 
 			}
 			glPopAttrib();
-			glPushMatrix();
-			glRotatef(rotation, 0, 0, 1);
-			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			{
-				glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-				glColor4f(0.0, 0.0, 1.0, 1.0);
-				glVertex2f(0.0,0.0);
-				glVertex2f(0.1,-0.1);
-				glVertex2f(0.0,+0.1);
-				glVertex2f(-0.1,-0.1);
 
 
-				glEnd();
-			}
-			glPopAttrib();
-			glPopMatrix();
+}
 
+TileBuilder::~TileBuilder() {
+	// TODO Auto-generated destructor stub
 }
 
 

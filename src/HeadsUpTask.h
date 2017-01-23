@@ -19,15 +19,15 @@ public:
 	std::list<std::string> 	displayObjectives(void);
 	bool					isComplete(void);
 	bool					state_changed;
-	void					addObjective(HeadsUpObjective);
+	void					addObjective(HeadsUpObjective*);
 	void					confirmObjective(int);
-	std::vector<HeadsUpObjective> objectives;
+	std::vector<HeadsUpObjective*> objectives;
 	bool operator == (const HeadsUpTask& s) const { return title == s.title && objectives == s.objectives; }
 	bool operator != (const HeadsUpTask& s) const { return !operator==(s); }
 
 private:
 	std::list<std::string> names;
-	int index = 0;
+	int indexx = 0;
 	int						current_stage;
 	bool					completed;
 	void					deleteObjective(HeadsUpObjective);

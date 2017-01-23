@@ -10,19 +10,16 @@
 #include "HeadsUpWaypoint.h"
 #include "HeadsUpMap.h"
 
-#define LONGITUDE	-79.397019
-#define LATITUDE	43.662603
+#define LONGITUDE	-79.395293
+#define LATITUDE	43.661802
 
 extern std::atomic<double> m_latitude;
 extern std::atomic<double> m_longitude;
-extern std::pair<double,double> coords;
 std::atomic<double> counter;
 extern std::atomic<bool> EXIT_THREADS;
+extern std::vector<HeadsUpWaypoint> waypoints;
+float rotation;
 
-HeadsUpWaypoint wayp = HeadsUpWaypoint();
-
-
-int interval=0;
 std::string data;
 std::string leftbound;
 std::string coordsep;
@@ -60,10 +57,12 @@ std::pair<double,double> getCoords(int timeout=10)
 	coordstring	= sub1.substr(0,sub1.find(rightbound));
 
 	pos 		= coordstring.find(coordsep);
-
-	m_latitude  = std::atof(coordstring.substr(0,pos).c_str());
-	m_longitude = std::atof(coordstring.substr(pos+1).c_str());
-
+	if (m_latitude == (double)0.0){
+		m_latitude  = std::atof(coordstring.substr(0,pos).c_str());
+		m_longitude = std::atof(coordstring.substr(pos+1).c_str());
+	}
+	m_longitude = m_longitude 	+ 0.00003;
+	m_latitude = m_latitude 	- 0.00001;
 
 	curl_easy_cleanup(curl);
 	curl_global_cleanup();
@@ -71,6 +70,7 @@ std::pair<double,double> getCoords(int timeout=10)
 
 	return {m_latitude,m_longitude};
 }
+HeadsUpWaypoint wayp;
 
 void computerGetGeoLocation(){
 	while(!EXIT_THREADS){
@@ -79,28 +79,39 @@ void computerGetGeoLocation(){
 	puts("Geolocation Thread Exited Successfully");
 }
 
+
+void getDirection(){
+	//TODO Implement method for getting the cardinal direction from the device
+}
+
 void computerGetDirection(){
 	while(!EXIT_THREADS){
-		getCoords();
+		getDirection();
 	}
 	puts("Direction Thread Exited Successfully");
 }
 
 HeadsUpMap::HeadsUpMap(){
-	getCoords();
-//		wayp.setText("WAY1");
-//		double f=m_latitude-0.001,s=m_longitude+0.001;
-//		wayp.set(std::pair<double,double>({f,s}));
+	if (m_latitude == (double)0.0){
+		getCoords();
+	}
+	getDirection();
+	rotation = 0;
 
 }
 
 	void HeadsUpMap::draw(){
+//		if (rotation < 180){
+//				rotation+=1;
+//		} else { rotation = -179;}
+
+		rotation = -90;
 		glViewport(width-RIGHT_MARGIN-MAP_WIDTH, height-MAP_HEIGHT-TOP_MARGIN,  MAP_WIDTH, MAP_HEIGHT);
 
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-			glColor4f(0.0, 0.6, 0.6, 0.9);
+			//glColor4f(0.0, 0.6, 0.6, 0.9);
 			glVertex2f(-1, 0.8);
 			glVertex2f(-0.8, 1);
 			glVertex2f(1, 1);
@@ -113,8 +124,25 @@ HeadsUpMap::HeadsUpMap(){
 		glViewport(width-RIGHT_MARGIN-MAP_WIDTH+2, height-MAP_HEIGHT-TOP_MARGIN+2,  MAP_WIDTH-4, MAP_HEIGHT-4);
 
 		tiles.draw();
-		//wayp.draw();
 
+		glPushMatrix();
+		glRotatef(rotation, 0, 0, 1);
+		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		{
+			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
+			glColor4f(0.0, 0.0, 1.0, 1.0);
+			glVertex2f(0.0,0.0);
+			glVertex2f(0.1,-0.1);
+			glVertex2f(0.0,+0.1);
+			glVertex2f(-0.1,-0.1);
+
+
+			glEnd();
+		}
+		glPopAttrib();
+		glPopMatrix();
+
+		for (auto& wp : waypoints) wp.render();
 
 
 	}

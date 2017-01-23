@@ -7,20 +7,22 @@
 #include "header.h"
 #include "HeadsUpBatteryInfo.h"
 
+// From helper functions
 extern std::string exec(const char*);
 
+// From main object
 extern std::atomic<double> battery_life;
 extern std::atomic<double> dev_battery_life;
-
 extern std::string battery_state;
+extern std::atomic<bool> is_charging;
+extern std::atomic<bool> dev_is_charging;
+//extern std::atomic<bool> dev_is_connected;
+extern std::atomic<bool> EXIT_THREADS;
+
+// Temp variables
 std::string pinf;
 std::string ssinf;
 
-extern std::atomic<bool> is_charging;
-extern std::atomic<bool> dev_is_charging;
-extern std::atomic<bool> dev_is_connected;
-
-extern std::atomic<bool> EXIT_THREADS;
 
 void getBatteryInformation() {
 	pinf = exec("upower -i `upower -e | grep 'BAT'` | grep percentage");

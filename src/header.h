@@ -71,5 +71,6 @@ extern int height, width;
 #define TASK_TEXT_HEIGHT		25
 
 #include "ScalableVectorString.h"
+#include "Point.h"
 
 #endif /* HEADER_H_ */

@@ -13,6 +13,7 @@ class HeadsUpMap
 public:
 				HeadsUpMap();
 	void		draw(void);
+	//int			rotation;
 private:
 	TileBuilder tiles;
 

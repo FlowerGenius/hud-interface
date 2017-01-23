@@ -11,53 +11,106 @@
 #include "HeadsUpBatteryInfo.h"
 #include "HeadsUpDigitalClock.h"
 #include "TileBuilder.h"
-
+#include "HeadsUpWaypoint.h"
 #include "HeadsUpMap.h"
 #include "HeadsUpCheckBox.h"
+#include "HeadsUpWaypoint.h"
+
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"
 #include "Timer.hpp"
+
 enum MODE
 {
 	MODE_CPU = 0,
 	MODE_GPU
 };
+
 #include "HeadsUpInterface.h"
 
-bool m_shutdown        = false;
-bool m_use_buffer      = false;
-bool m_demo_processing = true;
-MODE m_mode            = MODE_CPU;
-bool use_buffer()        { return m_use_buffer; }
-void toggle_buffer()     { m_use_buffer = !m_use_buffer; }
-MODE get_mode()          { return m_mode; }
-void set_mode(MODE mode) { m_mode = mode; }
+bool m_shutdown        = 		false;
+bool m_use_buffer      = 		false;
+bool m_demo_processing = 		true;
+MODE m_mode            = 		MODE_CPU;
 
-extern std::list<HeadsUpTask> tasks;
-extern std::list<HeadsUpObjective> current_objectives;
+bool use_buffer()        		{ return m_use_buffer; }
+void toggle_buffer()     		{ m_use_buffer = !m_use_buffer; }
+MODE get_mode()          		{ return m_mode; }
+void set_mode(MODE mode) 		{ m_mode = mode; }
 
-extern cv::VideoCapture m_cap;
-extern cv::Mat            m_frame_bgr;
-extern cv::Mat            m_frame_rgba;
-extern cv::String         m_oclDevName;
-extern int height,width;
-extern Display *Xdisplay;
-extern Window window_handle;
-extern void computerGetGeoLocation();
+extern std::list<HeadsUpTask> 	tasks;
+extern cv::VideoCapture 		m_cap;
+extern cv::Mat           		m_frame_bgr, m_frame_rgba,frame_gray;
+extern cv::String         		m_oclDevName;
+extern int 						height, width;
 
+extern cv::CascadeClassifier 	face_cascade;
 
-Timer        m_timer;
+std::vector<cv::Rect> 			faces;
+std::vector<cv::Rect> 			eyes;
+
+Timer        					m_timer;
+
+extern std::vector<HeadsUpWaypoint> waypoints;
 
 	HeadsUpInterface::HeadsUpInterface()
 	{
-		waypointFontSize = 6;
+		cam_mode = MODE_CPU;
+		cam_do_buffer = false;
+		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_DEPTH_TEST);
+		glViewport(0, 0, width, height);
+		if (cv::ocl::haveOpenCL())
+		{
+			(void) cv::ogl::ocl::initializeContextFromGL();
+		}
 
+		m_oclDevName = cv::ocl::useOpenCL() ?
+				cv::ocl::Context::getDefault().device(0).name() :
+				(char*) "No OpenCL device";
+}
+
+	void detectEyes(size_t i, size_t j){
+		cv::Point eye_center( faces[i].x + eyes[j].x + eyes[j].width/2, faces[i].y + eyes[j].y + eyes[j].height/2 );
+		int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
+		circle( m_frame_bgr, eye_center, radius, cv::Scalar( 255, 0, 0 ), 4, 8, 0 );
 	}
+
+	void detectFaces(size_t i){
+		cv::Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
+		ellipse( m_frame_bgr, center, cv::Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, cv::Scalar( 255, 0, 255 ), 4, 8, 0 );
+//
+//		cv::Mat faceROI = frame_gray( faces[i] );
+//
+//		//-- In each face, detect eyes
+//		eyes_cascade.detectMultiScale( faceROI, eyes, 1.1, 2, 0 |cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
+//
+//		std::vector<std::thread> threads;
+//		for ( size_t j = 0; j < eyes.size(); j++ )
+//		{
+//			threads.push_back(std::thread(detectEyes,i,j));
+//		}
+//		for (auto& th : threads) th.join();
+	}
+
+
 
 	int HeadsUpInterface::get_frame(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer)
 	{
 		if (!m_cap.read(m_frame_bgr))
 			return -1;
+
+
+		cv::cvtColor( m_frame_bgr, frame_gray, cv::COLOR_BGR2GRAY );
+		equalizeHist( frame_gray, frame_gray );
+		//-- Detect faces
+		face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
+		std::vector<std::thread> threads;
+		for ( size_t i = 0; i < faces.size(); i++ )
+		{
+			threads.push_back(std::thread(detectFaces,i));
+		}
+		for (auto& th : threads) th.join();
 
 		cv::cvtColor(m_frame_bgr, m_frame_rgba, CV_RGB2RGBA);
 
@@ -79,12 +132,6 @@ Timer        m_timer;
 			buffer.copyTo(m);
 		else
 			texture.copyTo(m);
-
-		//        if (m_demo_processing)
-		//        {
-		//            // blur texture image with OpenCV on CPU
-		//            cv::blur(m, m, cv::Size(15, 15), cv::Point(-7, -7));
-		//        }
 
 		if (do_buffer)
 			buffer.copyFrom(m, cv::ogl::Buffer::PIXEL_UNPACK_BUFFER, true);
@@ -121,17 +168,7 @@ Timer        m_timer;
 
 	void HeadsUpInterface::initialize(void)
 	{
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_DEPTH_TEST);
-		glViewport(0, 0, width, height);
-		if (cv::ocl::haveOpenCL())
-		{
-			(void) cv::ogl::ocl::initializeContextFromGL();
-		}
 
-		m_oclDevName = cv::ocl::useOpenCL() ?
-				cv::ocl::Context::getDefault().device(0).name() :
-				(char*) "No OpenCL device";
 	}
 
 	void HeadsUpInterface::updateGL(void)
@@ -141,7 +178,6 @@ Timer        m_timer;
 	void HeadsUpInterface::updateX(void)
 	{
 		//getActiveTask().drawX();
-
 	}
 
 	void HeadsUpInterface::addTask(HeadsUpTask t)
@@ -152,6 +188,19 @@ Timer        m_timer;
 		}
 	}
 
+	void HeadsUpInterface::addTasks(std::vector<HeadsUpTask> tks){
+		for (auto& tsk : tks) addTask(tsk);
+	}
+
+	void HeadsUpInterface::addWaypoint(HeadsUpWaypoint w){
+		waypoints.push_back(w);
+	}
+
+	void HeadsUpInterface::addWaypoints(std::vector<HeadsUpWaypoint> wps){
+		for (auto& wp : wps) addWaypoint(wp);
+	}
+
+
 	void HeadsUpInterface::makeActiveTask(HeadsUpTask t)
 	{
 
@@ -159,7 +208,6 @@ Timer        m_timer;
 		tasks.push_front(t);
 		//current_objectives = t.objectives;
 	}
-
 
 void drawClock(HeadsUpDigitalClock c){
 	c.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
@@ -231,6 +279,7 @@ void drawTask(HeadsUpTask t){
 
 	void HeadsUpInterface::drawGLComponents()
 	{
+
 		if (tasks.front().isComplete()){
 			tasks.pop_front();
 		}
@@ -241,6 +290,9 @@ void drawTask(HeadsUpTask t){
 		drawClock(clockk);
 		drawBat(batinfo);
 		drawMap(map);
+
+
+
 		drawTask(tasks.front());
 	}
 

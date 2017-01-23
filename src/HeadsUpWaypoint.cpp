@@ -8,39 +8,62 @@
 #include "header.h"
 #include "HeadsUpWaypoint.h"
 
-extern double m_longitude;
-extern double m_latitude;
-
-extern float mmx, mmy;
+extern int tiley,tilex;
+extern cv::Mat resultImg;
+extern double m_latitude,m_longitude;
 
 extern float long2tilex(double lon, int z);
 extern float lat2tiley(double lat, int z);
-extern std::pair<float, float> map_location;
-std::pair<float, float> my_map_location;
+extern float rotation;
 
-HeadsUpWaypoint::HeadsUpWaypoint() {
-	// TODO Auto-generated constructor stub
-	r = 0, b = 0, g = 0, a = 0;
-	text = "";
-	//icon;
-
+namespace gps {
+	extern double distance(gps::Point,gps::Point);
+	extern double bearing(gps::Point,gps::Point);
 }
 
-HeadsUpWaypoint::~HeadsUpWaypoint() {
-	// TODO Auto-generated destructor stub
+double sightLine(){
+	return 1000.0;
+}
+
+HeadsUpWaypoint::HeadsUpWaypoint() {
+	// Null Colour initialization
+	r = 0, g = 0, b = 0, a = 0;
+	// Null text initialization
+	text = "";
+	// Null icon initialization
+	//icon;
+	size = 10;
+	animation = 10;
+	filled = 1;
+
 }
 
 int HeadsUpWaypoint::setColour(int R, int G, int B, int A) {
 	r = R, g = G, b = B, a = A;
+	label.setColour(r,g,b,255);
+	distance.setColour(r,g,b,255);
 	return 0;
+}
+
+int HeadsUpWaypoint::setFill(bool b){
+	if (b)
+		filled = 1;
+	else
+		filled = -1;
 }
 
 int HeadsUpWaypoint::setIcon() {
 	return 0;
 }
 
+int HeadsUpWaypoint::setSize(int i) {
+	size = i;
+	return 0;
+}
+
 int HeadsUpWaypoint::setText(std::string s) {
 	text = s;
+	label.setText(text);
 	return 0;
 }
 
@@ -48,44 +71,101 @@ std::string HeadsUpWaypoint::getText() {
 	return text;
 }
 
-int HeadsUpWaypoint::set(std::pair<double, double> coordinates) {
-	gps_coordinates = coordinates;
+int HeadsUpWaypoint::set(double longitude, double latitude){
+	location.longitude = longitude;
+	location.latitude = latitude;
 	return 0;
 }
 
-std::pair<double, double> HeadsUpWaypoint::get() {
-	return gps_coordinates;
+int HeadsUpWaypoint::set(gps::Point p){
+	location = p;
+	return 0;
+}
+
+gps::Point HeadsUpWaypoint::get() {
+	return location;
 }
 
 void HeadsUpWaypoint::draw() {
 	int z = 17;
-	int x = ((int) (floor(long2tilex(gps_coordinates.first, z))));
-	int y = ((int) (floor(lat2tiley(gps_coordinates.second, z))));
-	my_map_location.first = (long2tilex(gps_coordinates.first, z) - x);
-	my_map_location.second = (lat2tiley(gps_coordinates.second, z) - y);
-	float mx = ((my_map_location.first * 2) - 1);
-	float my = ((my_map_location.second * 2) - 1);
-	fprintf(stderr, "%f %f\n", my_map_location.first, my_map_location.second);
-//		if(std::fabs((float)gps_coordinates.first - (float)m_latitude) <= 0.002){ 					//If latitude is within the map window
-//		if(std::fabs((float)gps_coordinates.second - (float)m_longitude) <= 0.002){				//If longitude is within the map window
-	glPopAttrib();
-	glViewport(width - RIGHT_MARGIN - MAP_WIDTH,
-			height - MAP_HEIGHT - TOP_MARGIN, MAP_WIDTH, MAP_HEIGHT);
 
-	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	{
-		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(1.0, 0.0, 1.0, 1.0);
-		glVertex2f(mx - mmx + 0.0, mmy - my + 0.0);
-		glVertex2f(mx - mmx + 0.1, mmy - my - 0.1);
-		glVertex2f(mx - mmx + 0.0, mmy - my + 0.1);
-		glVertex2f(mx - mmx - 0.1, mmy - my - 0.1);
+	int x = ((int) (floor(long2tilex(location.longitude, z))));
+	int y = ((int) (floor(lat2tiley(location.latitude, z))));
 
-		glEnd();
+	float map_x = long2tilex(location.longitude, z);
+	float map_y = lat2tiley(location.latitude, z);
+
+	cv::Point waypoint_map_location(256*(map_x-x),256*(map_y-y));
+
+	if ( x == tilex-1){
+		if ( y == tiley-1){
+			cv::Point waypoint_map_location(256*(map_x-x),256*(map_y-y));
+		} else if ( y == tiley){
+			cv::Point waypoint_map_location(256*(map_x-x),256 + 256*(map_y-y));
+		} else if ( y == tiley+1){
+			cv::Point waypoint_map_location(256*(map_x-x),256*2+256*(map_y-y));
+		}
+	} else if ( x == tilex){
+		if ( y == tiley-1){
+			cv::Point waypoint_map_location(256 + 256*(map_x-x),256*(map_y-y));
+		} else if ( y == tiley){
+			cv::Point waypoint_map_location(256 + 256*(map_x-x),256 + 256*(map_y-y));
+		} else if ( y == tiley+1){
+			cv::Point waypoint_map_location(256 + 256*(map_x-x),256*2+256*(map_y-y));
+		}
+	} else if ( x == tilex+1){
+		if ( y == tiley-1){
+			cv::Point waypoint_map_location(256*2 + 256*(map_x-x),256*(map_y-y));
+		} else if ( y == tiley){
+			cv::Point waypoint_map_location(256*2 + 256*(map_x-x),256 + 256*(map_y-y));
+		} else if ( y == tiley+1){
+			cv::Point waypoint_map_location(256*2 + 256*(map_x-x),256*2+256*(map_y-y));
+		}
 	}
-	glPopAttrib();
-//		}
-//	}
+	circle( resultImg, waypoint_map_location, size, cv::Scalar( r, g, b, a ), filled*4, 8, 0 );
 
+}
+double d,angle,viewd;
+
+void gpsGetWaypointVector(){
+
+}
+
+
+void HeadsUpWaypoint::render(){
+	d = scalarDistance();
+	angle = -getBearing();
+	viewd = -(angle/90) + (rotation/90);
+	if (angle > 0){
+		angle = 180-angle;
+	} else {
+		angle = -(180+angle);
+	}
+
+	if (d <= sightLine()){
+
+		distance.setText(std::to_string(d).erase(5)+"m");
+
+		if (-1.0 <= viewd and viewd <= 1.0 ){
+			label.ldraw((int)((viewd*width/2) + (width/2)),height/2, 0.1, 100 - log2(d+0.1)*10);
+			distance.ldraw((int)((viewd*width/2) + (width/2)),height/2 - (52 - log2(d+0.1)*5), 0.1, 50 - log2(d+0.1)*5);
+
+		}
+	}
+
+}
+
+double HeadsUpWaypoint::scalarDistance(){
+	return 	gps::distance(gps::Point(m_latitude,m_longitude),location);
+}
+double HeadsUpWaypoint::getBearing(){
+	return 	gps::bearing(gps::Point(m_latitude,m_longitude), location);
+}
+gps::Vector HeadsUpWaypoint::getVector(){
+	return 	gps::Vector(gps::Point(m_latitude,m_longitude), location);
+}
+
+HeadsUpWaypoint::~HeadsUpWaypoint() {
+	// TODO Auto-generated destructor stub
 }
 

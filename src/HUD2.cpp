@@ -26,32 +26,48 @@ enum MODE {
 #include "HeadsUpInterface.h"
 
 int width, height;
+
 Display *Xdisplay;
 GC gc;
 Window Xroot, window_handle;
-cv::VideoCapture m_cap;
+
 int Xscreen;
 int mkk;
+
 Atom del_atom;
 Colormap cmap;
+
 XVisualInfo *visual;
 XRenderPictFormat *pict_format;
 GLXFBConfig *fbconfigs, fbconfig;
+
 int numfbconfigs;
+
 GLXContext render_context;
 GLXWindow glX_window_handle;
-cv::Mat m_frame_bgr;
-cv::Mat m_frame_rgba;
+
+cv::Mat m_frame_bgr, m_frame_rgba, frame_gray;
+cv::VideoCapture m_cap;
 cv::String m_oclDevName;
 
+cv::String face_cascade_name = "src/haarcascades/haarcascade_frontalface_alt.xml";
+cv::String eyes_cascade_name = "src/haarcascades/haarcascade_eye_tree_eyeglasses.xml";
+cv::CascadeClassifier face_cascade;
+cv::CascadeClassifier eyes_cascade;
+
+//Compile time configuration settings
+
+//Interface Proper main system
 HeadsUpInterface interface;
+std::vector<HeadsUpWaypoint> waypoints;
 
 //Threading management
 std::atomic<bool> EXIT_THREADS;
 
 //Task Management Subsystem
 std::list<HeadsUpTask> tasks;
-std::list<HeadsUpObjective> current_objectives;
+
+//Time Subsystem
 extern void computerGetLocalTime();
 
 //Power Management Subsystem
@@ -67,7 +83,16 @@ extern void computerGetBatteryInformation();
 std::atomic<double> m_latitude;
 std::atomic<double> m_longitude;
 std::pair<double, double> coords;
+cv::Mat c0_image,c1_image,c2_image,
+		c3_image,c4_image,c5_image,
+		c6_image,c7_image,c8_image;
+std::vector<cv::Mat> tiles = {
+		c0_image,c1_image,c2_image,
+		c3_image,c4_image,c5_image,
+		c6_image,c7_image,c8_image
+};
 extern void computerGetGeoLocation();
+
 
 static int VisData[] = {
 GLX_RENDER_TYPE, GLX_RGBA_BIT,
@@ -85,6 +110,7 @@ static void fatalError(const char *why) {
 	exit(0x666);
 }
 
+#if USE_GLX_CREATE_CONTEXT_ATTRIB
 static int isExtensionSupported(const char *extList, const char *extension) {
 
 	const char *start;
@@ -119,6 +145,12 @@ static Bool WaitForMapNotify(Display *d, XEvent *e, char *arg) {
 	return d && e && arg && (e->type == MapNotify)
 			&& (e->xmap.window == *(Window*) arg);
 }
+
+static int ctxErrorHandler(Display *dpy, XErrorEvent *ev) {
+	fputs("Error at context creation", stderr);
+	return 0;
+}
+#endif
 
 static void describe_fbconfig(GLXFBConfig fbconfig) {
 	int doublebuffer;
@@ -252,11 +284,6 @@ static void createTheWindow() {
 	}
 }
 
-static int ctxErrorHandler(Display *dpy, XErrorEvent *ev) {
-	fputs("Error at context creation", stderr);
-	return 0;
-}
-
 static void createTheRenderContext() {
 	int dummy;
 	if (!glXQueryExtension(Xdisplay, &dummy, &dummy)) {
@@ -336,7 +363,7 @@ static int updateTheMessageQueue() {
 				interface.makeActiveTask(tasks.back());
 			}
 			if (XLookupKeysym(&event.xkey, 0) == XK_Left) {
-				tasks.front().objectives.at(0).toggle();
+				tasks.front().objectives.at(0)->completed=true;
 			}
 
 			break;
@@ -348,7 +375,7 @@ static int updateTheMessageQueue() {
 			break;
 		}
 	}
-	//return 0;
+	return 1;
 }
 
 static void redrawTheWindow() {
@@ -368,22 +395,39 @@ int main(int argc, char *argv[]) {
 	std::thread _clk_th(computerGetLocalTime);
 	std::thread _geo_th(computerGetGeoLocation);
 
+//	HeadsUpWaypoint wayp1,wayp2,wayp3,wayp4;
+//	wayp1.setText("WAY1");
+//	wayp1.set(m_longitude-0.0001,m_latitude);
+//	wayp1.setColour(255,255,0,255);
+//	wayp2.setText("WAY2");
+//	wayp2.set(m_longitude+0.0001,m_latitude);
+//	wayp2.setColour(255,255,0,255);
+//	wayp3.setText("WAY3");
+//	wayp3.set(-79.395093,43.661816);
+//	wayp3.setColour(255,255,0,255);
+
 	HeadsUpTask task1 = HeadsUpTask("Make Some Good Plans");
-	task1.addObjective(HeadsUpObjective("Implement changeText method", 0));
-	task1.addObjective(HeadsUpObjective("Implement changeColour method", 0));
-	task1.addObjective(HeadsUpObjective("Go on an adventure", 1));
+	task1.addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(43.661816,-79.395093),1));
+	task1.addObjective(new ActionObjective("Implement changeColour method", 0));
+	task1.addObjective(new SpecificLocationObjective("Go on an adventure", 0,gps::Point(43.661816,-79.395093)));
 	HeadsUpTask task2 = HeadsUpTask("The Less Good Plans");
-	task1.addObjective(HeadsUpObjective("11AA1A", 2));
-	task1.addObjective(HeadsUpObjective("11AA1A", 2));
-	task2.addObjective(HeadsUpObjective("Cats And Dogs; pet them!", 0));
-	task2.addObjective(HeadsUpObjective("Fly away for good?", 0));
-	task2.addObjective(HeadsUpObjective("GO, THEN LEAVE", 1));
-	interface.addTask(task1);
-	interface.addTask(task2);
+//	task1.addObjective(ActionObjective("11AA1A", 2));
+//	task1.addObjective(ActionObjective("11AA1A", 2));
+	task2.addObjective(new ActionObjective("Cats And Dogs; pet them!", 0));
+	task2.addObjective(new ActionObjective("Fly away for good?", 0));
+	task2.addObjective(new ActionObjective("GO, THEN LEAVE", 1));
+	interface.addTasks({task1,task2});
+	//interface.addWaypoints({wayp1,wayp2,wayp3});
 
 	createTheWindow();
 	createTheRenderContext();
+
 	cv::VideoCapture cap;
+
+	if( !face_cascade.load( face_cascade_name ) ){ printf("--(!)Error loading face cascade\n"); return -1; };
+	if( !eyes_cascade.load( eyes_cascade_name ) ){ printf("--(!)Error loading eyes cascade\n"); return -1; };
+
+
 	cap.open(0);
 
 	if (!cap.isOpened()) {
@@ -391,6 +435,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 	m_cap = cap;
+
 
 	while (updateTheMessageQueue()) {
 		redrawTheWindow();

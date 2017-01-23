@@ -13,15 +13,11 @@ public:
 	TileBuilder();
 	virtual ~TileBuilder();
 	void draw();
-	//std::pair<double,double> coords;
 	void setCoords();
 
 private:
-	std::vector<std::string> getTileUrls();
 	std::string dsource;
-	std::string getTileUrl();
 	std::string url;
-
 	int z;
 };
 

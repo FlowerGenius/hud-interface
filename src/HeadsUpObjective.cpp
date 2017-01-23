@@ -6,19 +6,39 @@
  */
 
 #include "header.h"
+#include "HeadsUpWaypoint.h"
 #include "HeadsUpCheckBox.h"
 #include "HeadsUpObjective.h"
 extern int height, width;
+extern std::vector<HeadsUpWaypoint> waypoints;
+extern double m_latitude,m_longitude;
 
-HeadsUpObjective::HeadsUpObjective(std::string n, int i) {
-	name = n;
-	completed = false;
-	state_changed = true;
-	active_stage = i;
+Objective::~Objective(){
 
 }
 
+HeadsUpObjective::HeadsUpObjective(){
+	puts("new objective");
+	name = "";
+	active_stage = 0;
+	completed = false;
+	state_changed = true;
+}
+
+HeadsUpObjective::HeadsUpObjective(std::string n,int i){
+	puts("new objective");
+	name = n;
+	active_stage = i;
+	completed = false;
+	state_changed = true;
+}
+
+HeadsUpObjective::HeadsUpObjective(std::string n, int i,gps::Point loc) : HeadsUpObjective(n,i) {
+	location = loc;
+}
+
 void HeadsUpObjective::drawGL(int position) {
+	checkState();
 	check.draw(completed, width - RIGHT_MARGIN - 20,
 			50 + TOP_MARGIN + MAP_HEIGHT + (position * 30));
 	obj_text.setText(getName());
@@ -44,3 +64,28 @@ int HeadsUpObjective::getStage() {
 	return active_stage;
 }
 
+void HeadsUpObjective::checkState(){
+	//Virtual Method
+}
+
+void SpecificLocationObjective::checkState(){
+	if (m_latitude - 0.0003 <= location.latitude and m_latitude + 0.0003 >= location.latitude and
+			m_longitude - 0.0003 <= location.longitude and m_longitude + 0.0003 >= location.longitude){
+		completed=true;
+	}
+}
+
+void AreaLocationObjective::checkState(){
+	if (m_latitude - radius <= location.latitude and m_latitude + radius >= location.latitude and
+			m_longitude - radius <= location.longitude and m_longitude + radius >= location.longitude){
+		completed=true;
+	}
+}
+
+void HeadsUpObjective::initWaypoint(){
+	waypoints.push_back(waypoint);
+}
+
+HeadsUpObjective::~HeadsUpObjective(){
+
+}

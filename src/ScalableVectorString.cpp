@@ -127,6 +127,7 @@ extern int width, height;
 
 
 		glPushMatrix();
+		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glColor4f(red,green,blue,alpha);
 		switch(c)
 		{
@@ -219,7 +220,7 @@ extern int width, height;
 			case  'z': kombat_z
 			default:xx+=17*(ht/40)+hw;break;
 		}
-
+		glPopAttrib();
 		glPopMatrix();
 
 	}

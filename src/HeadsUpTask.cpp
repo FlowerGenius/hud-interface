@@ -8,23 +8,28 @@
 
 #include "header.h"
 #include "HeadsUpCheckBox.h"
+#include "HeadsUpWaypoint.h"
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"
 
 extern int height,width;
 bool total_complete_flag;
 bool incomplete_flag;
+extern double m_latitude,m_longitude;
+
+
 	HeadsUpTask::HeadsUpTask(std::string t)
 	{
+
 		title = t;
 		state_changed = true;
 		current_stage = 0;
 		completed = false;
-		index = 0;
+		indexx = 0;
 	}
 
 	void HeadsUpTask::confirmObjective(int position){
-		objectives.at(position).completed = true;
+		objectives.at(position)->completed = true;
 	}
 
 	bool HeadsUpTask::isComplete(void){
@@ -33,19 +38,21 @@ bool incomplete_flag;
 
 	void HeadsUpTask::drawGL(void)
 	{
-		index = 0;
+		indexx = 0;
 		total_complete_flag = true;
 		incomplete_flag = false;
-		for (std::vector<HeadsUpObjective>::const_iterator iterator = objectives.begin(), end = objectives.end(); iterator != end; ++iterator) {
-				HeadsUpObjective current = *iterator;
-				if (current.getStage() == current_stage){
-					current.drawGL(index);
-					if (!current.completed){
+		for (auto& current : objectives) {
+
+
+				if (current->getStage() == current_stage){
+
+					current->drawGL(indexx);
+					if (!current->completed){
 						incomplete_flag = true;
 					}
-					index++;
+					indexx++;
 				}
-				if (!current.completed){
+				if (!current->completed){
 					total_complete_flag = false;
 				}
 
@@ -67,14 +74,13 @@ bool incomplete_flag;
 
 	}
 
-	void HeadsUpTask::addObjective(HeadsUpObjective o)
+	void HeadsUpTask::addObjective(HeadsUpObjective* o)
 	{
 		objectives.push_back(o);
 		state_changed = true;
 		names.clear();
-		for (std::vector<HeadsUpObjective>::const_iterator iterator = objectives.begin(), end = objectives.end(); iterator != end; ++iterator) {
-			HeadsUpObjective current = *iterator;
-			names.push_back(current.getName());
+		for (auto& current : objectives) {
+			names.push_back(current->getName());
 		}
 	}
 
