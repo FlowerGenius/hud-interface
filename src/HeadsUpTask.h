@@ -20,8 +20,11 @@ public:
 	bool					isComplete(void);
 	bool					state_changed;
 	void					addObjective(HeadsUpObjective*);
+
 	void					confirmObjective(int);
+
 	std::vector<HeadsUpObjective*> objectives;
+
 	bool operator == (const HeadsUpTask& s) const { return title == s.title && objectives == s.objectives; }
 	bool operator != (const HeadsUpTask& s) const { return !operator==(s); }
 

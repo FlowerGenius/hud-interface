@@ -15,17 +15,9 @@
 #include "HeadsUpMap.h"
 #include "HeadsUpCheckBox.h"
 #include "HeadsUpWaypoint.h"
-
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"
 #include "Timer.hpp"
-
-enum MODE
-{
-	MODE_CPU = 0,
-	MODE_GPU
-};
-
 #include "HeadsUpInterface.h"
 
 bool m_shutdown        = 		false;
@@ -38,7 +30,6 @@ void toggle_buffer()     		{ m_use_buffer = !m_use_buffer; }
 MODE get_mode()          		{ return m_mode; }
 void set_mode(MODE mode) 		{ m_mode = mode; }
 
-extern std::list<HeadsUpTask> 	tasks;
 extern cv::VideoCapture 		m_cap;
 extern cv::Mat           		m_frame_bgr, m_frame_rgba,frame_gray;
 extern cv::String         		m_oclDevName;
@@ -50,8 +41,6 @@ std::vector<cv::Rect> 			faces;
 std::vector<cv::Rect> 			eyes;
 
 Timer        					m_timer;
-
-extern std::vector<HeadsUpWaypoint> waypoints;
 
 	HeadsUpInterface::HeadsUpInterface()
 	{
@@ -106,6 +95,7 @@ extern std::vector<HeadsUpWaypoint> waypoints;
 		//-- Detect faces
 		face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
 		std::vector<std::thread> threads;
+
 		for ( size_t i = 0; i < faces.size(); i++ )
 		{
 			threads.push_back(std::thread(detectFaces,i));
@@ -180,7 +170,7 @@ extern std::vector<HeadsUpWaypoint> waypoints;
 		//getActiveTask().drawX();
 	}
 
-	void HeadsUpInterface::addTask(HeadsUpTask t)
+	void HeadsUpInterface::addTask(HeadsUpTask* t)
 	{
 		tasks.push_back(t);
 		if (tasks.size()==1){
@@ -188,20 +178,20 @@ extern std::vector<HeadsUpWaypoint> waypoints;
 		}
 	}
 
-	void HeadsUpInterface::addTasks(std::vector<HeadsUpTask> tks){
+	void HeadsUpInterface::addTasks(std::vector<HeadsUpTask*> tks){
 		for (auto& tsk : tks) addTask(tsk);
 	}
 
-	void HeadsUpInterface::addWaypoint(HeadsUpWaypoint w){
+	void HeadsUpInterface::addWaypoint(HeadsUpWaypoint* w){
 		waypoints.push_back(w);
 	}
 
-	void HeadsUpInterface::addWaypoints(std::vector<HeadsUpWaypoint> wps){
+	void HeadsUpInterface::addWaypoints(std::vector<HeadsUpWaypoint*> wps){
 		for (auto& wp : wps) addWaypoint(wp);
 	}
 
 
-	void HeadsUpInterface::makeActiveTask(HeadsUpTask t)
+	void HeadsUpInterface::makeActiveTask(HeadsUpTask* t)
 	{
 
 		tasks.remove(t);
@@ -221,8 +211,8 @@ void drawMap(HeadsUpMap m){
 	m.draw();
 }
 
-void drawTask(HeadsUpTask t){
-	t.drawGL();
+void drawTask(HeadsUpTask* t){
+	t->drawGL();
 }
 
 	void HeadsUpInterface::draw()
@@ -280,7 +270,7 @@ void drawTask(HeadsUpTask t){
 	void HeadsUpInterface::drawGLComponents()
 	{
 
-		if (tasks.front().isComplete()){
+		if (tasks.front()->isComplete()){
 			tasks.pop_front();
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

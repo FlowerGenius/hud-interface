@@ -70,6 +70,12 @@ extern int height, width;
 #define RIGHT_MARGIN			(width  / 70)
 #define TASK_TEXT_HEIGHT		25
 
+enum MODE
+{
+	MODE_CPU = 0,
+	MODE_GPU
+};
+
 #include "ScalableVectorString.h"
 #include "Point.h"
 

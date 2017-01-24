@@ -21,6 +21,15 @@ double rad2deg(double rad) {
   return (rad * 180 / pi);
 }
 
+double pixel2metre(int pixels){
+	double lat;
+	return pixels*(earthRadiusKm*1000.0*cos(lat)/(2^(17+8)));
+}
+
+double metre2pixel(int metres, double lat){
+	return metres/1.193;
+}
+
 double distance(gps::Point a,gps::Point b){
 	  double lat1r, lon1r, lat2r, lon2r, u, v;
 	  lat1r = deg2rad(a.latitude);

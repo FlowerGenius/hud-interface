@@ -6,11 +6,21 @@
  */
 
 #include "header.h"
+#include "HeadsUpBatteryInfo.h"
+#include "HeadsUpDigitalClock.h"
+#include "TileBuilder.h"
 #include "HeadsUpWaypoint.h"
+#include "HeadsUpMap.h"
 #include "HeadsUpCheckBox.h"
+#include "HeadsUpWaypoint.h"
 #include "HeadsUpObjective.h"
+#include "HeadsUpTask.h"
+#include "Timer.hpp"
+#include "HeadsUpInterface.h"
+
+extern HeadsUpInterface interface;
+
 extern int height, width;
-extern std::vector<HeadsUpWaypoint> waypoints;
 extern double m_latitude,m_longitude;
 
 Objective::~Objective(){
@@ -18,7 +28,6 @@ Objective::~Objective(){
 }
 
 HeadsUpObjective::HeadsUpObjective(){
-	puts("new objective");
 	name = "";
 	active_stage = 0;
 	completed = false;
@@ -26,7 +35,6 @@ HeadsUpObjective::HeadsUpObjective(){
 }
 
 HeadsUpObjective::HeadsUpObjective(std::string n,int i){
-	puts("new objective");
 	name = n;
 	active_stage = i;
 	completed = false;
@@ -76,15 +84,19 @@ void SpecificLocationObjective::checkState(){
 }
 
 void AreaLocationObjective::checkState(){
-	if (m_latitude - radius <= location.latitude and m_latitude + radius >= location.latitude and
-			m_longitude - radius <= location.longitude and m_longitude + radius >= location.longitude){
+	if (m_latitude - (double)radius/111111.0 <= location.latitude and m_latitude + (double)radius/111111.0 >= location.latitude and
+			m_longitude - (double)radius/111111.0 <= location.longitude and m_longitude + (double)radius/111111.0 >= location.longitude){
 		completed=true;
 	}
 }
 
-void HeadsUpObjective::initWaypoint(){
-	waypoints.push_back(waypoint);
+void SpecificLocationObjective::initWaypoint(){
+	interface.addWaypoint(&waypoint);
 }
+void AreaLocationObjective::initWaypoint(){
+	interface.addWaypoint(&waypoint);
+}
+
 
 HeadsUpObjective::~HeadsUpObjective(){
 

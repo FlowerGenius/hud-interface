@@ -17,7 +17,6 @@ bool total_complete_flag;
 bool incomplete_flag;
 extern double m_latitude,m_longitude;
 
-
 	HeadsUpTask::HeadsUpTask(std::string t)
 	{
 
@@ -48,6 +47,7 @@ extern double m_latitude,m_longitude;
 
 					current->drawGL(indexx);
 					if (!current->completed){
+						std::cout << current->completed << std::endl;
 						incomplete_flag = true;
 					}
 					indexx++;

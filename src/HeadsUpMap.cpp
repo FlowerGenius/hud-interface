@@ -6,9 +6,19 @@
  */
 
 #include "header.h"
+#include "HeadsUpBatteryInfo.h"
+#include "HeadsUpDigitalClock.h"
 #include "TileBuilder.h"
 #include "HeadsUpWaypoint.h"
 #include "HeadsUpMap.h"
+#include "HeadsUpCheckBox.h"
+#include "HeadsUpWaypoint.h"
+#include "HeadsUpObjective.h"
+#include "HeadsUpTask.h"
+#include "Timer.hpp"
+#include "HeadsUpInterface.h"
+
+extern HeadsUpInterface interface;
 
 #define LONGITUDE	-79.395293
 #define LATITUDE	43.661802
@@ -17,7 +27,6 @@ extern std::atomic<double> m_latitude;
 extern std::atomic<double> m_longitude;
 std::atomic<double> counter;
 extern std::atomic<bool> EXIT_THREADS;
-extern std::vector<HeadsUpWaypoint> waypoints;
 float rotation;
 
 std::string data;
@@ -142,7 +151,7 @@ HeadsUpMap::HeadsUpMap(){
 		glPopAttrib();
 		glPopMatrix();
 
-		for (auto& wp : waypoints) wp.render();
+		for (auto& wp : interface.waypoints) wp->render();
 
 
 	}

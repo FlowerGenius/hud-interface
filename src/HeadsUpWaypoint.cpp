@@ -19,6 +19,7 @@ extern float rotation;
 namespace gps {
 	extern double distance(gps::Point,gps::Point);
 	extern double bearing(gps::Point,gps::Point);
+	extern double metre2pixel(int,double);
 }
 
 double sightLine(){
@@ -27,7 +28,8 @@ double sightLine(){
 
 HeadsUpWaypoint::HeadsUpWaypoint() {
 	// Null Colour initialization
-	r = 0, g = 0, b = 0, a = 0;
+	r = 0, g = 0, b = 0;
+	a = 1.0;
 	// Null text initialization
 	text = "";
 	// Null icon initialization
@@ -39,7 +41,8 @@ HeadsUpWaypoint::HeadsUpWaypoint() {
 }
 
 int HeadsUpWaypoint::setColour(int R, int G, int B, int A) {
-	r = R, g = G, b = B, a = A;
+	r = R, g = G, b = B;
+	a = (double)(A/255.0);
 	label.setColour(r,g,b,255);
 	distance.setColour(r,g,b,255);
 	return 0;
@@ -47,17 +50,19 @@ int HeadsUpWaypoint::setColour(int R, int G, int B, int A) {
 
 int HeadsUpWaypoint::setFill(bool b){
 	if (b)
-		filled = 1;
-	else
 		filled = -1;
+	else
+		filled = 1;
 }
 
 int HeadsUpWaypoint::setIcon() {
 	return 0;
 }
 
-int HeadsUpWaypoint::setSize(int i) {
-	size = i;
+
+
+int HeadsUpWaypoint::setSize(int radius_in_metres) {
+	size = gps::metre2pixel(radius_in_metres,location.latitude);
 	return 0;
 }
 
@@ -94,35 +99,54 @@ void HeadsUpWaypoint::draw() {
 
 	float map_x = long2tilex(location.longitude, z);
 	float map_y = lat2tiley(location.latitude, z);
-
-	cv::Point waypoint_map_location(256*(map_x-x),256*(map_y-y));
+	cv::Mat overlay;
+	resultImg.copyTo(overlay);
 
 	if ( x == tilex-1){
 		if ( y == tiley-1){
 			cv::Point waypoint_map_location(256*(map_x-x),256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( r, g, b), filled*4, 8, 0 );
+
 		} else if ( y == tiley){
 			cv::Point waypoint_map_location(256*(map_x-x),256 + 256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( r, g, b), filled*4, 8, 0 );
+
 		} else if ( y == tiley+1){
-			cv::Point waypoint_map_location(256*(map_x-x),256*2+256*(map_y-y));
+			cv::Point waypoint_map_location(256*(map_x-x),256*2 + 256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( r, g, b), filled*4, 8, 0 );
+
 		}
 	} else if ( x == tilex){
 		if ( y == tiley-1){
 			cv::Point waypoint_map_location(256 + 256*(map_x-x),256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( b, g, r), filled*4, 8, 0 );
+
 		} else if ( y == tiley){
 			cv::Point waypoint_map_location(256 + 256*(map_x-x),256 + 256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( b, g, r), filled*4, 8, 0 );
+
 		} else if ( y == tiley+1){
 			cv::Point waypoint_map_location(256 + 256*(map_x-x),256*2+256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( b, g, r), filled*4, 8, 0 );
+
 		}
 	} else if ( x == tilex+1){
 		if ( y == tiley-1){
 			cv::Point waypoint_map_location(256*2 + 256*(map_x-x),256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( b, g, r), filled*4, 8, 0 );
+
 		} else if ( y == tiley){
 			cv::Point waypoint_map_location(256*2 + 256*(map_x-x),256 + 256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( b, g, r), filled*4, 8, 0 );
+
 		} else if ( y == tiley+1){
 			cv::Point waypoint_map_location(256*2 + 256*(map_x-x),256*2+256*(map_y-y));
+			circle( overlay, waypoint_map_location, size, cv::Scalar( b, g, r), filled*4, 8, 0 );
+
 		}
 	}
-	circle( resultImg, waypoint_map_location, size, cv::Scalar( r, g, b, a ), filled*4, 8, 0 );
+	cv::addWeighted(overlay,a,resultImg,1-a,0,resultImg);
+
 
 }
 double d,angle,viewd;

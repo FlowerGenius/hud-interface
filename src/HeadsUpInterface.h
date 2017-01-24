@@ -14,13 +14,16 @@ public:
 				HeadsUpInterface();
 
 	void		draw(void);
-	void		makeActiveTask(HeadsUpTask t);
+	void		makeActiveTask(HeadsUpTask* t);
 
-	void		addTask(HeadsUpTask t);
-	void		addTasks(std::vector<HeadsUpTask>);
+	void		addTask(HeadsUpTask* t);
+	void		addTasks(std::vector<HeadsUpTask*>);
+	std::list<HeadsUpTask*> 	tasks;
 
-	void		addWaypoint(HeadsUpWaypoint);
-	void		addWaypoints(std::vector<HeadsUpWaypoint>);
+
+	void		addWaypoint(HeadsUpWaypoint*);
+	void		addWaypoints(std::vector<HeadsUpWaypoint*>);
+	std::vector<HeadsUpWaypoint*> waypoints;
 
 	void		updateGL(void);
 	void		updateX(void);
@@ -28,6 +31,7 @@ public:
 	HeadsUpTask getLastTask(void);
 	void		initialize(void);
 private:
+
 	int 		get_frame(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer);
 	void		processFrameCPU(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer);
 	void		processFrameGPU(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer);

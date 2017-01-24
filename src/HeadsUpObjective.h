@@ -23,6 +23,8 @@ public:
 							HeadsUpObjective(std::string,int);
 							HeadsUpObjective(std::string,int,gps::Point);
 
+
+
 	virtual int				getStage(void);
 	virtual std::string		getName(void);
 
@@ -40,8 +42,6 @@ public:
 protected:
 	ScalableVectorString 	obj_text;
 	HeadsUpCheckBox 		check;
-	virtual void			initWaypoint(void);
-	HeadsUpWaypoint 		waypoint;
 private:
 	std::string 			name;
 	int						active_stage;
@@ -57,14 +57,18 @@ public:
 					SpecificLocationObjective(std::string n, int stage, gps::Point loc) :
 						HeadsUpObjective(n, stage, loc)
 					{
-								location = loc;
-								waypoint.set(location);
-								waypoint.setText("Go Here");
-								waypoint.setColour(100,255,100,255);
-								initWaypoint();
-								radius = -1;
+							location = loc;
+							waypoint.set(location);
+							waypoint.setText("Go Here");
+							waypoint.setColour(100,255,100,255);
+							initWaypoint();
+							radius = -1;
 					}
 					virtual void checkState(void);
+private:
+	virtual void			initWaypoint(void);
+	HeadsUpWaypoint			waypoint;
+
 };
 
 /*
@@ -79,13 +83,16 @@ public:
 							radius = r;
 							waypoint.set(location);
 							waypoint.setText("Area");
-							waypoint.setSize(100);
-//							waypoint.setFill(true);
-							waypoint.setColour(0,160,255,100);
+							waypoint.setSize(radius);
+							waypoint.setFill(true);
+							waypoint.setColour(0,160,255,126);
 							initWaypoint();
 
 					}
 					virtual void checkState(void);
+private:
+	HeadsUpWaypoint 		waypoint;
+	virtual void			initWaypoint(void);
 };
 
 /*

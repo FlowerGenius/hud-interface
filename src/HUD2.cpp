@@ -18,11 +18,6 @@
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"
 #include "Timer.hpp"
-
-enum MODE {
-	MODE_CPU = 0, MODE_GPU
-};
-
 #include "HeadsUpInterface.h"
 
 int width, height;
@@ -59,13 +54,13 @@ cv::CascadeClassifier eyes_cascade;
 
 //Interface Proper main system
 HeadsUpInterface interface;
-std::vector<HeadsUpWaypoint> waypoints;
+std::vector<HeadsUpWaypoint*> waypoints;
 
 //Threading management
 std::atomic<bool> EXIT_THREADS;
 
 //Task Management Subsystem
-std::list<HeadsUpTask> tasks;
+
 
 //Time Subsystem
 extern void computerGetLocalTime();
@@ -82,6 +77,7 @@ extern void computerGetBatteryInformation();
 //Map Subsystem
 std::atomic<double> m_latitude;
 std::atomic<double> m_longitude;
+std::atomic<int>	m_direction;
 std::pair<double, double> coords;
 cv::Mat c0_image,c1_image,c2_image,
 		c3_image,c4_image,c5_image,
@@ -92,7 +88,7 @@ std::vector<cv::Mat> tiles = {
 		c6_image,c7_image,c8_image
 };
 extern void computerGetGeoLocation();
-
+extern void computerGetDirection();
 
 static int VisData[] = {
 GLX_RENDER_TYPE, GLX_RGBA_BIT,
@@ -360,10 +356,10 @@ static int updateTheMessageQueue() {
 				return 0;
 			}
 			if (XLookupKeysym(&event.xkey, 0) == XK_Right) {
-				interface.makeActiveTask(tasks.back());
+				interface.makeActiveTask(interface.tasks.back());
 			}
 			if (XLookupKeysym(&event.xkey, 0) == XK_Left) {
-				tasks.front().objectives.at(0)->completed=true;
+				interface.tasks.front()->objectives.at(0)->completed=true;
 			}
 
 			break;
@@ -394,6 +390,7 @@ int main(int argc, char *argv[]) {
 	std::thread _bat_th(computerGetBatteryInformation);
 	std::thread _clk_th(computerGetLocalTime);
 	std::thread _geo_th(computerGetGeoLocation);
+	std::thread _dir_th(computerGetDirection);
 
 //	HeadsUpWaypoint wayp1,wayp2,wayp3,wayp4;
 //	wayp1.setText("WAY1");
@@ -406,16 +403,16 @@ int main(int argc, char *argv[]) {
 //	wayp3.set(-79.395093,43.661816);
 //	wayp3.setColour(255,255,0,255);
 
-	HeadsUpTask task1 = HeadsUpTask("Make Some Good Plans");
-	task1.addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(43.661816,-79.395093),1));
-	task1.addObjective(new ActionObjective("Implement changeColour method", 0));
-	task1.addObjective(new SpecificLocationObjective("Go on an adventure", 0,gps::Point(43.661816,-79.395093)));
-	HeadsUpTask task2 = HeadsUpTask("The Less Good Plans");
+	HeadsUpTask* task1 = new HeadsUpTask("Make Some Good Plans");
+	task1->addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(43.661816,-79.395093),200));
+//	task1.addObjective(new ActionObjective("Implement changeColour method", 0));
+	task1->addObjective(new SpecificLocationObjective("Go on an adventure", 0,gps::Point(43.661816,-79.395093)));
+	HeadsUpTask* task2 = new HeadsUpTask("The Less Good Plans");
 //	task1.addObjective(ActionObjective("11AA1A", 2));
 //	task1.addObjective(ActionObjective("11AA1A", 2));
-	task2.addObjective(new ActionObjective("Cats And Dogs; pet them!", 0));
-	task2.addObjective(new ActionObjective("Fly away for good?", 0));
-	task2.addObjective(new ActionObjective("GO, THEN LEAVE", 1));
+	task2->addObjective(new ActionObjective("Cats And Dogs; pet them!", 0));
+	task2->addObjective(new ActionObjective("Fly away for good?", 0));
+	task2->addObjective(new ActionObjective("GO, THEN LEAVE", 1));
 	interface.addTasks({task1,task2});
 	//interface.addWaypoints({wayp1,wayp2,wayp3});
 
@@ -448,6 +445,8 @@ int main(int argc, char *argv[]) {
 		_bat_th.join();
 	if (_geo_th.joinable())
 		_geo_th.join();
+	if (_dir_th.joinable())
+		_dir_th.join();
 
 	return 0;
 }

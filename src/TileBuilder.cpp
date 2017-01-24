@@ -6,9 +6,21 @@
  */
  
 #include "header.h"
-#include "HeadsUpWaypoint.h"
-#include "TileBuilder.h"
 #include "png.h"
+#include "HeadsUpBatteryInfo.h"
+#include "HeadsUpDigitalClock.h"
+#include "TileBuilder.h"
+#include "HeadsUpWaypoint.h"
+#include "HeadsUpMap.h"
+#include "HeadsUpCheckBox.h"
+#include "HeadsUpWaypoint.h"
+#include "HeadsUpObjective.h"
+#include "HeadsUpTask.h"
+#include "Timer.hpp"
+#include "HeadsUpInterface.h"
+
+extern HeadsUpInterface interface;
+
 
 std::vector<std::string> tilesource;
 GLuint tex;
@@ -32,7 +44,6 @@ cv::Mat top,mid,bottom;
 std::vector<std::string> vstr;
 float mmx,mmy;
 
-extern std::vector<HeadsUpWaypoint> waypoints;
 int tilex;
 int tiley;
 int k = 0;
@@ -40,7 +51,6 @@ int k = 0;
 int previous_tilex,previous_tiley;
 
 extern std::vector<cv::Mat> tiles;
-
 
 size_t write_data(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
@@ -243,7 +253,7 @@ void assignTiles(int tilex, int tileyy, int zoom){
 
 	cv::vconcat(std::vector<cv::Mat>({top,mid,bottom}),resultImg);
 
-	for (auto& wp : waypoints) {wp.draw();}
+	for (auto& wp : interface.waypoints) {wp->draw();}
 
 }
 

@@ -30,7 +30,8 @@ protected:
 
 	std::string 				getText(void);
 private:
-	int 						r,g,b,a;
+	int 						r,g,b;
+	double						a;
 	std::pair<double,double>	gps_coordinates;
 	int							size;
 	std::string 				text;
