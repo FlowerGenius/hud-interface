@@ -11,9 +11,37 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
-
 #include <header.h>
 #include <DeviceAccess.h>
+
+#define LONGITUDE	-79.395293
+#define LATITUDE	43.661802
+#define DIRECTION	-90
+
+extern std::atomic<double> 	m_latitude;
+extern std::atomic<double> 	m_longitude;
+extern std::atomic<double>	m_direction;
+
+void getCoords(){
+	if (m_latitude == (double)0.0){
+	m_latitude 	= LATITUDE;
+	m_longitude = LONGITUDE;
+	}
+	//TODO Implement method for getting the gps coordinates from the device
+}
+
+void getDirection(){
+	if (m_direction < -180){
+		m_direction = 179;
+	}
+	else
+	if (m_direction > 180){
+		m_direction = -179;
+	}
+	//m_direction	= DIRECTION;
+	//TODO Implement method for getting the cardinal direction from the device
+}
+
 
 int
 DeviceAccess::set_interface_attribs (int fd, int speed, int parity)

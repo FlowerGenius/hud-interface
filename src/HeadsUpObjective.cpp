@@ -6,6 +6,8 @@
  */
 
 #include "header.h"
+#include "DeviceAccess.h"
+#include "HeadsUpCompass.h"
 #include "HeadsUpBatteryInfo.h"
 #include "HeadsUpDigitalClock.h"
 #include "TileBuilder.h"

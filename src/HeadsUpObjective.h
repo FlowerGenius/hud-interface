@@ -59,7 +59,7 @@ public:
 					{
 							location = loc;
 							waypoint.set(location);
-							waypoint.setText("Go Here");
+							waypoint.setText(n);
 							waypoint.setColour(100,255,100,255);
 							initWaypoint();
 							radius = -1;

@@ -14,7 +14,7 @@ public:
 	virtual ~ScalableVectorString();
 	void	ldraw(int x,int y, int,int);
 	void 	rdraw(int nx, int y, int,int);
-	void 	setText(std::string);
+	void 	setText(std::string,int size=-1);
 	void 	setColour(int,int,int,int);
 	unsigned int getLength();
 	unsigned int length;

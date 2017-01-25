@@ -76,7 +76,9 @@ enum MODE
 	MODE_GPU
 };
 
+
 #include "ScalableVectorString.h"
 #include "Point.h"
+
 
 #endif /* HEADER_H_ */

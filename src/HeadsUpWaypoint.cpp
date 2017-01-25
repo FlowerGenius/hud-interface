@@ -10,16 +10,19 @@
 
 extern int tiley,tilex;
 extern cv::Mat resultImg;
-extern double m_latitude,m_longitude;
+extern std::atomic<double> 	m_latitude;
+extern std::atomic<double> 	m_longitude;
+extern std::atomic<double>	m_direction;
 
 extern float long2tilex(double lon, int z);
 extern float lat2tiley(double lat, int z);
-extern float rotation;
 
 namespace gps {
 	extern double distance(gps::Point,gps::Point);
 	extern double bearing(gps::Point,gps::Point);
 	extern double metre2pixel(int,double);
+	extern double deg2rad(double);
+	extern double polarBearing(double,double);
 }
 
 double sightLine(){
@@ -149,7 +152,6 @@ void HeadsUpWaypoint::draw() {
 
 
 }
-double d,angle,viewd;
 
 void gpsGetWaypointVector(){
 
@@ -158,23 +160,34 @@ void gpsGetWaypointVector(){
 
 void HeadsUpWaypoint::render(){
 	d = scalarDistance();
-	angle = -getBearing();
-	viewd = -(angle/90) + (rotation/90);
-	if (angle > 0){
-		angle = 180-angle;
-	} else {
-		angle = -(180+angle);
+	angle = getBearing();
+	viewd = getPolarBearing(angle);
+
+	if (-180 <= m_direction and m_direction < -90){
+		if (angle < 0){
+			viewd =  (angle/90) - (m_direction/90);
+		} else {
+			viewd =  ((angle-360)/90) - (m_direction/90);
+		}
+	} else
+	if ( -90 <= m_direction and m_direction <= 90){
+		viewd =  (angle/90) - (m_direction/90);
+	} else
+	if ( 90  < m_direction and m_direction <= 180){
+		if (angle > 0){
+			viewd =  (angle/90) - (m_direction/90);
+		} else {
+			viewd =  ((angle+360)/90) - (m_direction/90);
+		}
 	}
 
-	if (d <= sightLine()){
 
+	if (d <= sightLine() and -1.0 <= viewd and 1.0 >= viewd){
 		distance.setText(std::to_string(d).erase(5)+"m");
 
-		if (-1.0 <= viewd and viewd <= 1.0 ){
 			label.ldraw((int)((viewd*width/2) + (width/2)),height/2, 0.1, 100 - log2(d+0.1)*10);
 			distance.ldraw((int)((viewd*width/2) + (width/2)),height/2 - (52 - log2(d+0.1)*5), 0.1, 50 - log2(d+0.1)*5);
 
-		}
 	}
 
 }
@@ -184,6 +197,9 @@ double HeadsUpWaypoint::scalarDistance(){
 }
 double HeadsUpWaypoint::getBearing(){
 	return 	gps::bearing(gps::Point(m_latitude,m_longitude), location);
+}
+double HeadsUpWaypoint::getPolarBearing(double theta){
+	return	gps::polarBearing(m_direction,theta);
 }
 gps::Vector HeadsUpWaypoint::getVector(){
 	return 	gps::Vector(gps::Point(m_latitude,m_longitude), location);

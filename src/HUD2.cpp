@@ -9,6 +9,8 @@
  */
 
 #include "header.h"
+#include "DeviceAccess.h"
+#include "HeadsUpCompass.h"
 #include "HeadsUpBatteryInfo.h"
 #include "HeadsUpCheckBox.h"
 #include "HeadsUpDigitalClock.h"
@@ -19,7 +21,8 @@
 #include "HeadsUpTask.h"
 #include "Timer.hpp"
 #include "HeadsUpInterface.h"
-
+#define LONGITUDE	-79.395293
+#define LATITUDE	43.661802
 int width, height;
 
 Display *Xdisplay;
@@ -66,19 +69,19 @@ std::atomic<bool> EXIT_THREADS;
 extern void computerGetLocalTime();
 
 //Power Management Subsystem
-std::string battery_state;
+std::string 		battery_state;
 std::atomic<double> battery_life;
 std::atomic<double> dev_battery_life;
-std::atomic<bool> is_charging;
-std::atomic<bool> dev_is_charging;
-std::atomic<bool> dev_is_connected;
+std::atomic<bool> 	is_charging;
+std::atomic<bool> 	dev_is_charging;
+std::atomic<bool> 	dev_is_connected;
 extern void computerGetBatteryInformation();
 
 //Map Subsystem
+gps::Point			coords;
 std::atomic<double> m_latitude;
 std::atomic<double> m_longitude;
-std::atomic<int>	m_direction;
-std::pair<double, double> coords;
+std::atomic<double>	m_direction;
 cv::Mat c0_image,c1_image,c2_image,
 		c3_image,c4_image,c5_image,
 		c6_image,c7_image,c8_image;
@@ -356,11 +359,33 @@ static int updateTheMessageQueue() {
 				return 0;
 			}
 			if (XLookupKeysym(&event.xkey, 0) == XK_Right) {
-				interface.makeActiveTask(interface.tasks.back());
+//				interface.makeActiveTask(interface.tasks.back());
+				m_longitude = m_longitude + 0.00003;
 			}
 			if (XLookupKeysym(&event.xkey, 0) == XK_Left) {
-				interface.tasks.front()->objectives.at(0)->completed=true;
+				m_longitude = m_longitude - 0.00003;
 			}
+			if (XLookupKeysym(&event.xkey, 0) == XK_Up) {
+				m_latitude = m_latitude + 0.00003;
+			}
+			if (XLookupKeysym(&event.xkey, 0) == XK_Down) {
+				m_latitude = m_latitude - 0.00003;
+			}
+			if (XLookupKeysym(&event.xkey, 0) == XK_KP_Left) {
+				m_direction = m_direction - 1;
+			}
+			if (XLookupKeysym(&event.xkey, 0) == XK_KP_Right) {
+				m_direction = m_direction + 1;
+			}
+//			if (XLookupKeysym(&event.xkey, 0) == XK_W) {
+//				m_latitude = m_latitude + 0.00003;
+//			}
+//			if (XLookupKeysym(&event.xkey, 0) == XK_S) {
+//				m_latitude = m_latitude - 0.00003;
+//			}
+//			if (XLookupKeysym(&event.xkey, 0) == XK_Left) {
+//				m_latitude = m_latitude + 0.00003;
+//			}
 
 			break;
 		case Expose:
@@ -404,15 +429,22 @@ int main(int argc, char *argv[]) {
 //	wayp3.setColour(255,255,0,255);
 
 	HeadsUpTask* task1 = new HeadsUpTask("Make Some Good Plans");
-	task1->addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(43.661816,-79.395093),200));
-//	task1.addObjective(new ActionObjective("Implement changeColour method", 0));
-	task1->addObjective(new SpecificLocationObjective("Go on an adventure", 0,gps::Point(43.661816,-79.395093)));
+//	task1->addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(43.661816,-79.395093),200));
+//	task1->addObjective(new ActionObjective("Implement changeColour method", 0));
+	task1->addObjective(new SpecificLocationObjective("N", 0,gps::Point(LATITUDE + 0.001,LONGITUDE)));
+	task1->addObjective(new SpecificLocationObjective("SW", 0,gps::Point(LATITUDE - 0.001,LONGITUDE - 0.001)));
+	task1->addObjective(new SpecificLocationObjective("W", 0,gps::Point(LATITUDE,LONGITUDE - 0.001)));
+	task1->addObjective(new SpecificLocationObjective("E", 0,gps::Point(LATITUDE,LONGITUDE + 0.001)));
+	task1->addObjective(new SpecificLocationObjective("SE", 0,gps::Point(LATITUDE - 0.001,LONGITUDE + 0.001)));
+
+
 	HeadsUpTask* task2 = new HeadsUpTask("The Less Good Plans");
-//	task1.addObjective(ActionObjective("11AA1A", 2));
-//	task1.addObjective(ActionObjective("11AA1A", 2));
+	task1->addObjective(new ActionObjective("11AA1A", 1));
+	task1->addObjective(new ActionObjective("11AA1A", 1));
 	task2->addObjective(new ActionObjective("Cats And Dogs; pet them!", 0));
 	task2->addObjective(new ActionObjective("Fly away for good?", 0));
 	task2->addObjective(new ActionObjective("GO, THEN LEAVE", 1));
+
 	interface.addTasks({task1,task2});
 	//interface.addWaypoints({wayp1,wayp2,wayp3});
 
@@ -428,7 +460,7 @@ int main(int argc, char *argv[]) {
 	cap.open(0);
 
 	if (!cap.isOpened()) {
-		printf("can not open camera or video file\n");
+		fprintf(stderr,"can not open camera or video file\n");
 		return -1;
 	}
 	m_cap = cap;

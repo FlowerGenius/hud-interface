@@ -47,7 +47,6 @@ extern double m_latitude,m_longitude;
 
 					current->drawGL(indexx);
 					if (!current->completed){
-						std::cout << current->completed << std::endl;
 						incomplete_flag = true;
 					}
 					indexx++;

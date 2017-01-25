@@ -8,6 +8,8 @@
 
 
 #include "header.h"
+#include "DeviceAccess.h"
+#include "HeadsUpCompass.h"
 #include "HeadsUpBatteryInfo.h"
 #include "HeadsUpDigitalClock.h"
 #include "TileBuilder.h"
@@ -199,6 +201,10 @@ Timer        					m_timer;
 		//current_objectives = t.objectives;
 	}
 
+void drawCompass(HeadsUpCompass c){
+	c.draw();
+}
+
 void drawClock(HeadsUpDigitalClock c){
 	c.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
 }
@@ -277,6 +283,7 @@ void drawTask(HeadsUpTask* t){
 		glFlush();
 
 		draw();
+		drawCompass(compass);
 		drawClock(clockk);
 		drawBat(batinfo);
 		drawMap(map);

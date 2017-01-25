@@ -23,11 +23,12 @@ public:
 	double						scalarDistance();
 	double						getBearing();
 	gps::Vector					getVector();
+	double						getPolarBearing(double target_bearing);
 protected:
 	int							setIcon(void);
 
 	gps::Point					get(void);
-
+	double d,angle,viewd;
 	std::string 				getText(void);
 private:
 	int 						r,g,b;

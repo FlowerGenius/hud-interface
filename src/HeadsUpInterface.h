@@ -27,8 +27,10 @@ public:
 
 	void		updateGL(void);
 	void		updateX(void);
+
 	HeadsUpTask	getTask(void);
 	HeadsUpTask getLastTask(void);
+
 	void		initialize(void);
 private:
 
@@ -49,6 +51,7 @@ private:
 	HeadsUpMap	map;
 	HeadsUpDigitalClock clockk;
 	HeadsUpBatteryInfo batinfo;
+	HeadsUpCompass compass;
 };
 
 

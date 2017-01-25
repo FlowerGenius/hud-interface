@@ -24,11 +24,14 @@ extern int width, height;
 		w=0;
 		hw=0;
 		vw=0;
-		ht=0;
+		ht=-1;
 	}
 
 	void ScalableVectorString::ldraw(int x, int y, int border,int font_size){
-		ht = font_size;
+
+		if (ht < 0){
+			ht = font_size;
+		}
 
 		i=0;
 		if(border>0){
@@ -73,8 +76,10 @@ extern int width, height;
 	}
 
 	void ScalableVectorString::rdraw(int x, int y, int border, int font_size){
-			ht = font_size;
-			i = 0;
+
+			if (ht < 0){
+				ht = font_size;
+			}	i = 0;
 			if(border>0){
 				float br,bg,bb,ba;
 
@@ -107,9 +112,12 @@ extern int width, height;
 			}
 		}
 
-	void ScalableVectorString::setText(std::string s){
+	void ScalableVectorString::setText(std::string s,int size){
 		text = s;
 		bytes = text.c_str();
+		if (size > 0){
+			ht = size;
+		}
 	}
 
 	void ScalableVectorString::setColour(int red, int green, int blue,int alpha){
