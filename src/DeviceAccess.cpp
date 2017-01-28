@@ -18,16 +18,38 @@
 #define LATITUDE	43.661802
 #define DIRECTION	-90
 
+// system gps variables
 extern std::atomic<double> 	m_latitude;
 extern std::atomic<double> 	m_longitude;
+extern std::atomic<double>	m_altitude;
+
+extern std::atomic<double>	location_changed;
+
+// system vector variables
 extern std::atomic<double>	m_direction;
+extern std::atomic<double> 	direction_changed;
+
+// system battery variables
+extern std::atomic<double> 	dev_battery_life;
+extern std::atomic<bool> 	dev_is_charging;
+extern std::string			dev_battery_state;
+
+extern std::atomic<bool>	EXIT_THREADS;
+
+double prev_lat,prev_dir;
+unsigned char buf[80];
+int bfd,rdlen,split2;
+std::string s;
 
 void getCoords(){
 	if (m_latitude == (double)0.0){
 	m_latitude 	= LATITUDE;
 	m_longitude = LONGITUDE;
 	}
-	//TODO Implement method for getting the gps coordinates from the device
+	if (m_latitude != prev_lat){
+		location_changed = true;
+		prev_lat = m_latitude;
+	}
 }
 
 void getDirection(){
@@ -38,8 +60,39 @@ void getDirection(){
 	if (m_direction > 180){
 		m_direction = -179;
 	}
-	//m_direction	= DIRECTION;
-	//TODO Implement method for getting the cardinal direction from the device
+	if (m_direction != prev_dir){
+		direction_changed = true;
+		prev_dir = m_direction;
+	}
+}
+
+double sightLine(){
+	return 200.0;
+}
+
+void getInformation(){
+		rdlen = read(bfd, buf, sizeof(buf) - 1);
+		s = std::string((char*)buf);
+		if (rdlen > 0) {
+			switch(buf[0]){
+			case '!':
+				split2 = s.substr(1).find('@');
+				dev_battery_state = s.substr(1,split2);
+				dev_battery_life = std::atof(s.substr(split2+2).c_str());
+				break;
+			case '*':
+				m_direction = std::atof(s.substr(1).c_str());
+				break;
+			case 'L':
+				split2 = s.substr(1).find('@');
+				m_longitude	= std::atof(s.substr(1,split2).c_str());
+				m_latitude = std::atof(s.substr(split2+2,s.substr(split2+2).find('@')).c_str());
+				m_altitude = std::atof(s.substr(s.substr(split2+2).find('@')).c_str());
+				break;
+			}
+		} else if (rdlen < 0) {
+			printf("Error from read: %d: %s\n", rdlen, strerror(errno));
+		}
 }
 
 
@@ -102,8 +155,11 @@ DeviceAccess::set_blocking (int fd, int should_block)
                 std::fprintf(stderr,"error %d setting term attributes", errno);
 }
 
-int DeviceAccess::setPort(std::string name){
 
+int DeviceAccess::setPort(std::string s){
+	closePort();
+	portname = (char*)s.c_str();
+	openPort();
 	return 0;
 }
 
@@ -118,6 +174,7 @@ int DeviceAccess::openPort(void){
 			std::fprintf(stderr,"error %d opening %s: %s", errno, portname, strerror (errno));
 			return -1;
 	}
+
 	return 0;
 }
 
@@ -125,10 +182,10 @@ int DeviceAccess::closePort(void){
 	return close(fd);
 }
 
-
-
 DeviceAccess::DeviceAccess() {
 
+	portname = "/dev/stdin";
+	openPort();
 	set_interface_attribs (fd, B115200, 0);  // set speed to 115,200 bps, 8n1 (no parity)
 	set_blocking (fd, 0);                // set no blocking
 
@@ -139,9 +196,8 @@ DeviceAccess::DeviceAccess() {
 
 	usleep ((2 + 25) * 100);             // sleep enough to transmit the 2 plus
 	                                     // receive 25:  approx 100 uS per char transmit
-	char buf [100];
 
-	int n = read (fd, buf, sizeof buf);  // read up to 100 characters if ready to read
+	bfd = fd;
 }
 
 DeviceAccess::~DeviceAccess() {

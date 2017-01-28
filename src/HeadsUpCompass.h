@@ -24,6 +24,8 @@ private:
 			viewE,viewESE,viewSE,viewSSE,
 			viewS,viewSSW,viewSW,viewWSW;
 	std::vector<double> view;
+	double viewd;
+
 
 };
 

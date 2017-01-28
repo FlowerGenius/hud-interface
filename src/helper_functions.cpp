@@ -94,5 +94,3 @@ void BindCVMat2GLTexture(cv::Mat& image, GLuint& imageTexture)
 			image.ptr());        // The actual image data itself
 	}
 }
-
-

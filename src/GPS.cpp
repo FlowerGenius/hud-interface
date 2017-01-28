@@ -6,11 +6,14 @@
  */
 
 #include <header.h>
-#include <Point.h>
+#include <GPS.h>
+
 #define pi 3.14159265358979323846
 #define earthRadiusKm 6371.0
 
 namespace gps {
+
+double u,v;
 
 cv::Point2d gps2tile(gps::Point,int zoom){
 
@@ -25,8 +28,7 @@ double rad2deg(double rad) {
   return (rad * (180 / pi));
 }
 
-double pixel2metre(int pixels){
-	double lat;
+double pixel2metre(int pixels,double lat){
 	return pixels*(earthRadiusKm*1000.0*cos(lat)/(2^(17+8)));
 }
 
@@ -34,17 +36,22 @@ double metre2pixel(int metres, double lat){
 	return metres/1.193;
 }
 
+double elevation(gps::Point a, gps::Point b){
+	return b.altitude - a.altitude;
+}
+
+
 double distance(gps::Point a,gps::Point b){
-	  double lat1r, lon1r, lat2r, lon2r, u, v;
-	  lat1r = deg2rad(a.latitude);
-	  lon1r = deg2rad(a.longitude);
-	  lat2r = deg2rad(b.latitude);
-	  lon2r = deg2rad(b.longitude);
-	  u = sin((lat2r - lat1r)/2);
-	  v = sin((lon2r - lon1r)/2);
-	  return 1000.0 * 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
+	  u = sin((deg2rad(b.latitude) - deg2rad(a.latitude))/2);
+	  v = sin((deg2rad(b.longitude) - deg2rad(a.longitude))/2);
+	  return sqrt(pow((1000.0 * 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(deg2rad(a.latitude)) * cos(deg2rad(b.latitude)) * v * v))),2.0) + pow(elevation(a,b),2.0));
 
 }
+
+double vertical_bearing(gps::Point a, gps::Point b){
+	return rad2deg(asin(elevation(a,b) / distance(a,b)));
+}
+
 
 /*
  * Note: This function is part of the LRAND proprietary coordinate and direction
@@ -67,17 +74,11 @@ double distance(gps::Point a,gps::Point b){
  */
 double bearing (gps::Point a, gps::Point b)
 {
-  const auto longitudeDifferenceRadians = deg2rad(b.longitude - a.longitude);
-  auto latitude1Radian = deg2rad(a.latitude),
-       latitude2Radian = deg2rad(b.latitude);
-
-  const auto x = cos(latitude1Radian) * sin(latitude2Radian) -
-                 sin(latitude1Radian) * cos(latitude2Radian) *
-                 cos(longitudeDifferenceRadians);
-  const auto y = sin(longitudeDifferenceRadians) * cos(latitude2Radian);
-
-
-  return rad2deg(atan2(y, x));
+  u = cos(deg2rad(a.latitude)) * sin(deg2rad(b.latitude)) -
+                 sin(deg2rad(a.latitude)) * cos(deg2rad(b.latitude)) *
+                 cos(deg2rad(b.longitude - a.longitude));
+  v = sin(deg2rad(b.longitude - a.longitude)) * cos(deg2rad(b.latitude));
+  return rad2deg(atan2(v, u));
 }
 
 
@@ -98,30 +99,27 @@ double bearing (gps::Point a, gps::Point b)
  */
 double polarBearing(double current_bearing, double target_bearing)
 {
-	double polar;
 	if (-180 <= current_bearing and current_bearing < -90){
 		if (target_bearing < 0){
-			polar =  (target_bearing/90) - (current_bearing/90);
+			u =  (target_bearing/90) - (current_bearing/90);
 		} else {
-			polar =  ((target_bearing-360)/90) - (current_bearing/90);
+			u =  ((target_bearing-360)/90) - (current_bearing/90);
 		}
 	} else
 	if ( -90 <= current_bearing and current_bearing <= 90){
-		polar =  (target_bearing/90) - (current_bearing/90);
+			u =  (target_bearing/90) - (current_bearing/90);
 	} else
 	if ( 90  < current_bearing and current_bearing <= 180){
 		if (target_bearing > 0){
-			polar =  (target_bearing/90) - (current_bearing/90);
+			u =  (target_bearing/90) - (current_bearing/90);
 		} else {
-			polar =  ((target_bearing+360)/90) - (current_bearing/90);
+			u =  ((target_bearing+360)/90) - (current_bearing/90);
 		}
 	}
-	return polar;
+	return u;
 }
 
-double elevation(gps::Point a, gps::Point b){
-	return b.altitude - a.altitude;
-}
+
 
 Point::Point() {
 	latitude 	= 0.0;
@@ -154,21 +152,18 @@ Point::Point(cv::Point3d p){
 }
 
 Point::~Point() {
-	// TODO Auto-generated destructor stub
 }
 
 Vector::Vector() {
-	// TODO Auto-generated constructor stub
 	distance = 0.0;
 	bearing = 0.0;
 	elevation = 0.0;
 }
 
 Vector::Vector(Point p1,Point p2) {
-	// TODO Auto-generated constructor stub
 	distance 	= gps::distance(p1,p2);
 	bearing	 	= gps::bearing(p1,p2);
-	elevation 	= gps::elevation(p1,p2);
+	elevation 	= gps::vertical_bearing(p1,p2);
 }
 
 Vector::Vector(double lat1, double lon1, double lat2, double lon2){
@@ -179,7 +174,7 @@ Vector::Vector(double lat1, double lon1, double lat2, double lon2){
 Vector::Vector(double lat1, double lon1, double alt1, double lat2, double lon2, double alt2){
 	distance 	= gps::distance(gps::Point(lat1,lon1),gps::Point(lat2,lon2));
 	bearing	 	= gps::bearing(gps::Point(lat1,lon1),gps::Point(lat2,lon2));
-	elevation 	= gps::elevation(gps::Point(lat1,lon1,alt1),gps::Point(lat2,lon2,alt2));
+	elevation 	= gps::vertical_bearing(gps::Point(lat1,lon1,alt1),gps::Point(lat2,lon2,alt2));
 }
 
 Vector::~Vector() {

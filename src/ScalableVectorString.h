@@ -12,10 +12,11 @@ class ScalableVectorString {
 public:
 	ScalableVectorString();
 	virtual ~ScalableVectorString();
-	void	ldraw(int x,int y, int,int);
-	void 	rdraw(int nx, int y, int,int);
-	void 	setText(std::string,int size=-1);
+	void	ldraw(int x,int y, int,float);
+	void 	rdraw(int nx, int y, int,float);
+	void 	setText(std::string,float size=-1);
 	void 	setColour(int,int,int,int);
+	unsigned int getHeight();
 	unsigned int getLength();
 	unsigned int length;
 private:

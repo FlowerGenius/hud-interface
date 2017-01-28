@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef POINT_H_
-#define POINT_H_
+#ifndef GPS_H_
+#define GPS_H_
 
 namespace gps {
 
@@ -36,4 +36,4 @@ public:
 };
 } /* namespace gps */
 
-#endif /* POINT_H_ */
+#endif /* GPS_H_ */

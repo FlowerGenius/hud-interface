@@ -22,6 +22,7 @@ public:
 
 
 	void		addWaypoint(HeadsUpWaypoint*);
+	void		removeWaypoint(HeadsUpWaypoint*);
 	void		addWaypoints(std::vector<HeadsUpWaypoint*>);
 	std::vector<HeadsUpWaypoint*> waypoints;
 
@@ -52,6 +53,9 @@ private:
 	HeadsUpDigitalClock clockk;
 	HeadsUpBatteryInfo batinfo;
 	HeadsUpCompass compass;
+
+	DeviceAccess 	_da;
+	LANAccess 		_la;
 };
 
 

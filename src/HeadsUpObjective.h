@@ -28,8 +28,13 @@ public:
 	virtual int				getStage(void);
 	virtual std::string		getName(void);
 
-	virtual void					checkState();
+	virtual void			checkState();
 	bool 					completed;
+	bool					remove_on_complete;
+
+	void					setColour(int R,int G,int B,int A){
+								r=R,g=G,b=B,a=A;
+							}
 
 	bool					state_changed;
 	void					toggle(void);
@@ -40,6 +45,7 @@ public:
 	gps::Point				location;
 	int						radius = -1;
 protected:
+	int						r,g,b,a;
 	ScalableVectorString 	obj_text;
 	HeadsUpCheckBox 		check;
 private:

@@ -25,6 +25,8 @@ extern HeadsUpInterface 	interface;
 extern std::atomic<double> 	m_latitude;
 extern std::atomic<double> 	m_longitude;
 extern std::atomic<double>	m_direction;
+extern std::atomic<bool>	direction_changed;
+extern std::atomic<bool>	location_changed;
 
 extern void					getCoords();
 extern void					getDirection();
@@ -32,19 +34,6 @@ extern void					getDirection();
 extern std::atomic<bool> 	EXIT_THREADS;
 std::atomic<bool> 			coordschanged (true);
 
-void computerGetGeoLocation(){
-	while(!EXIT_THREADS){
-		getCoords();
-	}
-	puts("Geolocation Thread Exited Successfully");
-}
-
-void computerGetDirection(){
-	while(!EXIT_THREADS){
-		getDirection();
-	}
-	puts("Direction Thread Exited Successfully");
-}
 
 HeadsUpMap::HeadsUpMap(){
 	if (m_latitude == (double)0.0){
@@ -53,18 +42,21 @@ HeadsUpMap::HeadsUpMap(){
 	getDirection();
 }
 
-	void HeadsUpMap::draw(){
-		//		if (m_direction < 180){
-		//				m_direction = m_direction + 1;
-		//		} else { m_direction = -180;}
+int	HeadsUpMap::render(){
+	getCoords();
+	getDirection();
+	tiles.render();
+	for (auto& wp : interface.waypoints) wp->render();
+	return 0;
+}
 
-		//m_direction = -90;
+	void HeadsUpMap::draw(){
 		glViewport(width-RIGHT_MARGIN-MAP_WIDTH, height-MAP_HEIGHT-TOP_MARGIN,  MAP_WIDTH, MAP_HEIGHT);
 
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-			//glColor4f(0.0, 0.6, 0.6, 0.9);
+			glColor4f(0.0, 0.67, 1.0, 0.9);
 			glVertex2f(-1, 0.8);
 			glVertex2f(-0.8, 1);
 			glVertex2f(1, 1);
@@ -83,7 +75,7 @@ HeadsUpMap::HeadsUpMap(){
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-			glColor4f(0.0, 0.0, 1.0, 1.0);
+			glColor4f(0.0, 0.67, 1.0, 0.9);
 			glVertex2f(0.0,0.0);
 			glVertex2f(0.1,-0.1);
 			glVertex2f(0.0,+0.1);
@@ -95,10 +87,11 @@ HeadsUpMap::HeadsUpMap(){
 		glPopAttrib();
 		glPopMatrix();
 
-		for (auto& wp : interface.waypoints) wp->render();
-
-
 	}
+
+HeadsUpMap::~HeadsUpMap(){
+
+}
 
 
 

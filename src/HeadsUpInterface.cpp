@@ -22,6 +22,9 @@
 #include "Timer.hpp"
 #include "HeadsUpInterface.h"
 
+extern std::atomic<bool>	direction_changed;
+extern std::atomic<bool>	location_changed;
+
 bool m_shutdown        = 		false;
 bool m_use_buffer      = 		false;
 bool m_demo_processing = 		true;
@@ -43,6 +46,29 @@ std::vector<cv::Rect> 			faces;
 std::vector<cv::Rect> 			eyes;
 
 Timer        					m_timer;
+
+
+void drawCompass(HeadsUpCompass c){
+		c.draw();
+	}
+
+	void drawClock(HeadsUpDigitalClock c){
+		c.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
+	}
+
+	void drawBat(HeadsUpBatteryInfo b){
+		b.render();
+		b.draw();
+	}
+
+	void drawMap(HeadsUpMap m){
+		m.render();
+		m.draw();
+	}
+
+	void drawTask(HeadsUpTask* t){
+		t->drawGL();
+	}
 
 	HeadsUpInterface::HeadsUpInterface()
 	{
@@ -68,8 +94,7 @@ Timer        					m_timer;
 	}
 
 	void detectFaces(size_t i){
-		cv::Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
-		ellipse( m_frame_bgr, center, cv::Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, cv::Scalar( 255, 0, 255 ), 4, 8, 0 );
+		ellipse( m_frame_bgr,cv::Point( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 ), cv::Size( faces[i].width/2, faces[i].height/1.5 ), 0, 0, 360, cv::Scalar( 255, 167, 0 ), 4, 8, 0 );
 //
 //		cv::Mat faceROI = frame_gray( faces[i] );
 //
@@ -92,17 +117,18 @@ Timer        					m_timer;
 			return -1;
 
 
-		cv::cvtColor( m_frame_bgr, frame_gray, cv::COLOR_BGR2GRAY );
-		equalizeHist( frame_gray, frame_gray );
-		//-- Detect faces
-		face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
-		std::vector<std::thread> threads;
-
-		for ( size_t i = 0; i < faces.size(); i++ )
-		{
-			threads.push_back(std::thread(detectFaces,i));
-		}
-		for (auto& th : threads) th.join();
+//		cv::cvtColor( m_frame_bgr, frame_gray, cv::COLOR_BGR2GRAY );
+//		equalizeHist( frame_gray, frame_gray );
+//		//-- Detect faces
+//		face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
+//		std::vector<std::thread> threads;
+//
+//		for ( size_t i = 0; i < faces.size(); i++ )
+//		{
+//			threads.push_back(std::thread(detectFaces,i));
+////			detectFaces(i);
+//		}
+//		for (auto& th : threads) th.join();
 
 		cv::cvtColor(m_frame_bgr, m_frame_rgba, CV_RGB2RGBA);
 
@@ -188,38 +214,27 @@ Timer        					m_timer;
 		waypoints.push_back(w);
 	}
 
+	void HeadsUpInterface::removeWaypoint(HeadsUpWaypoint* w){
+		int i = 0;
+		for (auto& wp : waypoints){
+			if (wp == w){
+				waypoints.erase(waypoints.begin()+i);
+			}
+			i++;
+		}
+	}
+
 	void HeadsUpInterface::addWaypoints(std::vector<HeadsUpWaypoint*> wps){
 		for (auto& wp : wps) addWaypoint(wp);
 	}
 
-
 	void HeadsUpInterface::makeActiveTask(HeadsUpTask* t)
 	{
-
 		tasks.remove(t);
 		tasks.push_front(t);
-		//current_objectives = t.objectives;
 	}
 
-void drawCompass(HeadsUpCompass c){
-	c.draw();
-}
 
-void drawClock(HeadsUpDigitalClock c){
-	c.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
-}
-
-void drawBat(HeadsUpBatteryInfo b){
-	b.draw( MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*2, height - 100);
-}
-
-void drawMap(HeadsUpMap m){
-	m.draw();
-}
-
-void drawTask(HeadsUpTask* t){
-	t->drawGL();
-}
 
 	void HeadsUpInterface::draw()
 	{
@@ -279,18 +294,17 @@ void drawTask(HeadsUpTask* t){
 		if (tasks.front()->isComplete()){
 			tasks.pop_front();
 		}
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glFlush();
 
 		draw();
-		drawCompass(compass);
 		drawClock(clockk);
 		drawBat(batinfo);
 		drawMap(map);
-
-
-
+		drawCompass(compass);
 		drawTask(tasks.front());
+
 	}
 
 

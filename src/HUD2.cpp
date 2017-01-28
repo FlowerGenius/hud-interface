@@ -20,6 +20,7 @@
 #include "HeadsUpObjective.h"
 #include "HeadsUpTask.h"
 #include "Timer.hpp"
+#include "LANAccess.h"
 #include "HeadsUpInterface.h"
 #define LONGITUDE	-79.395293
 #define LATITUDE	43.661802
@@ -53,6 +54,9 @@ cv::String eyes_cascade_name = "src/haarcascades/haarcascade_eye_tree_eyeglasses
 cv::CascadeClassifier face_cascade;
 cv::CascadeClassifier eyes_cascade;
 
+//Device Interaction
+extern void getInformation();
+
 //Compile time configuration settings
 
 //Interface Proper main system
@@ -70,6 +74,8 @@ extern void computerGetLocalTime();
 
 //Power Management Subsystem
 std::string 		battery_state;
+std::string 		dev_battery_state;
+
 std::atomic<double> battery_life;
 std::atomic<double> dev_battery_life;
 std::atomic<bool> 	is_charging;
@@ -81,7 +87,12 @@ extern void computerGetBatteryInformation();
 gps::Point			coords;
 std::atomic<double> m_latitude;
 std::atomic<double> m_longitude;
+std::atomic<double> m_altitude;
+
 std::atomic<double>	m_direction;
+std::atomic<bool>	direction_changed;
+std::atomic<bool>	location_changed;
+
 cv::Mat c0_image,c1_image,c2_image,
 		c3_image,c4_image,c5_image,
 		c6_image,c7_image,c8_image;
@@ -90,8 +101,6 @@ std::vector<cv::Mat> tiles = {
 		c3_image,c4_image,c5_image,
 		c6_image,c7_image,c8_image
 };
-extern void computerGetGeoLocation();
-extern void computerGetDirection();
 
 static int VisData[] = {
 GLX_RENDER_TYPE, GLX_RGBA_BIT,
@@ -103,6 +112,31 @@ GLX_BLUE_SIZE, 8,
 GLX_ALPHA_SIZE, 8,
 GLX_DEPTH_SIZE, 16,
 None };
+
+#if COMPUTER_GPS_ENABLED
+void computerGetGeoLocation(){
+	while(!EXIT_THREADS){
+		getCoords();
+	}
+	puts("Geolocation Thread Exited Successfully");
+}
+#endif
+
+#if COMPUTER_GYRO_ENABLED
+void computerGetDirection(){
+	while(!EXIT_THREADS){
+		getDirection();
+	}
+	puts("Direction Thread Exited Successfully");
+}
+#endif
+
+void deviceGetInformation(){
+	while(!EXIT_THREADS){
+		getInformation();
+	}
+	puts("Information Thread Exited Successfully");
+}
 
 static void fatalError(const char *why) {
 	fprintf(stderr, "%s", why);
@@ -414,9 +448,22 @@ int main(int argc, char *argv[]) {
 	EXIT_THREADS = false;
 	std::thread _bat_th(computerGetBatteryInformation);
 	std::thread _clk_th(computerGetLocalTime);
-	std::thread _geo_th(computerGetGeoLocation);
-	std::thread _dir_th(computerGetDirection);
 
+//	dev_is_connected = true;
+#if COMPUTER_GPS_ENABLED || COMPUTER_GYRO_ENABLED
+	if (!dev_is_connected){
+#if COMPUTER_GPS_ENABLED
+		std::thread _geo_th(computerGetGeoLocation);
+#endif
+#if COMPUTER_GYRO_ENABLED
+		std::thread _dir_th(computerGetDirection);
+#endif
+	} else {
+#endif
+		std::thread _get_di(deviceGetInformation);
+#if COMPUTER_GPS_ENABLED || COMPUTER_GYRO_ENABLED
+	}
+#endif
 //	HeadsUpWaypoint wayp1,wayp2,wayp3,wayp4;
 //	wayp1.setText("WAY1");
 //	wayp1.set(m_longitude-0.0001,m_latitude);
@@ -431,11 +478,11 @@ int main(int argc, char *argv[]) {
 	HeadsUpTask* task1 = new HeadsUpTask("Make Some Good Plans");
 //	task1->addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(43.661816,-79.395093),200));
 //	task1->addObjective(new ActionObjective("Implement changeColour method", 0));
-	task1->addObjective(new SpecificLocationObjective("N", 0,gps::Point(LATITUDE + 0.001,LONGITUDE)));
-	task1->addObjective(new SpecificLocationObjective("SW", 0,gps::Point(LATITUDE - 0.001,LONGITUDE - 0.001)));
-	task1->addObjective(new SpecificLocationObjective("W", 0,gps::Point(LATITUDE,LONGITUDE - 0.001)));
-	task1->addObjective(new SpecificLocationObjective("E", 0,gps::Point(LATITUDE,LONGITUDE + 0.001)));
-	task1->addObjective(new SpecificLocationObjective("SE", 0,gps::Point(LATITUDE - 0.001,LONGITUDE + 0.001)));
+	task1->addObjective(new SpecificLocationObjective("N", 0,gps::Point(LATITUDE + 0.001,LONGITUDE, -10)));
+	task1->addObjective(new SpecificLocationObjective("SW", 0,gps::Point(LATITUDE - 0.001,LONGITUDE - 0.001,30)));
+	task1->addObjective(new SpecificLocationObjective("W", 0,gps::Point(LATITUDE,LONGITUDE - 0.001,-8)));
+	task1->addObjective(new SpecificLocationObjective("E", 0,gps::Point(LATITUDE,LONGITUDE + 0.001,-12)));
+	task1->addObjective(new SpecificLocationObjective("SE", 0,gps::Point(LATITUDE - 0.001,LONGITUDE + 0.001,102)));
 
 
 	HeadsUpTask* task2 = new HeadsUpTask("The Less Good Plans");
@@ -453,9 +500,8 @@ int main(int argc, char *argv[]) {
 
 	cv::VideoCapture cap;
 
-	if( !face_cascade.load( face_cascade_name ) ){ printf("--(!)Error loading face cascade\n"); return -1; };
-	if( !eyes_cascade.load( eyes_cascade_name ) ){ printf("--(!)Error loading eyes cascade\n"); return -1; };
-
+	if( !face_cascade.load( face_cascade_name ) ){ fprintf(stderr,"--(!)Error loading face cascade\n"); return -1; };
+	if( !eyes_cascade.load( eyes_cascade_name ) ){ fprintf(stderr,"--(!)Error loading eyes cascade\n"); return -1; };
 
 	cap.open(0);
 
@@ -468,6 +514,7 @@ int main(int argc, char *argv[]) {
 
 	while (updateTheMessageQueue()) {
 		redrawTheWindow();
+
 	}
 
 	EXIT_THREADS = true;
@@ -475,10 +522,23 @@ int main(int argc, char *argv[]) {
 		_clk_th.join();
 	if (_bat_th.joinable())
 		_bat_th.join();
-	if (_geo_th.joinable())
-		_geo_th.join();
-	if (_dir_th.joinable())
-		_dir_th.join();
 
+#if COMPUTER_GPS_ENABLED || COMPUTER_GYRO_ENABLED
+	if (!dev_is_connected){
+#if COMPUTER_GPS_ENABLED
+		if (_geo_th.joinable())
+			_geo_th.join();
+#endif
+#if COMPUTER_GYRO_ENABLED
+		if (_dir_th.joinable())
+			_dir_th.join();
+#endif
+	} else {
+#endif
+		if (_get_di.joinable())
+			_get_di.join();
+#if COMPUTER_GPS_ENABLED || COMPUTER_GYRO_ENABLED
+	}
+#endif
 	return 0;
 }

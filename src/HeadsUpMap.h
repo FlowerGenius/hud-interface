@@ -12,8 +12,10 @@ class HeadsUpMap
 {
 public:
 				HeadsUpMap();
+	virtual		~HeadsUpMap();
+
+	int			render(void);
 	void		draw(void);
-	//int			rotation;
 private:
 	TileBuilder tiles;
 

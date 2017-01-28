@@ -76,9 +76,25 @@ enum MODE
 	MODE_GPU
 };
 
+#define LASTNAME	"lee/"
+#define MIDDLENAME	"penelope/"
+#define	FIRSTNAME	"erin/"
 
+#define DOM			"https://"
+
+#define LAN			"192.168.000.027/"
+#define WAN 		"000.000.000.000/"
+#define SRV			"leeresearchdev.ca/"
+
+#define EID			std::string(LASTNAME)+std::string(MIDDLENAME)+std::string(FIRSTNAME)
+
+#define FIL			"tasks.xml"
+
+#include "rapidxml-1.13/rapidxml.hpp"
+#include "DeviceAccess.h"
+#include "LANAccess.h"
 #include "ScalableVectorString.h"
-#include "Point.h"
+#include <GPS.h>
 
 
 #endif /* HEADER_H_ */

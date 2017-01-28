@@ -259,72 +259,65 @@ void assignTiles(int tilex, int tileyy, int zoom){
 
 }
 
+
+int TileBuilder::render(){
+	dsource = datsource;
+	z = 17;
+	tilex = ((int)(floor(long2tilex(m_longitude,z))));
+	tiley = ((int)(floor(lat2tiley(m_latitude,z))));
+	map_location.first = (long2tilex(m_longitude,z)-tilex);
+	map_location.second = (lat2tiley(m_latitude,z)-tiley);
+	mmx = ((map_location.first*2)-1)/2;
+	mmy = ((map_location.second*2)-1)/2;
+
+	assignTiles(tilex,tiley,z);
+
+	previous_tiley = tiley;
+	previous_tilex = tilex;
+	return 0;
+}
+
 void TileBuilder::draw(){
-		dsource = datsource;
-		z = 17;
-		tilex = ((int)(floor(long2tilex(m_longitude,z))));
-	 	tiley = ((int)(floor(lat2tiley(m_latitude,z))));
-	 	map_location.first = (long2tilex(m_longitude,z)-tilex);
-	 	map_location.second = (lat2tiley(m_latitude,z)-tiley);
-		mmx = ((map_location.first*2)-1)/2;
-		mmy = ((map_location.second*2)-1)/2;
+		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		{
 
-		assignTiles(tilex,tiley,z);
+			glColor4f(0.5, 0.5, 0.5, 0.98);
+			glEnable(GL_TEXTURE_2D);
+			// Create Texture
+			glGenTextures(1, &tex);
+			glBindTexture(GL_TEXTURE_2D, tex); // 2d texture (x and y size)
 
-		previous_tiley = tiley;
-		previous_tilex = tilex;
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
 
+			glTexImage2D(GL_TEXTURE_2D, 0, 3, resultImg.cols, resultImg.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, resultImg.data);
 
-			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			{
+			glBindTexture(GL_TEXTURE_2D, tex); // choose the texture to use.
 
-				glColor4f(0.5, 0.5, 0.5, 0.98);
-				glEnable(GL_TEXTURE_2D);
-				// Create Texture
-				glGenTextures(1, &tex);
-				glBindTexture(GL_TEXTURE_2D, tex); // 2d texture (x and y size)
+			glBegin(GL_POLYGON);
 
-				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
-				glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
+			glTexCoord2f (0.0*zoom + 0.3333 + mmx*zoom, 0.1*zoom + 0.3333 + mmy*zoom);
+			glVertex2f(-1+bw, 0.8-bw);
+			glTexCoord2f (0.1*zoom + 0.3333 + mmx*zoom, 0.0*zoom + 0.3333 + mmy*zoom);
+			glVertex2f(-0.8+bw, 1-bw);
 
+			glTexCoord2f (1.0*zoom + 0.3333 + mmx*zoom, 0.0*zoom + 0.3333 + mmy*zoom);
+			glVertex2f(1-bw, 1-bw);
 
+			glTexCoord2f (1.0*zoom + 0.3333 + mmx*zoom, 0.9*zoom + 0.3333 + mmy*zoom);
+			glVertex2f(1-bw, -0.8+bw);
+			glTexCoord2f (0.9*zoom + 0.3333 + mmx*zoom, 1.0*zoom + 0.3333 + mmy*zoom);
+			glVertex2f(0.8-bw, -1+bw);
 
+			glTexCoord2f (0.0*zoom + 0.3333 + mmx*zoom, 1.0*zoom + 0.3333 + mmy*zoom);
+			glVertex2f(-1+bw, -1+bw);
 
-				glTexImage2D(GL_TEXTURE_2D, 0, 3, resultImg.cols, resultImg.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, resultImg.data);
+			glEnd();
 
-				glBindTexture(GL_TEXTURE_2D, tex); // choose the texture to use.
-				glBegin(GL_POLYGON);
+			glDisable(GL_TEXTURE_2D);
 
-
-
-				glTexCoord2f (0.0*zoom + 0.3333 + mmx*zoom, 0.1*zoom + 0.3333 + mmy*zoom);
-				glVertex2f(-1+bw, 0.8-bw);
-				glTexCoord2f (0.1*zoom + 0.3333 + mmx*zoom, 0.0*zoom + 0.3333 + mmy*zoom);
-				glVertex2f(-0.8+bw, 1-bw);
-
-				glTexCoord2f (1.0*zoom + 0.3333 + mmx*zoom, 0.0*zoom + 0.3333 + mmy*zoom);
-				glVertex2f(1-bw, 1-bw);
-
-				glTexCoord2f (1.0*zoom + 0.3333 + mmx*zoom, 0.9*zoom + 0.3333 + mmy*zoom);
-				glVertex2f(1-bw, -0.8+bw);
-				glTexCoord2f (0.9*zoom + 0.3333 + mmx*zoom, 1.0*zoom + 0.3333 + mmy*zoom);
-				glVertex2f(0.8-bw, -1+bw);
-
-				glTexCoord2f (0.0*zoom + 0.3333 + mmx*zoom, 1.0*zoom + 0.3333 + mmy*zoom);
-				glVertex2f(-1+bw, -1+bw);
-
-
-				glEnd();
-
-
-				glDisable(GL_TEXTURE_2D);
-
-
-
-			}
-			glPopAttrib();
-
-
+		}
+		glPopAttrib();
 }
 
 TileBuilder::~TileBuilder() {

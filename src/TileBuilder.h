@@ -12,9 +12,11 @@ class TileBuilder {
 public:
 	TileBuilder();
 	virtual ~TileBuilder();
-	void draw();
-	void setCoords();
 
+	int render(void);
+	void draw(void);
+
+	void setCoords();
 private:
 	std::string dsource;
 	std::string url;
