@@ -90,11 +90,16 @@ enum MODE
 
 #define FIL			"tasks.xml"
 
+#define COMPASS_FONT_SIZE 25
+#define COL 0,200,255,255
+
+#include <LRAND.h>
+#include <GPS.h>
+
 #include "rapidxml-1.13/rapidxml.hpp"
 #include "DeviceAccess.h"
 #include "LANAccess.h"
 #include "ScalableVectorString.h"
-#include <GPS.h>
 
 
 #endif /* HEADER_H_ */

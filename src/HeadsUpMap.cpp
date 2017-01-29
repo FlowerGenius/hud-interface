@@ -24,7 +24,7 @@ extern HeadsUpInterface 	interface;
 
 extern std::atomic<double> 	m_latitude;
 extern std::atomic<double> 	m_longitude;
-extern std::atomic<double>	m_direction;
+extern std::atomic<double>	m_direction, m_pitch;
 extern std::atomic<bool>	direction_changed;
 extern std::atomic<bool>	location_changed;
 
@@ -56,7 +56,7 @@ int	HeadsUpMap::render(){
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-			glColor4f(0.0, 0.67, 1.0, 0.9);
+			colour.bind();
 			glVertex2f(-1, 0.8);
 			glVertex2f(-0.8, 1);
 			glVertex2f(1, 1);
@@ -72,10 +72,12 @@ int	HeadsUpMap::render(){
 
 		glPushMatrix();
 		glRotatef(-m_direction, 0, 0, 1);
+		glRotatef(-m_pitch, 1, 0, 0);
+
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-			glColor4f(0.0, 0.67, 1.0, 0.9);
+			colour.bind();
 			glVertex2f(0.0,0.0);
 			glVertex2f(0.1,-0.1);
 			glVertex2f(0.0,+0.1);

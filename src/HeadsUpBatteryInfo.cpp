@@ -25,7 +25,11 @@ extern std::atomic<bool> EXIT_THREADS;
 // Temp variables
 std::string pinf;
 
-
+namespace LRAND{
+	extern LRAND::Colour YELLOW;
+	extern LRAND::Colour RED;
+	extern LRAND::Colour GREEN;
+}
 void getPCBatteryInformation() {
 	try {
 		pinf = exec("upower -i `upower -e | grep 'BAT'` | grep 'percentage\\|state'");
@@ -63,16 +67,22 @@ HeadsUpBatteryInfo::HeadsUpBatteryInfo() {
 	getPCBatteryInformation();
 }
 
+/*@method:	render(void);
+ *		Processes all the information necessary to update the module.
+ */
 int HeadsUpBatteryInfo::render(){
 	comp_text.setText(std::to_string(battery_life).erase(5));
-		comp_text.setColour(167, 167, 255, 200);
+		comp_text.setColour(text_colour);
 
 	dev_text.setText(std::to_string(dev_battery_life).erase(5));
-		dev_text.setColour(167, 167, 255, 200);
+		dev_text.setColour(text_colour);
 
 	return 0;
 }
 
+/*@method:	draw(void);
+ *		Draws the module to the window using OpenGL.
+ */
 void HeadsUpBatteryInfo::draw() {
 
 	// Computer Battery Monitor
@@ -81,8 +91,7 @@ void HeadsUpBatteryInfo::draw() {
 	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	{
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(0.0, 0.67, 1.0, 0.9);
-
+		colour.bind();
 		glVertex2f(-1.0, -1.0);
 		glVertex2f(-1.0, 1.0);
 		glVertex2f(0.8, 1.0);
@@ -96,11 +105,11 @@ void HeadsUpBatteryInfo::draw() {
 	{
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
 		if (battery_life <= 10.0)
-			glColor4f(1.0, 0.0, 0.0, 0.9);
+			LRAND::RED.bind();
 		else if (battery_life <= 20.0)
-			glColor4f(1.0, 1.0, 0.0, 0.9);
+			LRAND::YELLOW.bind();
 		else
-			glColor4f(0.0, 1.0, 0.0, 0.9);
+			LRAND::GREEN.bind();
 		glVertex2f(-0.9, -0.8);
 		glVertex2f(-0.9, 0.8);
 		glVertex2f(((battery_life / 125.0) * 2.0 - 0.9), 0.8);
@@ -115,8 +124,7 @@ void HeadsUpBatteryInfo::draw() {
 	BAT_WIDTH, BAT_HEIGHT);
 	{
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(0.0, 0.67, 1.0, 0.9);
-
+		colour.bind();
 		glVertex2f(-1.0, -1.0);
 		glVertex2f(-1.0, 1.0);
 		glVertex2f(0.8, 1.0);
@@ -130,11 +138,11 @@ void HeadsUpBatteryInfo::draw() {
 	{
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
 		if (dev_battery_life <= 10.0)
-			glColor4f(1.0, 0.0, 0.0, 0.9);
+			LRAND::RED.bind();
 		else if (dev_battery_life <= 20.0)
-			glColor4f(1.0, 1.0, 0.0, 0.9);
+			LRAND::YELLOW.bind();
 		else
-			glColor4f(0.0, 1.0, 0.0, 0.9);
+			LRAND::GREEN.bind();
 		glVertex2f(-0.9, -0.8);
 		glVertex2f(-0.9, 0.8);
 		glVertex2f(((dev_battery_life / 125.0) * 2.0 - 0.9), 0.8);
@@ -150,8 +158,7 @@ void HeadsUpBatteryInfo::draw() {
 			30, BAT_HEIGHT);
 	{
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(0.0, 0.67, 1.0, 0.9);
-
+		colour.bind();
 		glVertex2f(-0.7, 0.7);
 		glVertex2f(-0.7, 0.0);
 		glVertex2f(0.7, 0.0);
@@ -160,8 +167,7 @@ void HeadsUpBatteryInfo::draw() {
 	}
 	{
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(0.0, 0.5, 1.0, 0.9);
-
+		(colour - 50).bind();
 		glVertex2f(-0.6, 0.6);
 		glVertex2f(-0.6, 0.1);
 		glVertex2f(0.6, 0.1);
@@ -171,8 +177,7 @@ void HeadsUpBatteryInfo::draw() {
 	}
 	{
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(0.0, 0.67, 1.0, 0.9);
-
+		colour.bind();
 		glVertex2f(-0.8, -0.35);
 		glVertex2f(-0.7, 0.0);
 		glVertex2f(0.7, 0.0);
@@ -182,7 +187,7 @@ void HeadsUpBatteryInfo::draw() {
 	}
 	if (is_charging) {
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(1.0, 1.0, 0.0, 0.9);
+		LRAND::YELLOW.bind();
 		glVertex2f(0.0, 0.4);
 		glVertex2f(0.0, 0.9);
 		glVertex2f(-0.2, 0.2);
@@ -201,7 +206,6 @@ void HeadsUpBatteryInfo::draw() {
 		glVertex2f(-0.8, -0.8);
 		glVertex2f(-0.2, 0.8);
 		glVertex2f(0.0, 0.6);
-
 		glEnd();
 	}
 	{
@@ -209,12 +213,11 @@ void HeadsUpBatteryInfo::draw() {
 		glVertex2f(0.8, -0.8);
 		glVertex2f(0.2, 0.8);
 		glVertex2f(0.0, 0.6);
-
 		glEnd();
 	}
 	if (dev_is_charging) {
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(1.0, 1.0, 0.0, 0.9);
+		LRAND::YELLOW.bind();
 		glVertex2f(0.0, 0.0);
 		glVertex2f(0.0, 0.5);
 		glVertex2f(-0.2, -0.2);

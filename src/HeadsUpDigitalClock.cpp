@@ -39,9 +39,12 @@ HeadsUpDigitalClock::HeadsUpDigitalClock() {
 
 int HeadsUpDigitalClock::draw(int ax, int ay) {
 	time_text.setText(timestring);
-	time_text.setColour(0, 200, 255, 200);
+	time_text.setColour(colour);
 	time_text.rdraw(ax, height - TOP_MARGIN - CLOCK_FONT_SIZE, 4.0,
 			CLOCK_FONT_SIZE);
 	return 0;
 }
 
+HeadsUpDigitalClock::~HeadsUpDigitalClock(){
+
+}

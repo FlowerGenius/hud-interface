@@ -85,6 +85,7 @@ void drawCompass(HeadsUpCompass c){
 		m_oclDevName = cv::ocl::useOpenCL() ?
 				cv::ocl::Context::getDefault().device(0).name() :
 				(char*) "No OpenCL device";
+
 }
 
 	void detectEyes(size_t i, size_t j){
@@ -184,9 +185,12 @@ void drawCompass(HeadsUpCompass c){
 		m_timer.stop();
 	}
 
-	void HeadsUpInterface::initialize(void)
+	void HeadsUpInterface::changeColours(void)
 	{
-
+		compass.setColour(colour);
+		map.setColour(colour);
+		batinfo.setColour(colour);
+		clockk.setColour(colour);
 	}
 
 	void HeadsUpInterface::updateGL(void)
@@ -200,6 +204,7 @@ void drawCompass(HeadsUpCompass c){
 
 	void HeadsUpInterface::addTask(HeadsUpTask* t)
 	{
+		t->setColour(colour);
 		tasks.push_back(t);
 		if (tasks.size()==1){
 			makeActiveTask(t);

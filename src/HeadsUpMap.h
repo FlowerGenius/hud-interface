@@ -16,7 +16,11 @@ public:
 
 	int			render(void);
 	void		draw(void);
+
+	void 				setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); }
+	void 				setColour(LRAND::Colour c)			{ colour = c; }
 private:
+	LRAND::Colour		colour;
 	TileBuilder tiles;
 
 };

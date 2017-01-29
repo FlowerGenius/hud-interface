@@ -90,6 +90,9 @@ std::atomic<double> m_longitude;
 std::atomic<double> m_altitude;
 
 std::atomic<double>	m_direction;
+std::atomic<double> m_pitch;
+std::atomic<double> m_roll;
+
 std::atomic<bool>	direction_changed;
 std::atomic<bool>	location_changed;
 
@@ -411,12 +414,18 @@ static int updateTheMessageQueue() {
 			if (XLookupKeysym(&event.xkey, 0) == XK_KP_Right) {
 				m_direction = m_direction + 1;
 			}
-//			if (XLookupKeysym(&event.xkey, 0) == XK_W) {
-//				m_latitude = m_latitude + 0.00003;
-//			}
-//			if (XLookupKeysym(&event.xkey, 0) == XK_S) {
-//				m_latitude = m_latitude - 0.00003;
-//			}
+			if (XLookupKeysym(&event.xkey, 0) == XK_KP_Up) {
+				m_pitch = m_pitch + 1;
+			}
+			if (XLookupKeysym(&event.xkey, 0) == XK_KP_Down) {
+				m_pitch = m_pitch - 1;
+			}
+			if (XLookupKeysym(&event.xkey, 0) == XK_KP_Add) {
+				m_altitude = m_altitude + 1;
+			}
+			if (XLookupKeysym(&event.xkey, 0) == XK_KP_Subtract) {
+				m_altitude = m_altitude - 1;
+			}
 //			if (XLookupKeysym(&event.xkey, 0) == XK_Left) {
 //				m_latitude = m_latitude + 0.00003;
 //			}
@@ -445,6 +454,18 @@ static void redrawTheWindow() {
 }
 
 int main(int argc, char *argv[]) {
+
+	char *loc;
+
+	if (NULL != (loc = setlocale(LC_CTYPE, NULL)) )
+	{
+	printf("locale changed from '%s', ", loc);
+	}
+
+	if (NULL != (loc = setlocale(LC_CTYPE, "")) )
+	{
+	printf("to: '%s'\n", loc);
+	}
 	EXIT_THREADS = false;
 	std::thread _bat_th(computerGetBatteryInformation);
 	std::thread _clk_th(computerGetLocalTime);
@@ -464,33 +485,23 @@ int main(int argc, char *argv[]) {
 #if COMPUTER_GPS_ENABLED || COMPUTER_GYRO_ENABLED
 	}
 #endif
-//	HeadsUpWaypoint wayp1,wayp2,wayp3,wayp4;
-//	wayp1.setText("WAY1");
-//	wayp1.set(m_longitude-0.0001,m_latitude);
-//	wayp1.setColour(255,255,0,255);
-//	wayp2.setText("WAY2");
-//	wayp2.set(m_longitude+0.0001,m_latitude);
-//	wayp2.setColour(255,255,0,255);
-//	wayp3.setText("WAY3");
-//	wayp3.set(-79.395093,43.661816);
-//	wayp3.setColour(255,255,0,255);
+	interface.setColour(0,167,255,200);
 
 	HeadsUpTask* task1 = new HeadsUpTask("Make Some Good Plans");
-//	task1->addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(43.661816,-79.395093),200));
+	task1->addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(LATITUDE ,-79.395093),20,true));
 //	task1->addObjective(new ActionObjective("Implement changeColour method", 0));
-	task1->addObjective(new SpecificLocationObjective("N", 0,gps::Point(LATITUDE + 0.001,LONGITUDE, -10)));
-	task1->addObjective(new SpecificLocationObjective("SW", 0,gps::Point(LATITUDE - 0.001,LONGITUDE - 0.001,30)));
-	task1->addObjective(new SpecificLocationObjective("W", 0,gps::Point(LATITUDE,LONGITUDE - 0.001,-8)));
-	task1->addObjective(new SpecificLocationObjective("E", 0,gps::Point(LATITUDE,LONGITUDE + 0.001,-12)));
-	task1->addObjective(new SpecificLocationObjective("SE", 0,gps::Point(LATITUDE - 0.001,LONGITUDE + 0.001,102)));
-
+	task1->addObjective(new SpecificLocationObjective("N", 0,gps::Point(LATITUDE + 0.001,LONGITUDE, 0),false));
+	task1->addObjective(new SpecificLocationObjective("SW", 0,gps::Point(LATITUDE - 0.001,LONGITUDE - 0.001,0),false));
+	task1->addObjective(new SpecificLocationObjective("W", 0,gps::Point(LATITUDE,LONGITUDE - 0.001,0),true));
+	task1->addObjective(new SpecificLocationObjective("E", 0,gps::Point(LATITUDE,LONGITUDE + 0.001,0),false));
+	task1->addObjective(new SpecificLocationObjective("SE", 0,gps::Point(LATITUDE - 0.001,LONGITUDE + 0.001,0),false));
 
 	HeadsUpTask* task2 = new HeadsUpTask("The Less Good Plans");
-	task1->addObjective(new ActionObjective("11AA1A", 1));
-	task1->addObjective(new ActionObjective("11AA1A", 1));
-	task2->addObjective(new ActionObjective("Cats And Dogs; pet them!", 0));
-	task2->addObjective(new ActionObjective("Fly away for good?", 0));
-	task2->addObjective(new ActionObjective("GO, THEN LEAVE", 1));
+	task1->addObjective(new ActionObjective("11AA1A", 1,false));
+	task1->addObjective(new ActionObjective("11AA1A", 1,false));
+	task2->addObjective(new ActionObjective("Cats And Dogs; pet them!", 0,false));
+	task2->addObjective(new ActionObjective("Fly away for good?", 0,false));
+	task2->addObjective(new ActionObjective("GO, THEN LEAVE", 1,false));
 
 	interface.addTasks({task1,task2});
 	//interface.addWaypoints({wayp1,wayp2,wayp3});
@@ -512,9 +523,9 @@ int main(int argc, char *argv[]) {
 	m_cap = cap;
 
 
+
 	while (updateTheMessageQueue()) {
 		redrawTheWindow();
-
 	}
 
 	EXIT_THREADS = true;

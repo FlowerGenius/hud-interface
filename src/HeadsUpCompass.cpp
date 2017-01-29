@@ -8,16 +8,16 @@
 #include <header.h>
 #include "DeviceAccess.h"
 #include <HeadsUpCompass.h>
+#include <locale.h>
+#include <limits.h>
 
-extern std::atomic<double> m_direction;
+
+extern std::atomic<double> m_direction,m_pitch,m_altitude;
 extern int width,height;
 
 namespace gps {
 	extern double polarBearing(double,double);
 }
-
-#define COMPASS_FONT_SIZE 25
-#define COL 0,200,255,255
 
 void HeadsUpCompass::draw(){
 
@@ -27,14 +27,14 @@ void HeadsUpCompass::draw(){
 
 
 		glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(0.0, 0.37, 0.7, 0.2);
+		colour.bind();
 		glVertex2f(-1.0,0.1);
 		glVertex2f(1.0,0.1);
 		glVertex2f(1.0,-0.1);
 		glVertex2f(-1.0,-0.1);
 		glEnd();
 		glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(0.0, 0.27, 0.6, 0.9);
+		(colour - 100).bind();
 		glVertex2f(-1.0,0.01);
 		glVertex2f(1.0,0.01);
 		glVertex2f(1.0,-0.01);
@@ -52,7 +52,7 @@ void HeadsUpCompass::draw(){
 			}
 		glViewport(width/3,height - TOP_MARGIN - CLOCK_FONT_SIZE, width/3, CLOCK_FONT_SIZE);
 
-		glColor4f(0.0, 0.67, 1.0, 0.5);
+		colour.bind();
 
 		glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
 		glVertex2f(-1.0,1.0);
@@ -70,6 +70,13 @@ void HeadsUpCompass::draw(){
 		glVertex2f(1.0,-1.0);
 		glEnd();
 
+		ScalableVectorString s1;
+		ScalableVectorString s2;
+
+		s1.setText("Alt    "+std::to_string(m_altitude)+'m');
+		s2.setText("Pitch "+std::to_string(m_pitch)+"°");
+		s1.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE/2, 0.1, CLOCK_FONT_SIZE/2);
+		s2.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE, 0.1, CLOCK_FONT_SIZE/2);
 
 	}
 	glPopAttrib();
@@ -95,53 +102,14 @@ HeadsUpCompass::HeadsUpCompass() {
 	NW.setText("NW",COMPASS_FONT_SIZE/1.5);
 	NNW.setText("NNW",COMPASS_FONT_SIZE/2);
 
-	N.setColour(COL);
-	NNE.setColour(COL);
-	NE.setColour(COL);
-	ENE.setColour(COL);
-	E.setColour(COL);
-	ESE.setColour(COL);
-	SE.setColour(COL);
-	SSE.setColour(COL);
-	S.setColour(COL);
-	SSW.setColour(COL);
-	SW.setColour(COL);
-	WSW.setColour(COL);
-	W.setColour(COL);
-	WNW.setColour(COL);
-	NW.setColour(COL);
-	NNW.setColour(COL);
-
-	viewN 	= 0.0;
-	viewNNE = 22.5;
-	viewNE 	= 45.0;
-	viewENE	= 67.50;
-
-	viewE 	= 90.0;
-	viewESE = 112.5;
-	viewSE 	= 135.0;
-	viewSSE = 157.5;
-
-	viewS 	= 180.0;
-	viewSSW = -157.5;
-	viewSW 	= -135.0;
-	viewWSW = -112.5;
-
-	viewW 	= -90.0;
-	viewWNW = -67.5;
-	viewNW 	= -45.0;
-	viewNNW = -22.5;
-
 	card = {	N,NNE,NE,ENE,
 				E,ESE,SE,SSE,
 				S,SSW,SW,WSW,
 				W,WNW,NW,NNW};
 
-	view = {viewN,viewNNE,viewNE,viewENE,
-			viewE,viewESE,viewSE,viewSSE,
-			viewS,viewSSW,viewSW,viewWSW,
-			viewW,viewWNW,viewNW,viewNNW};
+	for (auto& lo : card) lo.setColour(colour);
 
+	view = {0.0,22.5,45.0,67.50,90.0,112.5,135.0,157.5,180.0, -157.5,-135.0,-112.5,-90,-67.5,-45.0,-22.5};
 	viewd = 0.0;
 }
 

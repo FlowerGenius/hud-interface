@@ -8,6 +8,9 @@
 #include <header.h>
 #include <GPS.h>
 
+extern double lat2tiley(double,int);
+extern double long2tilex(double,int);
+
 #define pi 3.14159265358979323846
 #define earthRadiusKm 6371.0
 
@@ -15,8 +18,8 @@ namespace gps {
 
 double u,v;
 
-cv::Point2d gps2tile(gps::Point,int zoom){
-
+cv::Point2d gps2tile(gps::Point p,int zoom){
+	return cv::Point2d(long2tilex(p.longitude, zoom),lat2tiley(p.latitude, zoom));
 }
 
 double deg2rad(double deg) {
@@ -45,17 +48,16 @@ double distance(gps::Point a,gps::Point b){
 	  u = sin((deg2rad(b.latitude) - deg2rad(a.latitude))/2);
 	  v = sin((deg2rad(b.longitude) - deg2rad(a.longitude))/2);
 	  return sqrt(pow((1000.0 * 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(deg2rad(a.latitude)) * cos(deg2rad(b.latitude)) * v * v))),2.0) + pow(elevation(a,b),2.0));
-
 }
 
-double vertical_bearing(gps::Point a, gps::Point b){
+double pitch(gps::Point a, gps::Point b){
 	return rad2deg(asin(elevation(a,b) / distance(a,b)));
 }
 
 
 /*
  * Note: This function is part of the LRAND proprietary coordinate and direction
- * system. And as such a full explanation is included in the GPS.hpp file.
+ * system. And as such a full explanation is included in the GPS.h file.
  *
  * Return a fixed direction bearing, the definition of which follows:
  *
@@ -84,7 +86,7 @@ double bearing (gps::Point a, gps::Point b)
 
 /*
  * Note: This function is part of the LRAND proprietary coordinate and direction
- * system. And as such a full explanation is included in the GPS.hpp file.
+ * system. And as such a full explanation is included in the GPS.h file.
  *
  * Return a relative direction bearing, the definition of which is as follows:
  *
@@ -114,6 +116,28 @@ double polarBearing(double current_bearing, double target_bearing)
 			u =  (target_bearing/90) - (current_bearing/90);
 		} else {
 			u =  ((target_bearing+360)/90) - (current_bearing/90);
+		}
+	}
+	return u;
+}
+
+double polarPitch(double current_pitch, double target_pitch)
+{
+	if (-180 <= current_pitch and current_pitch < -90){
+		if (target_pitch < 0){
+			u =  (target_pitch/90) - (current_pitch/90);
+		} else {
+			u =  ((target_pitch-360)/90) - (current_pitch/90);
+		}
+	} else
+	if ( -90 <= current_pitch and current_pitch <= 90){
+			u =  (target_pitch/90) - (current_pitch/90);
+	} else
+	if ( 90  < current_pitch and current_pitch <= 180){
+		if (target_pitch > 0){
+			u =  (target_pitch/90) - (current_pitch/90);
+		} else {
+			u =  ((target_pitch+360)/90) - (current_pitch/90);
 		}
 	}
 	return u;
@@ -163,7 +187,7 @@ Vector::Vector() {
 Vector::Vector(Point p1,Point p2) {
 	distance 	= gps::distance(p1,p2);
 	bearing	 	= gps::bearing(p1,p2);
-	elevation 	= gps::vertical_bearing(p1,p2);
+	elevation 	= gps::pitch(p1,p2);
 }
 
 Vector::Vector(double lat1, double lon1, double lat2, double lon2){
@@ -174,11 +198,10 @@ Vector::Vector(double lat1, double lon1, double lat2, double lon2){
 Vector::Vector(double lat1, double lon1, double alt1, double lat2, double lon2, double alt2){
 	distance 	= gps::distance(gps::Point(lat1,lon1),gps::Point(lat2,lon2));
 	bearing	 	= gps::bearing(gps::Point(lat1,lon1),gps::Point(lat2,lon2));
-	elevation 	= gps::vertical_bearing(gps::Point(lat1,lon1,alt1),gps::Point(lat2,lon2,alt2));
+	elevation 	= gps::pitch(gps::Point(lat1,lon1,alt1),gps::Point(lat2,lon2,alt2));
 }
 
 Vector::~Vector() {
-	// TODO Auto-generated destructor stub
 }
 
 } /* namespace gps */

@@ -13,7 +13,11 @@ extern cv::Mat resultImg;
 extern std::atomic<double> 	m_latitude;
 extern std::atomic<double> 	m_longitude;
 extern std::atomic<double>	m_direction;
+extern std::atomic<double> 	m_pitch;
+extern std::atomic<double>	m_roll;
 extern std::atomic<double>	m_altitude;
+
+
 
 extern float long2tilex(double lon, int z);
 extern float lat2tiley(double lat, int z);
@@ -25,12 +29,13 @@ namespace gps {
 	extern double bearing(gps::Point,gps::Point);
 	extern double metre2pixel(int,double);
 	extern double polarBearing(double,double);
-	extern double vertical_bearing(gps::Point,gps::Point);
+	extern double pitch(gps::Point,gps::Point);
+	extern double polarPitch(double,double);
 }
 
 HeadsUpWaypoint::HeadsUpWaypoint() {
 	// Null Colour initialization
-	r = 0, g = 0, b = 0, k = 0, j = 0;
+	k = 0, j = 0;
 	a = 1.0;
 	// Null text initialization
 	text 		= "";
@@ -39,7 +44,10 @@ HeadsUpWaypoint::HeadsUpWaypoint() {
 
 	size 		= 10;
 	filled 		= 1;
+
 	viewd 		= 0.0;
+	viewp		= 0.0;
+
 	distance_to = 0.0;
 
 	tile_x 		= 0;
@@ -52,14 +60,6 @@ HeadsUpWaypoint::HeadsUpWaypoint() {
 	icon 		= {};
 
 
-}
-
-int HeadsUpWaypoint::setColour(int R, int G, int B, int A) {
-	r = R, g = G, b = B;
-	a = (double)(A/255.0);
-	label.setColour(r,g,b,A);
-	distance.setColour(r,g,b,A);
-	return 0;
 }
 
 int HeadsUpWaypoint::setFill(bool b){
@@ -112,18 +112,20 @@ gps::Point HeadsUpWaypoint::get() {
 
 void HeadsUpWaypoint::draw() {
 
-
 	if (distance_to <= sightLine()){
 		if(-1.0 <= viewd and 1.0 >= viewd){
-			distance.ldraw((int)((viewd*width/2) + (width/2)),((getVerticalBearing()/90)*height/2) + height/2 - (50.0f-log2(distance_to+0.1)*5.0f),0.1,50);
-			label.ldraw((int)((viewd*width/2) + (width/2)), ((getVerticalBearing()/90)*height/2) + height/2,0.1,50);
+			distance.ldraw((int)((viewd*width/2) + (width/2)),
+								((viewp)*height/2) + height/2 - (50.0f-log2(distance_to+0.1)*5.0f),
+								0.1,50);
+			label.ldraw((int)((viewd*width/2) + (width/2)), ((viewp)*height/2) + height/2,0.1,50);
 		} else if (viewd < -1.0 and viewd > -1.8) {
-			label.ldraw((int)16,((getVerticalBearing()/90)*height/2) + height/2,0.1,50);
-			glViewport((int)0,((getVerticalBearing()/90)*height/2) + height/2,15,15);
+			label.ldraw((int)16,((getPitch()/90)*height/2) + height/2,0.1,50);
+
+			glViewport((int)0,((getPitch()/90)*height/2) + height/2,15,15);
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
 				glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-				glColor4f(r/255.0, g/255.0, b/255.0,a);
+				colour.bind();
 				glVertex2f(1.0,1.0);
 				glVertex2f(-1.0,0.0);
 				glVertex2f(1.0,-1.0);
@@ -131,12 +133,13 @@ void HeadsUpWaypoint::draw() {
 			}
 			glPopAttrib();
 		} else if (viewd > 1.0 and viewd < 1.8){
-			label.rdraw(16,((getVerticalBearing()/90)*height/2) + height/2,0.1,50);
-			glViewport(width - 15,((getVerticalBearing()/90)*height/2) + height/2,15,15);
+			label.rdraw(16,((getPitch()/90)*height/2) + height/2,0.1,50);
+
+			glViewport(width - 15,((getPitch()/90)*height/2) + height/2,15,15);
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
 				glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-				glColor4f(r/255.0, g/255.0, b/255.0,a);
+				colour.bind();
 				glVertex2f(-1.0,1.0);
 				glVertex2f(1.0,0.0);
 				glVertex2f(-1.0,-1.0);
@@ -144,11 +147,12 @@ void HeadsUpWaypoint::draw() {
 			}glPopAttrib();
 		} else {
 			label.ldraw(-(int)(((viewd)*width/2) + (width/2)),16,0.1,50);
+
 			glViewport(-(int)(((viewd)*width/2) + (width/2)),0,15,15);
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
 				glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-				glColor4f(r/255.0, g/255.0, b/255.0,a);
+				colour.bind();
 				glVertex2f(0.0,-1.0);
 				glVertex2f(1.0,1.0);
 				glVertex2f(-1.0,1.0);
@@ -163,7 +167,7 @@ void HeadsUpWaypoint::draw() {
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 		glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
-		glColor4f(r/255.0, g/255.0, b/255.0,a);
+		colour.bind();
 		glVertex2f(0.0,0.4);
 		glVertex2f(0.8,0.0);
 		glVertex2f(0.0,-0.4);
@@ -174,10 +178,9 @@ void HeadsUpWaypoint::draw() {
 
 	}
 	}
-
 	if ((j>=0) and (k>=0)){
 		resultImg.copyTo(map_overlay);
-		circle( map_overlay, cv::Point(256*k + 256*(map_x-tile_x),256*j + 256*(map_y-tile_y)), size, cv::Scalar( b, g, r), filled*4, 8, 0 );
+		circle( map_overlay, cv::Point(256*k + 256*(map_x-tile_x),256*j + 256*(map_y-tile_y)), size, colour.BGR , filled*4, 8, 0 );
 		cv::addWeighted(map_overlay,a,resultImg,1-a,0,resultImg);
 	}
 }
@@ -185,6 +188,7 @@ void HeadsUpWaypoint::draw() {
 int HeadsUpWaypoint::render(){
 	distance_to = scalarDistance();
 	viewd = getPolarBearing(getBearing());
+	viewp = getPolarPitch(getPitch());
 	distance.setText(std::to_string(distance_to).erase(5)+"m",50.0f-log2(distance_to+0.1)*5.0f);
 	label.setText(getText(), 100.0f-log2(distance_to+0.1)*10.0f);
 
@@ -221,9 +225,13 @@ double HeadsUpWaypoint::getBearing(){
 double HeadsUpWaypoint::getPolarBearing(double theta){
 	return	gps::polarBearing(m_direction,theta);
 }
-double HeadsUpWaypoint::getVerticalBearing(){
-	return	gps::vertical_bearing(gps::Point(m_latitude,m_longitude,m_altitude), location);
+double HeadsUpWaypoint::getPitch(){
+	return	gps::pitch(gps::Point(m_latitude,m_longitude,m_altitude), location);
 }
+double HeadsUpWaypoint::getPolarPitch(double theta){
+	return	gps::polarPitch(m_pitch,theta);
+}
+
 gps::Vector HeadsUpWaypoint::getVector(){
 	return 	gps::Vector(gps::Point(m_latitude,m_longitude,m_altitude), location);
 }

@@ -10,6 +10,9 @@
 
 extern int height;
 
+namespace LRAND{
+	extern LRAND::Colour YELLOW;
+}
 HeadsUpCheckBox::HeadsUpCheckBox(){
 	bw = 0.15;
 	checked=false;
@@ -24,7 +27,7 @@ void HeadsUpCheckBox::draw(bool c, int x, int y)
 		//glViewport(300,300, 200,200);
 		glPushMatrix();  //Make sure our transformations don't affect any other transformations in other code
 		glBegin(GL_POLYGON);   //We want to draw a quad, i.e. shape with four sides
-		glColor4f(0.0, 0.6, 0.6, 0.9);
+		colour.bind();
 		glVertex2f(-1, 1);
 		glVertex2f(1, 1);
 		glVertex2f(1, -0.5);
@@ -33,7 +36,7 @@ void HeadsUpCheckBox::draw(bool c, int x, int y)
 		glEnd();
 
 		glBegin(GL_POLYGON);   //We want to draw a quad, i.e. shape with four sides
-		glColor4f(0.0, 0.3, 0.6, 0.3);
+		(colour - 100).bind();
 		glVertex2f(-1+bw, 1.0-bw);
 		glVertex2f(1-bw, 1-bw);
 		glVertex2f(1-bw, -0.5+bw);
@@ -44,7 +47,7 @@ void HeadsUpCheckBox::draw(bool c, int x, int y)
 
 		if(checked){
 			glBegin(GL_POLYGON);   //We want to draw a quad, i.e. shape with four sides
-			glColor4f(1.0, 1.0, 0.0, 0.9);
+			LRAND::YELLOW.bind();
 			//glVertex2f(-0.8, -0.4);
 			glVertex2f(-0.2, -0.8);
 			glVertex2f(0.8, 0.2);

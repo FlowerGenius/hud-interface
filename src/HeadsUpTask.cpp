@@ -46,25 +46,29 @@ extern double m_latitude,m_longitude;
 				if (current->getStage() == current_stage){
 
 					current->drawGL(indexx);
-					if (!current->completed){
+					if (!current->completed && !current->optional){
 						incomplete_flag = true;
 					}
+
 					indexx++;
 				}
-				if (!current->completed){
+				if (!current->completed && !current->optional){
 					total_complete_flag = false;
 				}
 
 		}
 		if (!incomplete_flag){
 			current_stage++;
+			for (auto& ob : objectives) ob->remove();
+
 		}
+
 		if (total_complete_flag){
 			completed = true;
 		}
 
 		tit_text.setText(getTitle());
-		tit_text.setColour(76,200,255,200);
+		tit_text.setColour(colour);
 		tit_text.rdraw(RIGHT_MARGIN,height-(30+TOP_MARGIN+MAP_HEIGHT),1.5,TASK_TEXT_HEIGHT);
 
 
@@ -75,6 +79,7 @@ extern double m_latitude,m_longitude;
 
 	void HeadsUpTask::addObjective(HeadsUpObjective* o)
 	{
+
 		objectives.push_back(o);
 		state_changed = true;
 		names.clear();

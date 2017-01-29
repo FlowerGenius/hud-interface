@@ -16,24 +16,13 @@ public:
 	void 			getState(void);
 	void			draw(bool c, int x, int y);
 
-	void setBackgroundColour(const XColor& backgroundColour) {
-		background_colour = backgroundColour;
-	}
-
-	void setBorderColour(const XColor& borderColour) {
-		border_colour = borderColour;
-	}
-
-	void setCheckColour(const XColor& checkColour) {
-		check_colour = checkColour;
-	}
+	void 				setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); }
+	void 				setColour(LRAND::Colour c)			{ colour = c; }
 
 private:
 	bool			checked;
 	float 			bw;
-	XColor 			background_colour;
-	XColor			border_colour;
-	XColor			check_colour;
+	LRAND::Colour	colour;
 
 };
 

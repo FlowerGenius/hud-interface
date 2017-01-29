@@ -25,11 +25,13 @@ public:
 
 	std::vector<HeadsUpObjective*> objectives;
 
-	bool operator == (const HeadsUpTask& s) const { return title == s.title && objectives == s.objectives; }
-	bool operator != (const HeadsUpTask& s) const { return !operator==(s); }
-
+	bool operator == (const HeadsUpTask& s) const 			{ return title == s.title && objectives == s.objectives; }
+	bool operator != (const HeadsUpTask& s) const 			{ return !operator==(s); }
+	void 				setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A);}
+	void 				setColour(LRAND::Colour c)			{ colour = c; for (auto& wp : objectives) wp->setColour(colour); }
 private:
-	std::list<std::string> names;
+	LRAND::Colour			colour;
+	std::list<std::string> 	names;
 	int indexx = 0;
 	int						current_stage;
 	bool					completed;

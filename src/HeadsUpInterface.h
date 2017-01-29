@@ -32,9 +32,12 @@ public:
 	HeadsUpTask	getTask(void);
 	HeadsUpTask getLastTask(void);
 
-	void		initialize(void);
-private:
+	void		changeColours(void);
 
+	void 				setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); changeColours();}
+	void 				setColour(LRAND::Colour c)			{ colour = c; changeColours();}
+private:
+	LRAND::Colour 	colour;
 	int 		get_frame(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer);
 	void		processFrameCPU(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer);
 	void		processFrameGPU(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer);

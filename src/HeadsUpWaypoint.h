@@ -16,9 +16,6 @@ public:
 	int							setText(std::string);
 	std::string 				getText(void);
 
-	int 						setColour(int,int,int,int);
-
-
 	int							set(double,double,double alt = 0.0);
 	int							set(gps::Point);
 
@@ -32,14 +29,21 @@ public:
 	double						getBearing();
 	gps::Vector					getVector();
 	double						getPolarBearing(double target_bearing);
-	double 						getVerticalBearing();
+	double						getPolarPitch(double target_pitch);
+
+	double 						getPitch();
+
+	void 						setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); label.setColour(colour); distance.setColour(colour); }
+	void 						setColour(LRAND::Colour c)			{ colour = c;label.setColour(colour); distance.setColour(colour); }
 protected:
 	int							setIcon(void);
 
 	gps::Point					get(void);
 private:
-	double 						distance_to, viewd;
-	int 						r,g,b,k,j;
+	LRAND::Colour				colour;
+
+	double 						distance_to, viewd, viewp;
+	int 						k,j;
 	double						a;
 	int							size;
 	std::string 				text;

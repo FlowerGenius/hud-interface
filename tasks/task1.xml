@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objectives current_stage="0">
+	<SpecificLocationObjective title="N" stage="0" location="-79.395293@43.661802@0" optional="false" />
+	<SpecificLocationObjective title="SW" stage="0" location="-79.395293@43.661802@0" optional="false" />
+	<SpecificLocationObjective title="S" stage="0" location="-79.395293@43.661802@0" optional="false" />
+	<SpecificLocationObjective title="SE" stage="0" location="-79.395293@43.661802@0" optional="false" />
+	<SpecificLocationObjective title="E" stage="1" location="-79.395293@43.661802@0" optional="false" />
+	<SpecificLocationObjective title="NE" stage="1" location="-79.395293@43.661802@0" optional="false" />
+	<SpecificLocationObjective title="NW" stage="0" location="-79.395293@43.661802@0" optional="false" />
+	<AreaLocationObjective title="Area" stage="0" location="-79.395293@43.661802@0" optional="false" radius="40" />
+</objectives>

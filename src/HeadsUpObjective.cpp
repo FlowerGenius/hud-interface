@@ -34,21 +34,42 @@ HeadsUpObjective::HeadsUpObjective(){
 	completed 			= 	false;
 	remove_on_complete	= 	true;
 	state_changed 		= 	true;
+	optional			= 	false;
+	check.setColour(colour);
+	obj_text.setColour(colour);
 
-	a=255,r=255,b=255,g=255;
 }
 
-HeadsUpObjective::HeadsUpObjective(std::string n,int i){
+HeadsUpObjective::HeadsUpObjective(std::string n,int i,bool op){
 	name 				= 	n;
 	active_stage 		= 	i;
 	completed 			= 	false;
 	remove_on_complete	= 	true;
 	state_changed 		= 	true;
-	a=255,r=255,b=255,g=255;
+	optional			= 	false;
+	if(op) optional = true;
+
+	if(optional){
+		colour.set(0,255,255,255);
+	} else {
+		colour.set(255,255,255,255);
+	}
+	check.setColour(colour);
+	obj_text.setColour(colour);
+
 }
 
-HeadsUpObjective::HeadsUpObjective(std::string n, int i,gps::Point loc) : HeadsUpObjective(n,i) {
+HeadsUpObjective::HeadsUpObjective(std::string n, int i,gps::Point loc,bool op) : HeadsUpObjective(n,i,op) {
 	location = loc;
+	if(op) optional = true;
+
+	if(optional){
+		colour.set(0,255,255,255);
+	} else {
+		colour.set(255,255,255,255);
+	}
+	obj_text.setColour(colour);
+	check.setColour(colour);
 }
 
 void HeadsUpObjective::drawGL(int position) {
@@ -56,13 +77,21 @@ void HeadsUpObjective::drawGL(int position) {
 	check.draw(completed, width - RIGHT_MARGIN - 20,
 			50 + TOP_MARGIN + MAP_HEIGHT + (position * 30));
 	obj_text.setText(getName());
-	obj_text.setColour(r, g, b, a);
 	obj_text.rdraw(RIGHT_MARGIN + 30,
 			height - (60 + TOP_MARGIN + MAP_HEIGHT + (position * 30)), 1.1,
 			OBJECTIVE_TEXT_HEIGHT);
 	state_changed = false;
 }
 
+void HeadsUpObjective::remove(){
+	interface.removeWaypoint(&waypoint);
+}
+void SpecificLocationObjective::remove(){
+	interface.removeWaypoint(&waypoint);
+}
+void AreaLocationObjective::remove(){
+	interface.removeWaypoint(&waypoint);
+}
 std::string HeadsUpObjective::getName() {
 	return name;
 }
@@ -88,19 +117,24 @@ void SpecificLocationObjective::checkState(){
 				m_altitude - 0.0003 <= location.altitude and m_altitude + 0.0003 >= location.altitude){
 		completed=true;
 		if (remove_on_complete){
-			setColour(100,100,100,a);
+			obj_text.setColour(colour - 100);
+			check.setColour(colour - 100);
 			interface.removeWaypoint(&waypoint);
+			remove_on_complete = false;
 		}
 	}
 }
+
 
 void AreaLocationObjective::checkState(){
 	if (m_latitude - (double)radius/111111.0 <= location.latitude and m_latitude + (double)radius/111111.0 >= location.latitude and
 			m_longitude - (double)radius/111111.0 <= location.longitude and m_longitude + (double)radius/111111.0 >= location.longitude){
 		completed=true;
+		obj_text.setColour(colour - 100);
+		check.setColour(colour - 100);
 		if (remove_on_complete){
-			setColour(100,100,100,a);
 			interface.removeWaypoint(&waypoint);
+			remove_on_complete = false;
 		}
 	}
 }
@@ -114,5 +148,6 @@ void AreaLocationObjective::initWaypoint(){
 
 
 HeadsUpObjective::~HeadsUpObjective(){
+	interface.removeWaypoint(&waypoint);
 
 }

@@ -23,11 +23,15 @@ extern std::atomic<double> 	m_latitude;
 extern std::atomic<double> 	m_longitude;
 extern std::atomic<double>	m_altitude;
 
+
 extern std::atomic<double>	location_changed;
 
 // system vector variables
 extern std::atomic<double>	m_direction;
 extern std::atomic<double> 	direction_changed;
+extern std::atomic<double> 	m_pitch;
+extern std::atomic<double>	m_roll;
+
 
 // system battery variables
 extern std::atomic<double> 	dev_battery_life;
@@ -64,10 +68,17 @@ void getDirection(){
 		direction_changed = true;
 		prev_dir = m_direction;
 	}
+	if (m_pitch < -180){
+		m_pitch = 179;
+	}
+	else
+	if (m_pitch > 180){
+		m_pitch = -179;
+	}
 }
 
 double sightLine(){
-	return 200.0;
+	return 20000.0;
 }
 
 void getInformation(){
@@ -81,7 +92,10 @@ void getInformation(){
 				dev_battery_life = std::atof(s.substr(split2+2).c_str());
 				break;
 			case '*':
-				m_direction = std::atof(s.substr(1).c_str());
+				split2 = s.substr(1).find('@');
+				m_direction	= std::atof(s.substr(1,split2).c_str());
+				m_pitch		= std::atof(s.substr(split2+2,s.substr(split2+2).find('@')).c_str());
+				m_roll		= std::atof(s.substr(s.substr(split2+2).find('@')).c_str());
 				break;
 			case 'L':
 				split2 = s.substr(1).find('@');

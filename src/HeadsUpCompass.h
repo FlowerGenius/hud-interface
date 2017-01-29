@@ -11,20 +11,27 @@
 class HeadsUpCompass {
 public:
 					HeadsUpCompass();
+					HeadsUpCompass(int,int,int,int);
 	virtual 		~HeadsUpCompass();
-	void			draw();
+	int				render(void);
+	void			draw(void);
+
+	void 			setColour(int R,int G,int B,int A){
+						colour.set(R,G,B,A);
+					}
+
+	void 			setColour(LRAND::Colour c){
+						colour = c;
+					}
 private:
+	LRAND::Colour colour;
 	ScalableVectorString 	N,NNE,NE,ENE,
 							E,ESE,SE,SSE,
 							S,SSW,SW,WSW,
 							W,WNW,NW,NNW;
 	std::vector<ScalableVectorString> card;
-	double 	viewW,viewWNW,viewNW,viewNNW,
-			viewN,viewNNE,viewNE,viewENE,
-			viewE,viewESE,viewSE,viewSSE,
-			viewS,viewSSW,viewSW,viewWSW;
+	double 	viewd;
 	std::vector<double> view;
-	double viewd;
 
 
 };
