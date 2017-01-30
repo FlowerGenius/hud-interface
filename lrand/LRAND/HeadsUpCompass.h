@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_LRAND_HEADSUPCOMPASS_H_
-#define INCLUDE_LRAND_HEADSUPCOMPASS_H_
+#ifndef LRAND_LRAND_HEADSUPCOMPASS_H_
+#define LRAND_LRAND_HEADSUPCOMPASS_H_
 
 class HeadsUpCompass {
 public:
@@ -36,4 +36,4 @@ private:
 
 };
 
-#endif /* INCLUDE_LRAND_HEADSUPCOMPASS_H_ */
+#endif /* LRAND_LRAND_HEADSUPCOMPASS_H_ */

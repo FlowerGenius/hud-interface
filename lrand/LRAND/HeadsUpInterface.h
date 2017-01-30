@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef INCLUDE_LRAND_HEADSUPINTERFACE_H_
-#define INCLUDE_LRAND_HEADSUPINTERFACE_H_
+#ifndef LRAND_LRAND_HEADSUPINTERFACE_H_
+#define LRAND_LRAND_HEADSUPINTERFACE_H_
 
 class HeadsUpInterface
 {
@@ -78,4 +78,4 @@ private:
 
 
 
-#endif /* INCLUDE_LRAND_HEADSUPINTERFACE_H_ */
+#endif /* LRAND_LRAND_HEADSUPINTERFACE_H_ */

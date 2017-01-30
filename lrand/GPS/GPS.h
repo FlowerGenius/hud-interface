@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_GPS_GPS_H_
-#define INCLUDE_GPS_GPS_H_
+#ifndef LRAND_GPS_GPS_H_
+#define LRAND_GPS_GPS_H_
 
 namespace gps {
 
@@ -37,4 +37,4 @@ public:
 };
 } /* namespace gps */
 
-#endif /* INCLUDE_GPS_GPS_H_ */
+#endif /* LRAND_GPS_GPS_H_ */

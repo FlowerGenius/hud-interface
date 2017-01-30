@@ -5,7 +5,7 @@
  *      Author: erin
  */
 
-#include <lrand.h>
+#include <lrand/lrand.h>
 
 extern HeadsUpInterface interface;
 extern int height, width;

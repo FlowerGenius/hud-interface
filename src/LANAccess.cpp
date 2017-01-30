@@ -5,7 +5,7 @@
  *      Author: erin
  */
 
-#include <lrand.h>
+#include <lrand/lrand.h>
 
 enum fcurl_type_e {
   CFTYPE_NONE=0,

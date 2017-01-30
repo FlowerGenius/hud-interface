@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef INCLUDE_LRAND_HEADSUPTASK_H_
-#define INCLUDE_LRAND_HEADSUPTASK_H_
+#ifndef LRAND_LRAND_HEADSUPTASK_H_
+#define LRAND_LRAND_HEADSUPTASK_H_
 
 class HeadsUpTask
 {
@@ -67,4 +67,4 @@ private:
 
 
 
-#endif /* INCLUDE_LRAND_HEADSUPTASK_H_ */
+#endif /* LRAND_LRAND_HEADSUPTASK_H_ */

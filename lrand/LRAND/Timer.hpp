@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_LRAND_TIMER_HPP_
-#define INCLUDE_LRAND_TIMER_HPP_
+#ifndef LRAND_LRAND_TIMER_HPP_
+#define LRAND_LRAND_TIMER_HPP_
 
 class Timer
 {
@@ -58,4 +58,4 @@ public:
 
 
 
-#endif /* INCLUDE_LRAND_TIMER_HPP_ */
+#endif /* LRAND_LRAND_TIMER_HPP_ */

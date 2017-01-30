@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_LRAND_TILEBUILDER_H_
-#define INCLUDE_LRAND_TILEBUILDER_H_
+#ifndef LRAND_LRAND_TILEBUILDER_H_
+#define LRAND_LRAND_TILEBUILDER_H_
 
 class HeadsUpInterface;
 
@@ -25,4 +25,4 @@ private:
 	int z;
 };
 
-#endif /* INCLUDE_LRAND_TILEBUILDER_H_ */
+#endif /* LRAND_LRAND_TILEBUILDER_H_ */

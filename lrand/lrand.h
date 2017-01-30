@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_LRAND_H_
-#define INCLUDE_LRAND_H_
+#ifndef LRAND_LRAND_H_
+#define LRAND_LRAND_H_
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -118,24 +118,24 @@ class HeadsUpInterface;
 class ScalableVectorString;
 
 
-#include <LRAND/LRAND.h>
-#include "rapidxml-1.13/rapidxml.hpp"
-#include <glstring/ScalableVectorString.h>
-#include <GPS/GPS.h>
-#include <LRAND/DeviceAccess.h>
-#include <LRAND/LANAccess.h>
-#include <LRAND/Timer.hpp>
-#include <LRAND/HeadsUpWaypoint.h>
-#include <LRAND/HeadsUpCheckBox.h>
-#include <LRAND/HeadsUpObjective.h>
-#include <LRAND/HeadsUpTask.h>
-#include <LRAND/HeadsUpBatteryInfo.h>
-#include <LRAND/HeadsUpCompass.h>
-#include <LRAND/TileBuilder.h>
-#include <LRAND/HeadsUpMap.h>
-#include <LRAND/HeadsUpDigitalClock.h>
-#include <LRAND/HeadsUpInterface.h>
+#include <lrand/LRAND/LRAND.h>
+#include <lrand/rapidxml-1.13/rapidxml.hpp>
+#include <lrand/glstring/ScalableVectorString.h>
+#include <lrand/GPS/GPS.h>
+#include <lrand/LRAND/DeviceAccess.h>
+#include <lrand/LRAND/LANAccess.h>
+#include <lrand/LRAND/Timer.hpp>
+#include <lrand/LRAND/HeadsUpWaypoint.h>
+#include <lrand/LRAND/HeadsUpCheckBox.h>
+#include <lrand/LRAND/HeadsUpObjective.h>
+#include <lrand/LRAND/HeadsUpTask.h>
+#include <lrand/LRAND/HeadsUpBatteryInfo.h>
+#include <lrand/LRAND/HeadsUpCompass.h>
+#include <lrand/LRAND/TileBuilder.h>
+#include <lrand/LRAND/HeadsUpMap.h>
+#include <lrand/LRAND/HeadsUpDigitalClock.h>
+#include <lrand/LRAND/HeadsUpInterface.h>
 
 
 
-#endif /* INCLUDE_LRAND_H_ */
+#endif /* LRAND_LRAND_H_ */

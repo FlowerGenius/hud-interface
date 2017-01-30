@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_GLSTRING_FONTS_KOMBAT_HPP_
-#define INCLUDE_GLSTRING_FONTS_KOMBAT_HPP_
+#ifndef LRAND_GLSTRING_FONTS_KOMBAT_HPP_
+#define LRAND_GLSTRING_FONTS_KOMBAT_HPP_
 #define kombat_SPACE {	xx+=10*(ht/40)+hw;	break; }
 #define kombat_EXCLAMATION {	 w = 5;	 h = 40;	glViewport(xx,y,w*(ht/h),ht);	glBegin(GL_POLYGON);	glVertex2f(-1.0f,-1.0f);	glVertex2f(1.0f,-1.0f);	glVertex2f(1.0f,-0.8f);	glVertex2f(-1.0f,-0.8f);	glEnd();	glBegin(GL_POLYGON);	glVertex2f(-1.0f,1.0f);	glVertex2f(1.0f,1.0f);	glVertex2f(1.0f,-0.6f);	glVertex2f(-1.0f,-0.6f);	glEnd();	xx+=w*(ht/h)+hw;	break; }
 #define kombat_DOUBLE_QUOTES {	 w = 11;	 h = 40;	glViewport(xx,y,w*(ht/h),ht);	glBegin(GL_POLYGON);	glVertex2f(-0.2f,0.5f);	glVertex2f(-0.2f,1.0f);	glVertex2f(-1.0f,1.0f);	glVertex2f(-1.0f,0.5f);	glEnd();	glBegin(GL_POLYGON);	glVertex2f(0.2f,0.5f);	glVertex2f(0.2f,1.0f);	glVertex2f(1.0f,1.0f);	glVertex2f(1.0f,0.5f);	glEnd();	xx+=w*(ht/h)+hw;	break; }
@@ -103,4 +103,4 @@
 #define kombat_TILDE {break; }
 #define kombat_DEGREE {	 w = 18;	 h = 40;	glViewport(xx,y+(2*ht/3),w*(ht/h),ht/2);	glBegin(GL_POLYGON);	glVertex2f(-0.25f,0.5f);	glVertex2f(0.25f,0.5f);	glVertex2f(0.25f,0.25f);	glVertex2f(-0.25f,0.25f);	glEnd();	glBegin(GL_POLYGON);	glVertex2f(-0.25f,0.5f);	glVertex2f(-1.0f,0.5f);	glVertex2f(-1.0f,-1.0f);	glVertex2f(-0.25f,-1.0f);	glEnd();	glBegin(GL_POLYGON);	glVertex2f(-0.25f,-0.75f);	glVertex2f(0.25f,-0.75f);	glVertex2f(0.25f,-1.0f);	glVertex2f(-0.25f,-1.0f);	glEnd();	glBegin(GL_POLYGON);	glVertex2f(1.0f,-1.0f);	glVertex2f(0.25f,-1.0f);	glVertex2f(0.25f,0.5f);	glVertex2f(1.0f,0.5f);	glEnd();	xx+=w*(ht/h)+hw;	break; }
 
-#endif /* INCLUDE_GLSTRING_FONTS_KOMBAT_HPP_ */
+#endif /* LRAND_GLSTRING_FONTS_KOMBAT_HPP_ */

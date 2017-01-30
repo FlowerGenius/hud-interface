@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef INCLUDE_LRAND_HEADSUPOBJECTIVE_H_
-#define INCLUDE_LRAND_HEADSUPOBJECTIVE_H_
+#ifndef LRAND_LRAND_HEADSUPOBJECTIVE_H_
+#define LRAND_LRAND_HEADSUPOBJECTIVE_H_
 
 class Objective
 {
@@ -151,4 +151,4 @@ class RepeatedActionObjective : public ActionObjective
 };
 
 
-#endif /* INCLUDE_LRAND_HEADSUPOBJECTIVE_H_ */
+#endif /* LRAND_LRAND_HEADSUPOBJECTIVE_H_ */

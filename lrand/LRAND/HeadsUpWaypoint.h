@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_LRAND_HEADSUPWAYPOINT_H_
-#define INCLUDE_LRAND_HEADSUPWAYPOINT_H_
+#ifndef LRAND_LRAND_HEADSUPWAYPOINT_H_
+#define LRAND_LRAND_HEADSUPWAYPOINT_H_
 
 class HeadsUpObjective;
 
@@ -71,4 +71,4 @@ private:
 };
 
 
-#endif /* INCLUDE_LRAND_HEADSUPWAYPOINT_H_ */
+#endif /* LRAND_LRAND_HEADSUPWAYPOINT_H_ */

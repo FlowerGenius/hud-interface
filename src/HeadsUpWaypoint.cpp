@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#include <lrand.h>
-#include <LRAND/HeadsUpWaypoint.h>
+#include <lrand/lrand.h>
+#include <lrand/LRAND/HeadsUpWaypoint.h>
 
 extern int tiley,tilex;
 extern cv::Mat resultImg;

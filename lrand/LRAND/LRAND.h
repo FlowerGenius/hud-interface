@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_LRAND_LRAND_H_
-#define INCLUDE_LRAND_LRAND_H_
+#ifndef LRAND_LRAND_LRAND_H_
+#define LRAND_LRAND_LRAND_H_
 
 namespace LRAND {
 
@@ -167,4 +167,4 @@ protected:
 
 } /* namespace LRAND */
 
-#endif /* INCLUDE_LRAND_LRAND_H_ */
+#endif /* LRAND_LRAND_LRAND_H_ */

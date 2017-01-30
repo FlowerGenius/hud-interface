@@ -5,7 +5,7 @@
  *      Author: erin
  */
 
-#include <lrand.h>
+#include <lrand/lrand.h>
 
 namespace LRAND {
 	Colour YELLOW(255,255,0,255);

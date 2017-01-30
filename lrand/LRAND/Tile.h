@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_LRAND_TILE_H_
-#define INCLUDE_LRAND_TILE_H_
+#ifndef LRAND_LRAND_TILE_H_
+#define LRAND_LRAND_TILE_H_
 
 #include <opencv2/core/mat.hpp>
 
@@ -21,4 +21,4 @@ public:
 
 } /* namespace cv */
 
-#endif /* INCLUDE_LRAND_TILE_H_ */
+#endif /* LRAND_LRAND_TILE_H_ */

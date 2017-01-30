@@ -5,7 +5,7 @@
  *      Author: erin
  */
 
-#include <lrand.h>
+#include <lrand/lrand.h>
 
 extern std::atomic<double> m_direction,m_pitch,m_altitude;
 extern int width,height;

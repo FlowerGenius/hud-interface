@@ -5,7 +5,7 @@
  *      Author: erin
  */
 
-#include <lrand.h>
+#include <lrand/lrand.h>
 
 extern double lat2tiley(double,int);
 extern double long2tilex(double,int);

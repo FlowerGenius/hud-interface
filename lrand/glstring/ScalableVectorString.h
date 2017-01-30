@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_GLSTRING_SCALABLEVECTORSTRING_H_
-#define INCLUDE_GLSTRING_SCALABLEVECTORSTRING_H_
+#ifndef LRAND_GLSTRING_SCALABLEVECTORSTRING_H_
+#define LRAND_GLSTRING_SCALABLEVECTORSTRING_H_
 
 #define			SPACE 			U'\u0020'
 #define			EXCLAMATION 	U'\u0021'
@@ -86,7 +86,7 @@
 #define			SQUARE			U'\u25A0'
 #define			NBSP			U'\u00A0'
 
-#include <glstring/fonts/kombat.hpp>
+#include <lrand/glstring/fonts/kombat.hpp>
 #define fontbuilder(y)	 kombat ## _ ## y
 
 class ScalableVectorString {
@@ -416,4 +416,4 @@ private:
 #undef			NBSP
 #undef			fontbuilder
 
-#endif /* INCLUDE_GLSTRING_SCALABLEVECTORSTRING_H_ */
+#endif /* LRAND_GLSTRING_SCALABLEVECTORSTRING_H_ */

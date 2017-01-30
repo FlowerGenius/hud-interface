@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef INCLUDE_LRAND_DEVICEACCESS_H_
-#define INCLUDE_LRAND_DEVICEACCESS_H_
+#ifndef LRAND_LRAND_DEVICEACCESS_H_
+#define LRAND_LRAND_DEVICEACCESS_H_
 
 #define REQUEST_HEADER (void*)0xFF,(void*)0x00
 
@@ -27,4 +27,4 @@ private:
 	void			set_blocking(int,int);
 };
 
-#endif /* INCLUDE_LRAND_DEVICEACCESS_H_ */
+#endif /* LRAND_LRAND_DEVICEACCESS_H_ */
