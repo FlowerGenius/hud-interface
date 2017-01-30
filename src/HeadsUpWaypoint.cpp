@@ -33,7 +33,8 @@ namespace gps {
 	extern double polarPitch(double,double);
 }
 
-HeadsUpWaypoint::HeadsUpWaypoint() {
+
+HeadsUpWaypoint::HeadsUpWaypoint(){
 	// Null Colour initialization
 	k = 0, j = 0;
 	a = 1.0;
@@ -58,8 +59,9 @@ HeadsUpWaypoint::HeadsUpWaypoint() {
 
 	draw_fov 	= false;
 	icon 		= {};
-
-
+}
+HeadsUpWaypoint::HeadsUpWaypoint(HeadsUpObjective *o) : HeadsUpWaypoint() {
+	source = o;
 }
 
 int HeadsUpWaypoint::setFill(bool b){

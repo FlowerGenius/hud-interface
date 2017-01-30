@@ -21,7 +21,8 @@
 #include "HeadsUpTask.h"
 #include "Timer.hpp"
 #include "HeadsUpInterface.h"
-
+#define LONGITUDE	-79.395293
+#define LATITUDE	43.661802
 extern std::atomic<bool>	direction_changed;
 extern std::atomic<bool>	location_changed;
 
@@ -85,6 +86,9 @@ void drawCompass(HeadsUpCompass c){
 		m_oclDevName = cv::ocl::useOpenCL() ?
 				cv::ocl::Context::getDefault().device(0).name() :
 				(char*) "No OpenCL device";
+
+
+
 
 }
 
@@ -185,6 +189,69 @@ void drawCompass(HeadsUpCompass c){
 		m_timer.stop();
 	}
 
+	void HeadsUpInterface::start_stuff(){
+		rapidxml::xml_document<> d;
+				doc = &d;
+				loaded_doc;
+				std::string buf;
+
+				std::ifstream handle;
+				handle.open(LOCAL_TASKS);
+
+				if (handle.is_open()){
+				while(!handle.eof()){
+					getline(handle,buf);
+					loaded_doc += buf;
+				}
+			}
+				handle.close();
+
+		doc->parse<0>((char *)loaded_doc.c_str());
+
+		taskfile_node = doc->first_node();
+		tasks_folder = std::string(taskfile_node->first_attribute("tasks_folder")->value());
+		int task_id = std::atoi(taskfile_node->first_attribute("active_task")->value());
+		int	num_of_tasks  = std::atoi(taskfile_node->first_attribute("length")->value());
+		rapidxml::xml_node<> *tassk = taskfile_node->first_node();
+
+		for (int q = 1; q < num_of_tasks+1;q++){
+
+			std::string fname = std::string(tassk->first_attribute("file")->value());
+			std::string	name  = std::string(tassk->first_attribute("name")->value());
+			int			ident = std::atoi(tassk->first_attribute("id")->value());
+			int			sta	  = std::atoi(tassk->first_attribute("stage")->value());
+			bool		com	  = std::string(tassk->first_attribute("completed")->value()) == std::string("false") ?  false : true;
+
+
+			HeadsUpTask *t = new HeadsUpTask(getTasksFolder()+fname,name,ident,sta,com);
+			addTask(t);
+
+			if (task_id == q){
+				makeActiveTask(t);
+			}
+
+			tassk = tassk->next_sibling();
+		}
+	}
+
+
+
+	std::string HeadsUpInterface::getTasksFolder(){
+		return tasks_folder;
+	}
+//	void HeadsUpInterface::setTasksFolder(std::string folder){
+//		rapidxml::xml_attribute<> *attr = doc->allocate_attribute("tasks_folder",folder.c_str());
+//		taskfile_node->append_attribute(attr);
+//	}
+
+	int HeadsUpInterface::getActiveTask(){
+		return active_task->getId();
+	}
+//	void HeadsUpInterface::setActiveTask(int task){
+//		rapidxml::xml_attribute<> *attr = doc->allocate_attribute("active_task",std::to_string(task).c_str());
+//		taskfile_node->append_attribute(attr);
+//	}
+
 	void HeadsUpInterface::changeColours(void)
 	{
 		compass.setColour(colour);
@@ -235,8 +302,8 @@ void drawCompass(HeadsUpCompass c){
 
 	void HeadsUpInterface::makeActiveTask(HeadsUpTask* t)
 	{
-		tasks.remove(t);
-		tasks.push_front(t);
+		//setActiveTask(t->getId());
+		active_task = t;
 	}
 
 
@@ -296,8 +363,10 @@ void drawCompass(HeadsUpCompass c){
 	void HeadsUpInterface::drawGLComponents()
 	{
 
-		if (tasks.front()->isComplete()){
-			tasks.pop_front();
+		if (active_task->getCompleted()){
+			active_task->deactivate();
+			tasks.remove(active_task);
+			makeActiveTask(tasks.front());
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

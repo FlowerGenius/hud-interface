@@ -8,6 +8,8 @@
 #ifndef HEADSUPOBJECTIVE_H_
 #define HEADSUPOBJECTIVE_H_
 
+class HeadsUpTask;
+
 class Objective
 {
 public:
@@ -16,15 +18,16 @@ public:
 };
 
 
+
 class HeadsUpObjective
 {
 public:
 							HeadsUpObjective();
-							HeadsUpObjective(std::string,int,bool);
-							HeadsUpObjective(std::string,int,gps::Point,bool);
+							HeadsUpObjective(std::string,int,bool,HeadsUpTask *t);
+							HeadsUpObjective(std::string,int,gps::Point,bool,HeadsUpTask *t);
 	virtual 				~HeadsUpObjective();
 
-
+	HeadsUpTask				*source;
 
 	virtual int				getStage(void);
 	virtual std::string		getName(void);
@@ -55,7 +58,7 @@ protected:
 private:
 	std::string 			name;
 	int						active_stage;
-	HeadsUpWaypoint			waypoint;
+	HeadsUpWaypoint			waypoint = HeadsUpWaypoint(this);
 };
 
 
@@ -65,8 +68,8 @@ private:
 class SpecificLocationObjective : public HeadsUpObjective
 {
 public:
-					SpecificLocationObjective(std::string n, int stage, gps::Point loc,bool op) :
-						HeadsUpObjective(n, stage, loc, op)
+					SpecificLocationObjective(std::string n, int stage, gps::Point loc,bool op,HeadsUpTask *t) :
+						HeadsUpObjective(n, stage, loc, op,t)
 					{
 							location = loc;
 							obj_text.setColour(colour);
@@ -86,7 +89,7 @@ public:
 
 private:
 	virtual void			initWaypoint(void);
-	HeadsUpWaypoint			waypoint;
+	HeadsUpWaypoint			waypoint = HeadsUpWaypoint(this);
 
 };
 
@@ -96,8 +99,8 @@ private:
 class AreaLocationObjective : public HeadsUpObjective
 {
 public:
-					AreaLocationObjective(std::string n, int stage, gps::Point loc,int r,bool op) :
-						HeadsUpObjective(n, stage, loc, op)
+					AreaLocationObjective(std::string n, int stage, gps::Point loc,int r,bool op,HeadsUpTask *t) :
+						HeadsUpObjective(n, stage, loc, op, t)
 					{
 							radius = r;
 							remove_on_complete = false;
@@ -118,7 +121,7 @@ public:
 					virtual void					remove();
 
 private:
-	HeadsUpWaypoint 		waypoint;
+	HeadsUpWaypoint			waypoint = HeadsUpWaypoint(this);
 	virtual void			initWaypoint(void);
 };
 
@@ -130,8 +133,8 @@ class ActionObjective : public HeadsUpObjective
 {
 public:
 
-					ActionObjective(std::string n, int stage,bool op) :
-						HeadsUpObjective(n,stage,op)
+					ActionObjective(std::string n, int stage,bool op,HeadsUpTask *t) :
+						HeadsUpObjective(n,stage,op,t)
 					{
 
 					}

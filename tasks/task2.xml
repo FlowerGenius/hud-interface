@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objectives current_stage="0">
-	<SpecificLocationObjective title="Buy a shark" stage="0" location="-79.395293@43.661802@0" optional="false" />
-	<SpecificLocationObjective title="Fly in a moon buggy" stage="1" location="-79.395293@43.661802@0" optional="false" />
+<objectives objectives="2">
+	<SpecificLocationObjective title="Buy a shark" stage="0" location="-79.395293@43.661802@0" optional="false"  completed="false"/>
+	<SpecificLocationObjective title="Fly in a moon buggy" stage="1" location="-79.395293@43.661802@0" optional="false" completed="false"/>
 </objectives>

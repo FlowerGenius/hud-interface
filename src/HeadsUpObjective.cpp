@@ -37,10 +37,10 @@ HeadsUpObjective::HeadsUpObjective(){
 	optional			= 	false;
 	check.setColour(colour);
 	obj_text.setColour(colour);
-
+	source = NULL;
 }
 
-HeadsUpObjective::HeadsUpObjective(std::string n,int i,bool op){
+HeadsUpObjective::HeadsUpObjective(std::string n,int i,bool op,HeadsUpTask *t){
 	name 				= 	n;
 	active_stage 		= 	i;
 	completed 			= 	false;
@@ -56,10 +56,10 @@ HeadsUpObjective::HeadsUpObjective(std::string n,int i,bool op){
 	}
 	check.setColour(colour);
 	obj_text.setColour(colour);
-
+	source = t;
 }
 
-HeadsUpObjective::HeadsUpObjective(std::string n, int i,gps::Point loc,bool op) : HeadsUpObjective(n,i,op) {
+HeadsUpObjective::HeadsUpObjective(std::string n, int i,gps::Point loc,bool op,HeadsUpTask *t) : HeadsUpObjective(n,i,op,t) {
 	location = loc;
 	if(op) optional = true;
 
@@ -130,9 +130,9 @@ void AreaLocationObjective::checkState(){
 	if (m_latitude - (double)radius/111111.0 <= location.latitude and m_latitude + (double)radius/111111.0 >= location.latitude and
 			m_longitude - (double)radius/111111.0 <= location.longitude and m_longitude + (double)radius/111111.0 >= location.longitude){
 		completed=true;
-		obj_text.setColour(colour - 100);
-		check.setColour(colour - 100);
 		if (remove_on_complete){
+			obj_text.setColour(colour - 100);
+			check.setColour(colour - 100);
 			interface.removeWaypoint(&waypoint);
 			remove_on_complete = false;
 		}

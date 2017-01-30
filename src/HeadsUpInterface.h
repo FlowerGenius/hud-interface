@@ -13,13 +13,13 @@ class HeadsUpInterface
 public:
 				HeadsUpInterface();
 
+	void		start_stuff(void);
 	void		draw(void);
 	void		makeActiveTask(HeadsUpTask* t);
 
 	void		addTask(HeadsUpTask* t);
 	void		addTasks(std::vector<HeadsUpTask*>);
 	std::list<HeadsUpTask*> 	tasks;
-
 
 	void		addWaypoint(HeadsUpWaypoint*);
 	void		removeWaypoint(HeadsUpWaypoint*);
@@ -29,6 +29,12 @@ public:
 	void		updateGL(void);
 	void		updateX(void);
 
+	std::string getTasksFolder(void);
+	void setTasksFolder(std::string);
+
+	int getActiveTask(void);
+	void setActiveTask(int);
+
 	HeadsUpTask	getTask(void);
 	HeadsUpTask getLastTask(void);
 
@@ -36,6 +42,8 @@ public:
 
 	void 				setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); changeColours();}
 	void 				setColour(LRAND::Colour c)			{ colour = c; changeColours();}
+	HeadsUpTask*				 active_task;
+
 private:
 	LRAND::Colour 	colour;
 	int 		get_frame(cv::ogl::Texture2D& texture, cv::ogl::Buffer& buffer, bool do_buffer);
@@ -56,6 +64,13 @@ private:
 	HeadsUpDigitalClock clockk;
 	HeadsUpBatteryInfo batinfo;
 	HeadsUpCompass compass;
+
+	std::string				loaded_doc;
+	std::string				tasks_folder;
+
+
+	rapidxml::xml_document<> 	*doc;
+	rapidxml::xml_node<>		*taskfile_node;
 
 	DeviceAccess 	_da;
 	LANAccess 		_la;

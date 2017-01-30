@@ -254,9 +254,11 @@ void assignTiles(int tilex, int tileyy, int zoom){
 	cv::hconcat(std::vector<cv::Mat>({tiles[6],tiles[7],tiles[8]}), bottom);
 
 	cv::vconcat(std::vector<cv::Mat>({top,mid,bottom}),resultImg);
-
-	for (auto& wp : interface.waypoints) {wp->draw();}
-
+	for (auto& wp : interface.waypoints) {
+		if (wp->source->source == interface.active_task and wp->source->getStage() == interface.active_task->getStage()) {
+			wp->draw();
+		}
+	}
 }
 
 
@@ -271,6 +273,8 @@ int TileBuilder::render(){
 	mmy = ((map_location.second*2)-1)/2;
 
 	assignTiles(tilex,tiley,z);
+
+
 
 	previous_tiley = tiley;
 	previous_tilex = tilex;

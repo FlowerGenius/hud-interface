@@ -47,6 +47,7 @@
 
 #include <iostream>
 #include <list>
+#include <fstream>
 #include <mutex>
 #include <atomic>
 #include <vector>
@@ -85,6 +86,7 @@ enum MODE
 #define LAN			"192.168.000.027/"
 #define WAN 		"000.000.000.000/"
 #define SRV			"leeresearchdev.ca/"
+#define LOCAL_TASKS "/home/erin/workspace/HUD2/Tasks.xml"
 
 #define EID			std::string(LASTNAME)+std::string(MIDDLENAME)+std::string(FIRSTNAME)
 

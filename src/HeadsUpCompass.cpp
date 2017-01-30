@@ -73,7 +73,7 @@ void HeadsUpCompass::draw(){
 		ScalableVectorString s1;
 		ScalableVectorString s2;
 
-		s1.setText("Alt    "+std::to_string(m_altitude)+'m');
+		s1.setText("Alt== "+std::to_string(m_altitude)+'m');
 		s2.setText("Pitch "+std::to_string(m_pitch)+"°");
 		s1.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE/2, 0.1, CLOCK_FONT_SIZE/2);
 		s2.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE, 0.1, CLOCK_FONT_SIZE/2);

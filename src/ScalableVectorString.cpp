@@ -55,28 +55,28 @@
 #define			CLOSE_BRACE		U'\u007D'
 #define			TILDE			U'\u007E'
 //#define			DELETE
-#define			SLASH_ZERO			U'\u007E'
+#define			SLASH_ZERO			U'\u00F8'
 #define			POUND_STERLING		U'\u00A3'
-#define			SLASH_BIGZERO		U'\u007E'
-#define			MULTIPLICATION		U'\u007E'
-#define			FUNCTION			U'\u007E'
+#define			SLASH_BIGZERO		U'\u00D8'
+#define			MULTIPLICATION		U'\u00D7'
+#define			FUNCTION			U'\u0192'
 #define			ANGLE_QUOTES_OPEN	U'\u00AB'
 #define			ANGLE_QUOTES_CLOSE	U'\u00BB'
-#define			STIPPLE1			U'\u007E'
-#define			STIPPLE2			U'\u007E'
-#define			STIPPLE3			U'\u007E'
+#define			STIPPLE1			U'\u2591'
+#define			STIPPLE2			U'\u2592'
+#define			STIPPLE3			U'\u2593'
 #define			CENT				U'\u00A2'
 #define			YEN					U'\u00A5'
 #define			CURRENCY_SYMBOL		U'\u00A4'
-#define			BLOCK				U'\u007E'
-#define			BOTTOM_BLOCK		U'\u007E'
-#define			TOP_BLOCK			U'\u007E'
+#define			BLOCK				U'\u2588'
+#define			BOTTOM_BLOCK		U'\u2584'
+#define			TOP_BLOCK			U'\u2580'
 #define			MACRON_SYMBOL		U'\u00AF'
-#define			TRIPLE_HYPHEN		U'\u007E'
+#define			TRIPLE_HYPHEN		U'\u2261'
 #define			PLUSMINUS			U'\u00B1'
 #define			DOUBLE_UNDERSCORE	U'\u007E'
-#define			SECTION_SIGN		U'\u00A7'
-#define			DIVISION_SIGN		U'\u007E'
+#define			SECTION_SIGN		U'\u00F7'
+#define			DIVISION_SIGN		U'\u00F7'
 #define			CEDILLA				U'\u00B8'
 #define			DEGREE				U'\u00B0'
 #define			DIAERESIS			U'\u00A8'
@@ -84,8 +84,8 @@
 #define			SUPER_1			U'\u00B9'
 #define			SUPER_3			U'\u00B3'
 #define			SUPER_2			U'\u00B2'
-#define			SQUARE			U'\u007E'
-#define			NBSP			U'\u007E'
+#define			SQUARE			U'\u25A0'
+#define			NBSP			U'\u00A0'
 
 
 
@@ -215,6 +215,8 @@ extern int width, height;
 		glPushMatrix();
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		co.bind();
+
+
 
 		for(;;)
 		{

@@ -15,6 +15,7 @@
 #include "HeadsUpCheckBox.h"
 #include "HeadsUpDigitalClock.h"
 #include "TileBuilder.h"
+
 #include "HeadsUpWaypoint.h"
 #include "HeadsUpMap.h"
 #include "HeadsUpObjective.h"
@@ -487,24 +488,27 @@ int main(int argc, char *argv[]) {
 #endif
 	interface.setColour(0,167,255,200);
 
-	HeadsUpTask* task1 = new HeadsUpTask("Make Some Good Plans");
-	task1->addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(LATITUDE ,-79.395093),20,true));
-//	task1->addObjective(new ActionObjective("Implement changeColour method", 0));
-	task1->addObjective(new SpecificLocationObjective("N", 0,gps::Point(LATITUDE + 0.001,LONGITUDE, 0),false));
-	task1->addObjective(new SpecificLocationObjective("SW", 0,gps::Point(LATITUDE - 0.001,LONGITUDE - 0.001,0),false));
-	task1->addObjective(new SpecificLocationObjective("W", 0,gps::Point(LATITUDE,LONGITUDE - 0.001,0),true));
-	task1->addObjective(new SpecificLocationObjective("E", 0,gps::Point(LATITUDE,LONGITUDE + 0.001,0),false));
-	task1->addObjective(new SpecificLocationObjective("SE", 0,gps::Point(LATITUDE - 0.001,LONGITUDE + 0.001,0),false));
 
-	HeadsUpTask* task2 = new HeadsUpTask("The Less Good Plans");
-	task1->addObjective(new ActionObjective("11AA1A", 1,false));
-	task1->addObjective(new ActionObjective("11AA1A", 1,false));
-	task2->addObjective(new ActionObjective("Cats And Dogs; pet them!", 0,false));
-	task2->addObjective(new ActionObjective("Fly away for good?", 0,false));
-	task2->addObjective(new ActionObjective("GO, THEN LEAVE", 1,false));
 
-	interface.addTasks({task1,task2});
+	//HeadsUpTask* task1 = new HeadsUpTask("Make Some Good Plans");
+//	task1->addObjective(new AreaLocationObjective("Implement changeText method", 0,gps::Point(LATITUDE ,-79.395093),20,true));
+////	task1->addObjective(new ActionObjective("Implement changeColour method", 0));
+//	task1->addObjective(new SpecificLocationObjective("N", 0,gps::Point(LATITUDE + 0.001,LONGITUDE, 0),false));
+//	task1->addObjective(new SpecificLocationObjective("SW", 0,gps::Point(LATITUDE - 0.001,LONGITUDE - 0.001,0),false));
+//	task1->addObjective(new SpecificLocationObjective("W", 0,gps::Point(LATITUDE,LONGITUDE - 0.001,0),true));
+//	task1->addObjective(new SpecificLocationObjective("E", 0,gps::Point(LATITUDE,LONGITUDE + 0.001,0),false));
+//	task1->addObjective(new SpecificLocationObjective("SE", 0,gps::Point(LATITUDE - 0.001,LONGITUDE + 0.001,0),false));
+//
+//	HeadsUpTask* task2 = new HeadsUpTask("The Less Good Plans");
+//	task1->addObjective(new ActionObjective("11AA1A", 1,false));
+//	task1->addObjective(new ActionObjective("11AA1A", 1,false));
+//	task2->addObjective(new ActionObjective("Cats And Dogs; pet them!", 0,false));
+//	task2->addObjective(new ActionObjective("Fly away for good?", 0,false));
+//	task2->addObjective(new ActionObjective("GO, THEN LEAVE", 1,false));
+
+	//interface.addTasks({task1,task2});
 	//interface.addWaypoints({wayp1,wayp2,wayp3});
+
 
 	createTheWindow();
 	createTheRenderContext();
@@ -523,7 +527,7 @@ int main(int argc, char *argv[]) {
 	m_cap = cap;
 
 
-
+	interface.start_stuff();
 	while (updateTheMessageQueue()) {
 		redrawTheWindow();
 	}

@@ -17,6 +17,7 @@ public:
 	Point(cv::Point2d);
 	Point(double,double,double);
 	Point(cv::Point3d);
+	Point(std::string);
 	virtual ~Point();
 	double latitude;
 	double longitude;

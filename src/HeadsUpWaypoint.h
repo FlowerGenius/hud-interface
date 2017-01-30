@@ -8,9 +8,12 @@
 #ifndef HEADSUPWAYPOINT_H_
 #define HEADSUPWAYPOINT_H_
 
+class HeadsUpObjective;
+
 class HeadsUpWaypoint {
 public:
 								HeadsUpWaypoint();
+								HeadsUpWaypoint(HeadsUpObjective* o);
 	virtual 					~HeadsUpWaypoint();
 
 	int							setText(std::string);
@@ -24,6 +27,8 @@ public:
 
 	int							render(void);
 	void						draw(void);
+
+	HeadsUpObjective			*source;
 
 	double						scalarDistance();
 	double						getBearing();
