@@ -5,8 +5,7 @@
  *      Author: erin
  */
 
-#include "header.h"
-#include "HeadsUpCheckBox.h"
+#include <lrand.h>
 
 extern int height;
 

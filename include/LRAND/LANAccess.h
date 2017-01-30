@@ -5,8 +5,8 @@
  *      Author: erin
  */
 
-#ifndef LANACCESS_H_
-#define LANACCESS_H_
+#ifndef INCLUDE_LRAND_LANACCESS_H_
+#define INCLUDE_LRAND_LANACCESS_H_
 
 typedef struct fcurl_data URL_FILE;
 
@@ -23,4 +23,4 @@ private:
 	rapidxml::xml_document<> *doc;
 };
 
-#endif /* LANACCESS_H_ */
+#endif /* INCLUDE_LRAND_LANACCESS_H_ */

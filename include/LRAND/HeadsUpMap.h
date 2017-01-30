@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef HEADSUPMAP_H_
-#define HEADSUPMAP_H_
+#ifndef INCLUDE_LRAND_HEADSUPMAP_H_
+#define INCLUDE_LRAND_HEADSUPMAP_H_
 
 class HeadsUpMap
 {
@@ -27,4 +27,4 @@ private:
 
 
 
-#endif /* HEADSUPMAP_H_ */
+#endif /* INCLUDE_LRAND_HEADSUPMAP_H_ */

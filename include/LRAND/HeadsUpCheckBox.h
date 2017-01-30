@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef HEADSUPCHECKBOX_H_
-#define HEADSUPCHECKBOX_H_
+#ifndef INCLUDE_LRAND_HEADSUPCHECKBOX_H_
+#define INCLUDE_LRAND_HEADSUPCHECKBOX_H_
 
 class HeadsUpCheckBox
 {
@@ -28,4 +28,4 @@ private:
 
 
 
-#endif /* HEADSUPCHECKBOX_H_ */
+#endif /* INCLUDE_LRAND_HEADSUPCHECKBOX_H_ */

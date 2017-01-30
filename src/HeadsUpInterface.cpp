@@ -4,23 +4,8 @@
  *  Created on: Jan 13, 2017
  *      Author: erin
  */
+#include <lrand.h>
 
-
-
-#include "header.h"
-#include "DeviceAccess.h"
-#include "HeadsUpCompass.h"
-#include "HeadsUpBatteryInfo.h"
-#include "HeadsUpDigitalClock.h"
-#include "TileBuilder.h"
-#include "HeadsUpWaypoint.h"
-#include "HeadsUpMap.h"
-#include "HeadsUpCheckBox.h"
-#include "HeadsUpWaypoint.h"
-#include "HeadsUpObjective.h"
-#include "HeadsUpTask.h"
-#include "Timer.hpp"
-#include "HeadsUpInterface.h"
 #define LONGITUDE	-79.395293
 #define LATITUDE	43.661802
 extern std::atomic<bool>	direction_changed;

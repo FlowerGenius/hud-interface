@@ -4,8 +4,7 @@
  *  Created on: Jan 13, 2017
  *      Author: erin
  */
-#include "header.h"
-#include "HeadsUpDigitalClock.h"
+#include <lrand.h>
 
 /* */
 

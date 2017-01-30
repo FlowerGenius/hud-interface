@@ -5,8 +5,7 @@
  *      Author: erin
  */
 
-#include <header.h>
-#include <GPS.h>
+#include <lrand.h>
 
 extern double lat2tiley(double,int);
 extern double long2tilex(double,int);

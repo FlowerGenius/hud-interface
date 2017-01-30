@@ -5,10 +5,8 @@
  *      Author: greg
  */
 
-#ifndef HEADSUPOBJECTIVE_H_
-#define HEADSUPOBJECTIVE_H_
-
-class HeadsUpTask;
+#ifndef INCLUDE_LRAND_HEADSUPOBJECTIVE_H_
+#define INCLUDE_LRAND_HEADSUPOBJECTIVE_H_
 
 class Objective
 {
@@ -153,4 +151,4 @@ class RepeatedActionObjective : public ActionObjective
 };
 
 
-#endif /* HEADSUPOBJECTIVE_H_ */
+#endif /* INCLUDE_LRAND_HEADSUPOBJECTIVE_H_ */

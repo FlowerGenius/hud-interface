@@ -8,21 +8,10 @@
  ============================================================================
  */
 
-#include "header.h"
-#include "DeviceAccess.h"
-#include "HeadsUpCompass.h"
-#include "HeadsUpBatteryInfo.h"
-#include "HeadsUpCheckBox.h"
-#include "HeadsUpDigitalClock.h"
-#include "TileBuilder.h"
+#include <lrand.h>
 
-#include "HeadsUpWaypoint.h"
-#include "HeadsUpMap.h"
-#include "HeadsUpObjective.h"
-#include "HeadsUpTask.h"
-#include "Timer.hpp"
-#include "LANAccess.h"
-#include "HeadsUpInterface.h"
+
+
 #define LONGITUDE	-79.395293
 #define LATITUDE	43.661802
 int width, height;

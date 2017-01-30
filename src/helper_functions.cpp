@@ -5,7 +5,7 @@
  *      Author: erin
  */
 
-#include "header.h"
+#include <lrand.h>
 
 bool any(std::list<bool> L){
 	for (std::list<bool>::const_iterator iterator =L.begin(), end = L.end(); iterator != end; ++iterator) {

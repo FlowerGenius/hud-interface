@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef HEADSUPDIGITALCLOCK_H_
-#define HEADSUPDIGITALCLOCK_H_
+#ifndef INCLUDE_LRAND_HEADSUPDIGITALCLOCK_H_
+#define INCLUDE_LRAND_HEADSUPDIGITALCLOCK_H_
 
 class HeadsUpDigitalClock
 {
@@ -31,4 +31,4 @@ private:
 
 
 
-#endif /* HEADSUPDIGITALCLOCK_H_ */
+#endif /* INCLUDE_LRAND_HEADSUPDIGITALCLOCK_H_ */

@@ -5,21 +5,7 @@
  *      Author: erin
  */
  
-#include "header.h"
-#include "DeviceAccess.h"
-#include "HeadsUpCompass.h"
-#include "png.h"
-#include "HeadsUpBatteryInfo.h"
-#include "HeadsUpDigitalClock.h"
-#include "TileBuilder.h"
-#include "HeadsUpWaypoint.h"
-#include "HeadsUpMap.h"
-#include "HeadsUpCheckBox.h"
-#include "HeadsUpWaypoint.h"
-#include "HeadsUpObjective.h"
-#include "HeadsUpTask.h"
-#include "Timer.hpp"
-#include "HeadsUpInterface.h"
+#include <lrand.h>
 
 extern HeadsUpInterface interface;
 

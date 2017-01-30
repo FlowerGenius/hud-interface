@@ -5,8 +5,7 @@
  *      Author: erin
  */
 
-#include "header.h"
-#include <LANAccess.h>
+#include <lrand.h>
 
 enum fcurl_type_e {
   CFTYPE_NONE=0,

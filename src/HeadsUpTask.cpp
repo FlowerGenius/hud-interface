@@ -6,11 +6,7 @@
  */
 
 
-#include "header.h"
-#include "HeadsUpCheckBox.h"
-#include "HeadsUpWaypoint.h"
-#include "HeadsUpObjective.h"
-#include "HeadsUpTask.h"
+#include <lrand.h>
 
 #define LONGITUDE	-79.395293
 #define LATITUDE	43.661802

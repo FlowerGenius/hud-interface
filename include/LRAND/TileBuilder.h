@@ -5,8 +5,10 @@
  *      Author: erin
  */
 
-#ifndef TILEBUILDER_H_
-#define TILEBUILDER_H_
+#ifndef INCLUDE_LRAND_TILEBUILDER_H_
+#define INCLUDE_LRAND_TILEBUILDER_H_
+
+class HeadsUpInterface;
 
 class TileBuilder {
 public:
@@ -23,4 +25,4 @@ private:
 	int z;
 };
 
-#endif /* TILEBUILDER_H_ */
+#endif /* INCLUDE_LRAND_TILEBUILDER_H_ */

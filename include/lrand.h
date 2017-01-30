@@ -5,13 +5,26 @@
  *      Author: erin
  */
 
-#ifndef HEADER_H_
-#define HEADER_H_
+#ifndef INCLUDE_LRAND_H_
+#define INCLUDE_LRAND_H_
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <codecvt>
+#include <locale>
+#include <errno.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <unistd.h>
+#include <iostream>
+#include <list>
+#include <fstream>
+#include <mutex>
+#include <atomic>
+#include <vector>
+#include <thread>
 
 #include <GL/gl.h>
 #include <GL/glx.h>
@@ -45,13 +58,7 @@
 
 #include <Xm/MwmUtil.h>
 
-#include <iostream>
-#include <list>
-#include <fstream>
-#include <mutex>
-#include <atomic>
-#include <vector>
-#include <thread>
+
 
 #define USE_CHOOSE_FBCONFIG
 #define MAP_FG 0.0,0.6,0.6,0.9
@@ -95,13 +102,40 @@ enum MODE
 #define COMPASS_FONT_SIZE 25
 #define COL 0,200,255,255
 
-#include <LRAND.h>
-#include <GPS.h>
+class LANAccess;
+class DeviceAccess;
+class HeadsUpTask;
+class HeadsUpWaypoint;
+class HeadsUpObjective;
+class HeadsUpTask;
+class HeadsUpBatteryInfo;
+class HeadsUpCheckBox;
+class HeadsUpCompass;
+class TileBuilder;
+class HeadsUpMap;
+class HeadsUpDigitalClock;
+class HeadsUpInterface;
+class ScalableVectorString;
 
+
+#include <LRAND/LRAND.h>
 #include "rapidxml-1.13/rapidxml.hpp"
-#include "DeviceAccess.h"
-#include "LANAccess.h"
-#include "ScalableVectorString.h"
+#include <glstring/ScalableVectorString.h>
+#include <GPS/GPS.h>
+#include <LRAND/DeviceAccess.h>
+#include <LRAND/LANAccess.h>
+#include <LRAND/Timer.hpp>
+#include <LRAND/HeadsUpWaypoint.h>
+#include <LRAND/HeadsUpCheckBox.h>
+#include <LRAND/HeadsUpObjective.h>
+#include <LRAND/HeadsUpTask.h>
+#include <LRAND/HeadsUpBatteryInfo.h>
+#include <LRAND/HeadsUpCompass.h>
+#include <LRAND/TileBuilder.h>
+#include <LRAND/HeadsUpMap.h>
+#include <LRAND/HeadsUpDigitalClock.h>
+#include <LRAND/HeadsUpInterface.h>
 
 
-#endif /* HEADER_H_ */
+
+#endif /* INCLUDE_LRAND_H_ */

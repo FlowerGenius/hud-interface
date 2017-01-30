@@ -4,8 +4,7 @@
  *  Created on: Jan 13, 2017
  *      Author: erin
  */
-#include "header.h"
-#include "HeadsUpBatteryInfo.h"
+#include <lrand.h>
 
 // From helper functions
 extern std::string exec(const char*);

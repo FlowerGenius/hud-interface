@@ -5,12 +5,7 @@
  *      Author: erin
  */
 
-#include <header.h>
-#include "DeviceAccess.h"
-#include <HeadsUpCompass.h>
-#include <locale.h>
-#include <limits.h>
-
+#include <lrand.h>
 
 extern std::atomic<double> m_direction,m_pitch,m_altitude;
 extern int width,height;

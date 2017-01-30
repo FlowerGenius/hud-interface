@@ -5,8 +5,8 @@
  *      Author: greg
  */
 
-#ifndef HEADSUPBATTERYINFO_H_
-#define HEADSUPBATTERYINFO_H_
+#ifndef INCLUDE_LRAND_HEADSUPBATTERYINFO_H_
+#define INCLUDE_LRAND_HEADSUPBATTERYINFO_H_
 
 /*
  * Battery Information Module for LRANDD Heads Up Display
@@ -35,4 +35,4 @@ private:
 
 
 
-#endif /* HEADSUPBATTERYINFO_H_ */
+#endif /* INCLUDE_LRAND_HEADSUPBATTERYINFO_H_ */

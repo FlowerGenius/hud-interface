@@ -6,13 +6,8 @@
  */
 
 
-#include <errno.h>
-#include <fcntl.h> 
-#include <string.h>
-#include <termios.h>
-#include <unistd.h>
-#include <header.h>
-#include <DeviceAccess.h>
+
+#include <lrand.h>
 
 #define LONGITUDE	-79.395293
 #define LATITUDE	43.661802
@@ -22,8 +17,6 @@
 extern std::atomic<double> 	m_latitude;
 extern std::atomic<double> 	m_longitude;
 extern std::atomic<double>	m_altitude;
-
-
 extern std::atomic<double>	location_changed;
 
 // system vector variables
@@ -37,7 +30,6 @@ extern std::atomic<double>	m_roll;
 extern std::atomic<double> 	dev_battery_life;
 extern std::atomic<bool> 	dev_is_charging;
 extern std::string			dev_battery_state;
-
 extern std::atomic<bool>	EXIT_THREADS;
 
 double prev_lat,prev_dir;
