@@ -260,8 +260,6 @@ int TileBuilder::render(){
 
 	assignTiles(tilex,tiley,z);
 
-
-
 	previous_tiley = tiley;
 	previous_tilex = tilex;
 	return 0;

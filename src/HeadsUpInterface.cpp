@@ -204,7 +204,7 @@ void drawCompass(HeadsUpCompass c){
 		int task_id = std::atoi(taskfile_node->first_attribute("active_task")->value());
 		int	num_of_tasks  = std::atoi(taskfile_node->first_attribute("length")->value());
 		rapidxml::xml_node<> *tassk = taskfile_node->first_node();
-		pull_updates();
+		//pull_updates();
 
 		for (int q = 1; q < num_of_tasks+1;q++){
 

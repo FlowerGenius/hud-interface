@@ -165,22 +165,22 @@ extern double m_latitude,m_longitude;
 	}
 
 	void HeadsUpTask::push_changes(){
-		std::cout << *interface.doc << filename << std::endl;
-
-		std::ofstream fil;
-		fil.open(filename);
-		fil << *doc << std::endl;
-		fil.close();
-
-		fil.open(LOCAL_TASKS);
-		fil << *interface.doc << std::endl;
-		fil.close();
-
-		try {
-			exec(std::string("scp "+filename+" "+interface.getUserName()+"@"+interface.getHost()+":"+interface.getSourceFolder()).c_str());
-		} catch(std::runtime_error *e){
-			std::fprintf(stderr,"Error executing push command (fatal)");
-		}
+//		std::cout << *interface.doc << filename << std::endl;
+//
+//		std::ofstream fil;
+//		fil.open(filename);
+//		fil << *doc << std::endl;
+//		fil.close();
+//
+//		fil.open(LOCAL_TASKS);
+//		fil << *interface.doc << std::endl;
+//		fil.close();
+//
+//		try {
+//			exec(std::string("scp "+filename+" "+interface.getUserName()+"@"+interface.getHost()+":"+interface.getSourceFolder()).c_str());
+//		} catch(std::runtime_error *e){
+//			std::fprintf(stderr,"Error executing push command (fatal)");
+//		}
 	}
 
 	std::list<std::string> HeadsUpTask::displayObjectives(void)
@@ -189,7 +189,9 @@ extern double m_latitude,m_longitude;
 	}
 
 	void HeadsUpTask::deactivate(){
-
+		for (auto& current : objectives) {
+			current->deactivate();
+		}
 	}
 
 	HeadsUpTask::~HeadsUpTask(){

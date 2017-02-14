@@ -30,6 +30,8 @@ public:
 
 	HeadsUpObjective			*source;
 
+	bool						active;
+
 	double						scalarDistance();
 	double						getBearing();
 	gps::Vector					getVector();

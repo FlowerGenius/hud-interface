@@ -53,6 +53,7 @@ HeadsUpWaypoint::HeadsUpWaypoint(){
 	map_y		= 0;
 	tile_z 		= 17;
 
+	active = false;
 	draw_fov 	= false;
 	icon 		= {};
 }

@@ -65,7 +65,9 @@ protected:
 	bool					state_changed;
 	bool					optional;
 	rapidxml::xml_node<> 	*file_node;
+private:
 	HeadsUpWaypoint			waypoint = HeadsUpWaypoint(this);
+
 };
 
 
@@ -84,17 +86,23 @@ public:
 			waypoint.setColour(wp_colour);
 			initWaypoint();
 			radius = -1;
+
+
+			if(completed){
+				deactivate();
+			}
+
 	}
 
 	virtual void 				checkState(void);
 	virtual void 				setColour(int R,int G,int B,int A)	{ waypoint.setColour(R,G,B,A);}
 	virtual void 				setColour(LRAND::Colour c)			{ waypoint.setColour(c);}
-	virtual HeadsUpWaypoint* 	getWaypoint(void) { return &waypoint;}
-	virtual void				remove();
+	virtual HeadsUpWaypoint* 	getWaypoint(void) 					{ return &waypoint;}
+	virtual void				deactivate();
 
 
 private:
-	HeadsUpWaypoint				waypoint = HeadsUpWaypoint(this);
+	HeadsUpWaypoint 			waypoint = HeadsUpWaypoint(this);
 	virtual void				initWaypoint(void);
 
 };
@@ -117,6 +125,12 @@ public:
 			waypoint.setColour(wp_colour);
 			initWaypoint();
 
+
+			if(completed){
+				deactivate();
+			}
+
+
 	}
 	int							getRadius() { return radius; }
 	void						setRadius(int);
@@ -125,10 +139,10 @@ public:
 	virtual void 				setColour(int R,int G,int B,int A)	{ waypoint.setColour(R,G,B,A);}
 	virtual void 				setColour(LRAND::Colour c)			{ waypoint.setColour(c);}
 	virtual HeadsUpWaypoint* 	getWaypoint(void) { return &waypoint;}
-	virtual void				remove();
+	virtual void				deactivate();
 
 private:
-	HeadsUpWaypoint				waypoint = HeadsUpWaypoint(this);
+	HeadsUpWaypoint 			waypoint = HeadsUpWaypoint(this);
 	virtual void				initWaypoint(void);
 };
 

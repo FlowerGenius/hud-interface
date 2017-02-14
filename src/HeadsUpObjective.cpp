@@ -53,8 +53,8 @@ HeadsUpObjective::HeadsUpObjective(std::string n,int i,bool optio,bool comple,ra
 	active_stage 		= 	i;
 	file_node			=	x_node;
 
-	if(optio) {optional = true;}
-	if(comple) {completed = true;}
+	if(optio)  { optional  = true; }
+	if(comple) { completed = true; }
 
 	if(optional){
 		colour.set(0,255,255,255);
@@ -64,10 +64,6 @@ HeadsUpObjective::HeadsUpObjective(std::string n,int i,bool optio,bool comple,ra
 
 	check.setColour(colour);
 	obj_text.setColour(colour);
-
-	if(completed){
-		deactivate();
-	}
 
 	source = t;
 }
@@ -82,18 +78,16 @@ void HeadsUpObjective::draw(int position) {
 			OBJECTIVE_TEXT_HEIGHT);
 }
 
-void HeadsUpObjective::deactivate(){
-	obj_text.setColour(colour - 100);
-	check.setColour(colour - 100);
-	interface.removeWaypoint(&waypoint);
-}
-
 void HeadsUpObjective::write(){
 
 }
 
+void HeadsUpObjective::deactivate(){
+	std::fprintf(stderr,"You Fucked up, implement this");
+}
+
 void HeadsUpObjective::checkState(){
-	//Virtual Method
+	std::fprintf(stderr,"You Fucked up, implement this");
 }
 
 //================================================================================================================================
@@ -134,12 +128,13 @@ void HeadsUpObjective::setOptional(bool b){
 void SpecificLocationObjective::initWaypoint(){
 	interface.addWaypoint(&waypoint);
 }
-void SpecificLocationObjective::remove(){
+void SpecificLocationObjective::deactivate(){
 	obj_text.setColour(colour - 100);
 	check.setColour(colour - 100);
 	interface.removeWaypoint(&waypoint);
 }
 void SpecificLocationObjective::checkState(){
+
 	if (m_latitude - 0.0003 <= location.latitude and m_latitude + 0.0003 >= location.latitude and
 			m_longitude - 0.0003 <= location.longitude and m_longitude + 0.0003 >= location.longitude and
 				m_altitude - 0.0003 <= location.altitude and m_altitude + 0.0003 >= location.altitude){
@@ -158,7 +153,7 @@ void SpecificLocationObjective::checkState(){
 void AreaLocationObjective::initWaypoint(){
 	interface.addWaypoint(&waypoint);
 }
-void AreaLocationObjective::remove(){
+void AreaLocationObjective::deactivate(){
 	obj_text.setColour(colour - 100);
 	check.setColour(colour - 100);
 	interface.removeWaypoint(&waypoint);
