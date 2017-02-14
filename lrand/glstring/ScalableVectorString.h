@@ -95,7 +95,7 @@ public:
 	ScalableVectorString() {
 		br_colour.set(0.0,0.0,0.0,1.0);
 		text = "";
-		xx=0;
+		xx=0,x1=0,x2=0,x3=0,x4=0;
 		length=0;
 		i=0;
 		h=0;
@@ -114,35 +114,19 @@ public:
 		if (ht < 0){
 			ht = font_size;
 		}
-		std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
 
-		i=0;
-		if(border>0){
-
-			xx=x+border;
-
-			for (auto& ch : bytes){
-				vectorize(ch, x+border, y-border, br_colour);
-			}
-			xx=width-x+border-getLength();
-
-			for (auto& ch : bytes){
-				vectorize(ch, x+border, y+border, br_colour);
-			}
-			xx=width-x-border-getLength();
-
-			for (auto& ch : bytes){
-				vectorize(ch, x-border, y-border, br_colour);
-			}
-			xx=width-x-border-getLength();
-
-			for (auto& ch : bytes){
-				vectorize(ch, x-border, y+border, br_colour);
-			}
-		}
+		length = getLength();
 		xx=x;
+		x1=x+border;
+		x2=x-border;
 		for (auto& ch : bytes){
-			vectorize(ch, x, y, colour);
+			if(border>0){
+				vectorize(ch, x+border, y-border, br_colour,x1);
+				x1=vectorize(ch, x+border, y+border, br_colour,x1);
+				vectorize(ch, x-border, y-border, br_colour,x2);
+				x2=vectorize(ch, x-border, y+border, br_colour,x2);
+			}
+			xx=vectorize(ch, x, y, colour,xx);
 		}
 		length = xx-x;
 	}
@@ -151,34 +135,23 @@ public:
 
 		if (ht < 0){
 			ht = font_size;
-		}	i = 0;
-		if(border>0){
-			xx=width-x+border-getLength();
-
-			for (auto& ch : bytes){
-				vectorize(ch, x+border, y-border, br_colour);
-			}
-			xx=width-x+border-getLength();
-
-			for (auto& ch : bytes){
-				vectorize(ch, x+border, y+border, br_colour);
-			}
-			xx=width-x-border-getLength();
-
-			for (auto& ch : bytes){
-				vectorize(ch, x-border, y-border, br_colour);
-			}
-			xx=width-x-border-getLength();
-
-			for (auto& ch : bytes){
-				vectorize(ch, x-border, y+border, br_colour);
-			}
 		}
-		xx=width-x-getLength();
+
+		length = getLength();
+		xx=width-x-length;
+		x1=width-x+border-length;
+		x2=width-x-border-length;
 		for (auto& ch : bytes){
-			vectorize(ch, width-x, y, colour);
+			if(border>0){
+				vectorize(ch, x-border, y+border, br_colour,x1);
+				x1=vectorize(ch, x-border, y-border, br_colour,x1);
+				vectorize(ch, x+border, y+border, br_colour,x2);
+				x2=vectorize(ch, x+border, y-border, br_colour,x2);
+			}
+			xx=vectorize(ch, width-x, y, colour,xx);
 		}
 	}
+
 
 
 	void setText(std::string s,float size=-1){
@@ -187,6 +160,8 @@ public:
 		if (size > 0){
 			ht = size;
 		}
+
+
 	}
 
 	void setColour(int red, int green, int blue,int alpha){
@@ -204,10 +179,9 @@ public:
 	std::u32string bytes;
 
 	unsigned int getLength(){
-
 		xx=0;
 		for (auto& ch : bytes){
-			vectorize(ch, width, height, br_colour);
+			xx=vectorize(ch, width, height, br_colour,xx);
 		}
 		return xx;
 	}
@@ -221,7 +195,7 @@ private:
 	LRAND::GlColour colour;
 	LRAND::GlColour	br_colour;
 
-	void vectorize(char32_t chr, int x, int y,LRAND::GlColour co)
+	int vectorize(char32_t chr, int x, int y,LRAND::GlColour co,int pos)
 	{
 
 		hw=2;
@@ -321,16 +295,16 @@ private:
 			if (U'z' == chr ) fontbuilder(z);
 			if ( DEGREE == chr) fontbuilder(DEGREE);
 
-			xx+=17*(ht/40)+hw;
+			pos+=17*(ht/40)+hw;
 			break;
 		}
 		glPopAttrib();
 		glPopMatrix();
-
+		return pos;
 	}
 
 	std::string text;
-	int xx;
+	int xx,x1,x2,x3,x4;
 	unsigned int i;
 	float ht;
 	float hw,vw;

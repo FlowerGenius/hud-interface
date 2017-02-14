@@ -38,11 +38,22 @@ void HeadsUpCompass::draw(){
 
 		for(size_t j = 0; j < view.size();j++){
 				viewd = gps::polarBearing(view[j],m_direction);
+				double font_difference;
+
+				if ((j+1) % 2 == 0){ 			//
+					font_difference = COMPASS_FONT_SIZE/2;
+				} else if ((j+1) == 0 or (j+1) == 5 or (j+1) == 9 or (j+1) == 13){		//N,S,E,W
+					font_difference = (double)COMPASS_FONT_SIZE;
+				} else {					//NW,SW,NW,SW
+					font_difference = (double)COMPASS_FONT_SIZE/1.5;
+				}
+
 				if ( -0.3 <= viewd and viewd <= 0){
-					card[j].rdraw(((viewd*width/2) + (width/2)),height - TOP_MARGIN - (CLOCK_FONT_SIZE + COMPASS_FONT_SIZE-card[j].getHeight())/2 , 1, COMPASS_FONT_SIZE);
+
+					card[j].rdraw(((viewd*width/2) + (width/2)),height - TOP_MARGIN - (CLOCK_FONT_SIZE + font_difference)/2, 1, COMPASS_FONT_SIZE);
 				} else
 				if ( 0 <= viewd and viewd <= 0.3){
-					card[j].rdraw(((viewd*width/2) + (width/2)),height - TOP_MARGIN - (CLOCK_FONT_SIZE + COMPASS_FONT_SIZE-card[j].getHeight())/2 , 1, COMPASS_FONT_SIZE);
+					card[j].rdraw(((viewd*width/2) + (width/2)),height - TOP_MARGIN - (CLOCK_FONT_SIZE + font_difference)/2, 1, COMPASS_FONT_SIZE);
 				}
 			}
 		glViewport(width/3,height - TOP_MARGIN - CLOCK_FONT_SIZE, width/3, CLOCK_FONT_SIZE);
@@ -65,13 +76,10 @@ void HeadsUpCompass::draw(){
 		glVertex2f(1.0,-1.0);
 		glEnd();
 
-		ScalableVectorString s1;
-		ScalableVectorString s2;
-
 		s1.setText("Alt== "+std::to_string(m_altitude)+'m');
 		s2.setText("Pitch "+std::to_string(m_pitch)+"°");
-		s1.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE/2, 0.1, CLOCK_FONT_SIZE/2);
-		s2.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE, 0.1, CLOCK_FONT_SIZE/2);
+		s1.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE/2, 1, CLOCK_FONT_SIZE/2);
+		s2.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE, 1, CLOCK_FONT_SIZE/2);
 
 	}
 	glPopAttrib();

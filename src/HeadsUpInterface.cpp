@@ -10,6 +10,7 @@
 #define LATITUDE	43.661802
 extern std::atomic<bool>	direction_changed;
 extern std::atomic<bool>	location_changed;
+extern std::string exec(const char*);
 
 bool m_shutdown        = 		false;
 bool m_use_buffer      = 		false;
@@ -58,6 +59,7 @@ void drawCompass(HeadsUpCompass c){
 
 	HeadsUpInterface::HeadsUpInterface()
 	{
+
 		cam_mode = MODE_CPU;
 		cam_do_buffer = false;
 		glEnable(GL_TEXTURE_2D);
@@ -175,9 +177,9 @@ void drawCompass(HeadsUpCompass c){
 	}
 
 	void HeadsUpInterface::start_stuff(){
+
 		rapidxml::xml_document<> d;
 				doc = &d;
-				loaded_doc;
 				std::string buf;
 
 				std::ifstream handle;
@@ -192,12 +194,17 @@ void drawCompass(HeadsUpCompass c){
 				handle.close();
 
 		doc->parse<0>((char *)loaded_doc.c_str());
-
 		taskfile_node = doc->first_node();
-		tasks_folder = std::string(taskfile_node->first_attribute("tasks_folder")->value());
+		tasks_folder  = std::string(taskfile_node->first_attribute("tasks_folder")->value());
+		source_folder = std::string(taskfile_node->first_attribute("source")->value());
+		username	  =	std::string(taskfile_node->first_attribute("username")->value());
+//		password	  =	std::string(taskfile_node->first_attribute("password")->value());
+		task_host	  =	std::string(taskfile_node->first_attribute("host")->value());
+
 		int task_id = std::atoi(taskfile_node->first_attribute("active_task")->value());
 		int	num_of_tasks  = std::atoi(taskfile_node->first_attribute("length")->value());
 		rapidxml::xml_node<> *tassk = taskfile_node->first_node();
+		pull_updates();
 
 		for (int q = 1; q < num_of_tasks+1;q++){
 
@@ -205,10 +212,9 @@ void drawCompass(HeadsUpCompass c){
 			std::string	name  = std::string(tassk->first_attribute("name")->value());
 			int			ident = std::atoi(tassk->first_attribute("id")->value());
 			int			sta	  = std::atoi(tassk->first_attribute("stage")->value());
-			bool		com	  = std::string(tassk->first_attribute("completed")->value()) == std::string("false") ?  false : true;
+			bool		com	  = std::string(tassk->first_attribute("completed")->value()) == std::string("true") ?  true : false;
 
-
-			HeadsUpTask *t = new HeadsUpTask(getTasksFolder()+fname,name,ident,sta,com);
+			HeadsUpTask *t = new HeadsUpTask(getTasksFolder()+fname,taskfile_node,tassk,name,ident,sta,com);
 			addTask(t);
 
 			if (task_id == q){
@@ -219,11 +225,21 @@ void drawCompass(HeadsUpCompass c){
 		}
 	}
 
-
-
-	std::string HeadsUpInterface::getTasksFolder(){
-		return tasks_folder;
+	void HeadsUpInterface::pull_updates(){
+		try {
+			exec(std::string("scp "+username+"@"+task_host+":"+source_folder+"* "+tasks_folder).c_str());
+		} catch(std::runtime_error *e){
+			std::fprintf(stderr,"Error executing scp command (fatal)");
+		}
+//		try {
+//			exec((char *) std::string("wget "+URL(SRV)+" -O "+LOCAL_TASKS).c_str());
+//		} catch (std::runtime_error *e){
+//			std::fprintf(stderr,"Error executing wget command (fatal)");
+//		}
 	}
+
+	std::string persistent_task_string;
+
 //	void HeadsUpInterface::setTasksFolder(std::string folder){
 //		rapidxml::xml_attribute<> *attr = doc->allocate_attribute("tasks_folder",folder.c_str());
 //		taskfile_node->append_attribute(attr);
@@ -232,10 +248,11 @@ void drawCompass(HeadsUpCompass c){
 	int HeadsUpInterface::getActiveTask(){
 		return active_task->getId();
 	}
-//	void HeadsUpInterface::setActiveTask(int task){
-//		rapidxml::xml_attribute<> *attr = doc->allocate_attribute("active_task",std::to_string(task).c_str());
-//		taskfile_node->append_attribute(attr);
-//	}
+	void HeadsUpInterface::setActiveTask(int task){
+		taskfile_node->remove_attribute(taskfile_node->first_attribute("active_task"));
+		persistent_task_string = std::to_string(task);
+		taskfile_node->append_attribute(doc->allocate_attribute("active_task",persistent_task_string.c_str()));
+	}
 
 	void HeadsUpInterface::changeColours(void)
 	{
@@ -270,9 +287,9 @@ void drawCompass(HeadsUpCompass c){
 	void HeadsUpInterface::addWaypoint(HeadsUpWaypoint* w){
 		waypoints.push_back(w);
 	}
-
+	int i = 0;
 	void HeadsUpInterface::removeWaypoint(HeadsUpWaypoint* w){
-		int i = 0;
+		i=0;
 		for (auto& wp : waypoints){
 			if (wp == w){
 				waypoints.erase(waypoints.begin()+i);
@@ -287,7 +304,7 @@ void drawCompass(HeadsUpCompass c){
 
 	void HeadsUpInterface::makeActiveTask(HeadsUpTask* t)
 	{
-		//setActiveTask(t->getId());
+		setActiveTask(t->getId());
 		active_task = t;
 	}
 

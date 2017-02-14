@@ -24,6 +24,8 @@ public:
 						colour = c;
 					}
 private:
+	ScalableVectorString s1;
+	ScalableVectorString s2;
 	LRAND::Colour colour;
 	ScalableVectorString 	N,NNE,NE,ENE,
 							E,ESE,SE,SSE,

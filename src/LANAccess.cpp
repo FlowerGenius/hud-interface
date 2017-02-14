@@ -395,12 +395,10 @@ void url_rewind(URL_FILE *file)
   }
 }
 
-#define	URL(x)		std::string(DOM)+std::string( x )+std::string(EID)+std::string(FIL)
-
 LANAccess::LANAccess() {
 	rapidxml::xml_document<> d;
 	doc = &d;
-	pullUpdates();
+	//pullUpdates();
 }
 
 int LANAccess::loadFile(){

@@ -11,7 +11,7 @@
 class HeadsUpTask
 {
 public:
-							HeadsUpTask(std::string t,std::string nm,int,int,bool);
+							HeadsUpTask(std::string t,rapidxml::xml_node<>*,rapidxml::xml_node<>*,std::string nm,int,int,bool);
 	virtual					~HeadsUpTask();
     void					drawGL(void);
     void					drawX(void);
@@ -19,17 +19,29 @@ public:
 
 	void					deactivate(void);
 
-	std::string 			getTitle(void);
+	std::string getTitle(void)
+	{
+		return title;
+	}
 	void					setTitle(std::string);
 
-	bool					getCompleted(void);
+	bool getCompleted(void){
+		return completed;
+	}
 	void					setCompleted(bool);
 
-	int						getId(void);
+	int getId(){
+		return id;
+	}
 	void					setId(int);
 
-	int 					getStage(void);
+	int getStage(){
+		return stage;
+	}
 	void					setStage(int);
+
+
+	void					push_changes(void);
 
 	bool					state_changed;
 
@@ -39,6 +51,7 @@ public:
 	void					update();
 
 	std::vector<HeadsUpObjective*> objectives;
+	rapidxml::xml_document<> 	*doc;
 
 	bool operator == (const HeadsUpTask& s) const 			{ return objectives == s.objectives; }
 	bool operator != (const HeadsUpTask& s) const 			{ return !operator==(s); }
@@ -58,8 +71,9 @@ private:
 	bool					completed;
 	int						stage;
 	int 					id;
+	std::string				filename;
+	rapidxml::xml_node<>	*file_node;
 
-	rapidxml::xml_document<> 	*doc;
 	rapidxml::xml_node<>		*taskfile_node;
 
 

@@ -29,8 +29,22 @@ public:
 	void		updateGL(void);
 	void		updateX(void);
 
-	std::string getTasksFolder(void);
+	std::string getTasksFolder(){
+		return tasks_folder;
+	}
 	void setTasksFolder(std::string);
+
+	std::string getSourceFolder(){
+		return source_folder;
+	}
+	void setSourceFolder(std::string);
+
+	std::string getHost(){
+		return task_host;
+	}
+	std::string getUserName(){
+		return username;
+	}
 
 	int getActiveTask(void);
 	void setActiveTask(int);
@@ -38,11 +52,15 @@ public:
 	HeadsUpTask	getTask(void);
 	HeadsUpTask getLastTask(void);
 
+	void 		push_changes(void);
+	void		pull_updates(void);
+
 	void		changeColours(void);
 
 	void 				setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); changeColours();}
 	void 				setColour(LRAND::Colour c)			{ colour = c; changeColours();}
 	HeadsUpTask*				 active_task;
+	rapidxml::xml_document<> 	*doc;
 
 private:
 	LRAND::Colour 	colour;
@@ -67,9 +85,11 @@ private:
 
 	std::string				loaded_doc;
 	std::string				tasks_folder;
+	std::string				source_folder;
+	std::string				username;
+	std::string				password;
+	std::string				task_host;
 
-
-	rapidxml::xml_document<> 	*doc;
 	rapidxml::xml_node<>		*taskfile_node;
 
 	DeviceAccess 	_da;

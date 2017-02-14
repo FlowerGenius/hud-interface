@@ -8,6 +8,7 @@
 #ifndef LRAND_LRAND_H_
 #define LRAND_LRAND_H_
 
+#include <lrand/rapidxml-1.13/rapidxml_print.hpp>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -19,6 +20,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <iostream>
+#include <sstream>
+
 #include <list>
 #include <fstream>
 #include <mutex>
@@ -93,11 +96,12 @@ enum MODE
 #define LAN			"192.168.000.027/"
 #define WAN 		"000.000.000.000/"
 #define SRV			"leeresearchdev.ca/"
-#define LOCAL_TASKS "/home/erin/workspace/HUD2/Tasks.xml"
+#define LOCAL_TASKS "/home/erin/.lrand/HUD/Tasks.xml"
 
-#define EID			std::string(LASTNAME)+std::string(MIDDLENAME)+std::string(FIRSTNAME)
+#define EID			"data/worker/"+std::string(LASTNAME)+std::string(MIDDLENAME)+std::string(FIRSTNAME)
 
 #define FIL			"tasks.xml"
+#define	URL(x)		std::string(DOM)+std::string( x )+std::string(EID)+std::string(FIL)
 
 #define COMPASS_FONT_SIZE 25
 #define COL 0,200,255,255
@@ -119,7 +123,8 @@ class ScalableVectorString;
 
 
 #include <lrand/LRAND/LRAND.h>
-#include <lrand/rapidxml-1.13/rapidxml.hpp>
+
+
 #include <lrand/glstring/ScalableVectorString.h>
 #include <lrand/GPS/GPS.h>
 #include <lrand/LRAND/DeviceAccess.h>

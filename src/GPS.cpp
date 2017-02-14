@@ -173,7 +173,9 @@ Point::Point(cv::Point3d p){
 	longitude 	= p.y;
 	altitude	= p.z;
 }
-
+std::string Point::to_string(void){
+		return std::to_string(longitude)+"@"+std::to_string(latitude)+"@"+std::to_string(altitude);
+}
 Point::Point(std::string s){
 	longitude	= std::atof(s.substr(0,s.substr(0).find('@')).c_str());
 	latitude 	= std::atof(s.substr(s.substr(0).find('@')+1,s.substr(s.substr(0).find('@')+1).find('@')).c_str());

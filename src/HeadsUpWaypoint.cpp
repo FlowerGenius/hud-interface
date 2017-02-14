@@ -17,12 +17,9 @@ extern std::atomic<double> 	m_pitch;
 extern std::atomic<double>	m_roll;
 extern std::atomic<double>	m_altitude;
 
-
-
 extern float long2tilex(double lon, int z);
 extern float lat2tiley(double lat, int z);
 extern double sightLine();
-
 
 namespace gps {
 	extern double distance(gps::Point,gps::Point);
@@ -42,7 +39,6 @@ HeadsUpWaypoint::HeadsUpWaypoint(){
 	text 		= "";
 	// Null icon initialization
 
-
 	size 		= 10;
 	filled 		= 1;
 
@@ -60,6 +56,7 @@ HeadsUpWaypoint::HeadsUpWaypoint(){
 	draw_fov 	= false;
 	icon 		= {};
 }
+
 HeadsUpWaypoint::HeadsUpWaypoint(HeadsUpObjective *o) : HeadsUpWaypoint() {
 	source = o;
 }
@@ -120,10 +117,19 @@ void HeadsUpWaypoint::draw() {
 								((viewp)*height/2) + height/2 - (50.0f-log2(distance_to+0.1)*5.0f),
 								0.1,50);
 			label.ldraw((int)((viewd*width/2) + (width/2)), ((viewp)*height/2) + height/2,0.1,50);
-		} else if (viewd < -1.0 and viewd > -1.8) {
-			label.ldraw((int)16,((getPitch()/90)*height/2) + height/2,0.1,50);
+			glViewport((int)((viewd*width/2) + (width/2)), ((viewp)*height/2) + height/2 - 2*(50.0f-log2(distance_to+0.1)*5.0f),15,15);
 
-			glViewport((int)0,((getPitch()/90)*height/2) + height/2,15,15);
+			glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
+			colour.bind();
+			glVertex2f(0.0,-1.0);
+			glVertex2f(1.0,1.0);
+			glVertex2f(-1.0,1.0);
+			glEnd();
+
+		} else if (viewd < -1.0 and viewd > -1.8) {
+			label.ldraw((int)16, ((viewp)*height/2) + height/2,0.1,50);
+
+			glViewport((int)0,((viewp)*height/2) + height/2,15,15);
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
 				glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
@@ -135,9 +141,9 @@ void HeadsUpWaypoint::draw() {
 			}
 			glPopAttrib();
 		} else if (viewd > 1.0 and viewd < 1.8){
-			label.rdraw(16,((getPitch()/90)*height/2) + height/2,0.1,50);
+			label.rdraw(16, ((viewp)*height/2) + height/2,0.1,50);
 
-			glViewport(width - 15,((getPitch()/90)*height/2) + height/2,15,15);
+			glViewport(width - 15, ((viewp)*height/2) + height/2,15,15);
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
 				glBegin(GL_POLYGON);   //We want to draw a map, i.e. shape with four bevel sides
@@ -149,7 +155,6 @@ void HeadsUpWaypoint::draw() {
 			}glPopAttrib();
 		} else {
 			label.ldraw(-(int)(((viewd)*width/2) + (width/2)),16,0.1,50);
-
 			glViewport(-(int)(((viewd)*width/2) + (width/2)),0,15,15);
 			glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			{
