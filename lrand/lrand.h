@@ -29,9 +29,9 @@
 #include <vector>
 #include <thread>
 
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glxext.h>
+#include <lrand/glad/glad.h>
+#include <GLFW/glfw3.h>
+#include "linmath.h"
 
 #include <X11/Xatom.h>
 #include <X11/extensions/Xrender.h>

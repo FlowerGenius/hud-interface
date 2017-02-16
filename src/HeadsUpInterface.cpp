@@ -62,9 +62,7 @@ void drawCompass(HeadsUpCompass c){
 
 		cam_mode = MODE_CPU;
 		cam_do_buffer = false;
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_DEPTH_TEST);
-		glViewport(0, 0, width, height);
+
 		if (cv::ocl::haveOpenCL())
 		{
 			(void) cv::ogl::ocl::initializeContextFromGL();
