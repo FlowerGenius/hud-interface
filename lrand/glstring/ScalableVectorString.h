@@ -86,8 +86,17 @@
 #define			SQUARE			U'\u25A0'
 #define			NBSP			U'\u00A0'
 
+
+#ifdef MODERN_OPENGL
+#include <lrand/glstring/fonts/modern_kombat.hpp>
+#define FONT_SHADER_INIT(VS,IS)  glBufferData(GL_ARRAY_BUFFER, sizeof(VS), VS, GL_STATIC_DRAW); 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(IS), IS, GL_STATIC_DRAW);	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (GLvoid*)0); glEnableVertexAttribArray(0); glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat))); glEnableVertexAttribArray(1); verts = sizeof(IS);
+#define fontbuilder(y)	 modern_kombat ## _ ## y
+#else
 #include <lrand/glstring/fonts/kombat.hpp>
 #define fontbuilder(y)	 kombat ## _ ## y
+#endif
+
+extern Shader interfaceShader;
 
 class ScalableVectorString {
 public:
@@ -103,6 +112,8 @@ public:
 		hw=0;
 		vw=0;
 		ht=-1;
+		bw=0;
+		verts=3;
 	}
 
 	virtual ~ScalableVectorString(){
@@ -115,6 +126,7 @@ public:
 			ht = font_size;
 		}
 
+		bw = border;
 		length = getLength();
 		xx=x;
 		x1=x+border;
@@ -133,11 +145,13 @@ public:
 
 	void rdraw(int x, int y, int border, float font_size){
 
+
 		if (ht < 0){
 			ht = font_size;
 		}
 
 		length = getLength();
+		bw = border;
 		xx=width-x-length;
 		x1=width-x+border-length;
 		x2=width-x-border-length;
@@ -192,18 +206,142 @@ public:
 
 	unsigned int length;
 private:
+	Shader textShader;
 	LRAND::GlColour colour;
 	LRAND::GlColour	br_colour;
+	uint verts;
+	GLuint VBO, VAO, EBO;
+	float a,r,g,b;
+
 
 	int vectorize(char32_t chr, int x, int y,LRAND::GlColour co,int pos)
 	{
 
-		hw=2;
+		hw=MAX(2,bw);
 		vw = 0.0;
+
+
+#ifdef MODERN_OPENGL
+		a = co.A, r = co.R, g = co.G, b = co.B;
+		verts = 3;
+
+		glGenVertexArrays(1, &VAO);
+		glGenBuffers(1, &VBO);
+		glGenBuffers(1, &EBO);
+		// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
+		glBindVertexArray(VAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+		for(;;)
+		{
+			if (  SPACE ==chr) fontbuilder(SPACE)
+			else if (  EXCLAMATION ==chr) fontbuilder(EXCLAMATION)
+			else if (  DOUBLE_QUOTES ==chr) fontbuilder(DOUBLE_QUOTES)
+			else if (  HASHTAG ==chr) fontbuilder(HASHTAG)
+			else if (  DOLLAR ==chr) fontbuilder(DOLLAR)
+			else if (  PERCENT ==chr) fontbuilder(PERCENT)
+			else if (  AMPERSAND ==chr) fontbuilder(AMPERSAND)
+			else if (  SINGLE_QUOTE ==chr) fontbuilder(SINGLE_QUOTE)
+			else if (  OPEN_PAREN ==chr) fontbuilder(OPEN_PAREN)
+			else if (  CLOSE_PAREN ==chr) fontbuilder(CLOSE_PAREN)
+			else if (  ASTERISK ==chr) fontbuilder(ASTERISK)
+			else if (  PLUS ==chr) fontbuilder(PLUS)
+			else if (  COMMA ==chr) fontbuilder(COMMA)
+			else if (  HYPHEN ==chr) fontbuilder(HYPHEN)
+			else if (  FULL_STOP ==chr) fontbuilder(FULL_STOP)
+			else if (  SLASH ==chr) fontbuilder(SLASH)
+			else if (  ZERO ==chr) fontbuilder(ZERO)
+			else if (  ONE ==chr) fontbuilder(ONE)
+			else if (  TWO ==chr) fontbuilder(TWO)
+			else if (  THREE ==chr) fontbuilder(THREE)
+			else if (  FOUR ==chr) fontbuilder(FOUR)
+			else if (  FIVE ==chr) fontbuilder(FIVE)
+			else if (  SIX ==chr) fontbuilder(SIX)
+			else if (  SEVEN ==chr) fontbuilder(SEVEN)
+			else if (  EIGHT ==chr) fontbuilder(EIGHT)
+			else if (  NINE ==chr) fontbuilder(NINE)
+			else if (  COLON ==chr) fontbuilder(COLON)
+			else if (  SEMI_COLON ==chr) fontbuilder(SEMI_COLON)
+			else if (  LESS_THAN ==chr) fontbuilder(LESS_THAN)
+			else if (  EQUAL ==chr) fontbuilder(EQUAL)
+			else if (  GRTR_THAN ==chr) fontbuilder(GRTR_THAN)
+			else if (  QUESTION ==chr) fontbuilder(QUESTION)
+			else if (  AT ==chr) fontbuilder(AT)
+			else if ( U'A' ==chr) fontbuilder(A)
+			else if ( U'B' ==chr) fontbuilder(B)
+			else if ( U'C' ==chr) fontbuilder(C)
+			else if ( U'D' ==chr) fontbuilder(D)
+			else if ( U'E' ==chr) fontbuilder(E)
+			else if ( U'F' ==chr) fontbuilder(F)
+			else if ( U'G' ==chr) fontbuilder(G)
+			else if ( U'H' ==chr) fontbuilder(H)
+			else if ( U'I' ==chr) fontbuilder(I)
+			else if ( U'J' ==chr) fontbuilder(J)
+			else if ( U'K' ==chr) fontbuilder(K)
+			else if ( U'L' ==chr) fontbuilder(L)
+			else if ( U'M' ==chr) fontbuilder(M)
+			else if ( U'N' ==chr) fontbuilder(N)
+			else if ( U'O' ==chr) fontbuilder(O)
+			else if ( U'P' ==chr) fontbuilder(P)
+			else if ( U'Q' ==chr) fontbuilder(Q)
+			else if ( U'R' ==chr) fontbuilder(R)
+			else if ( U'S' ==chr) fontbuilder(S)
+			else if ( U'T' ==chr) fontbuilder(T)
+			else if ( U'U' ==chr) fontbuilder(U)
+			else if ( U'V' ==chr) fontbuilder(V)
+			else if ( U'W' ==chr) fontbuilder(W)
+			else if ( U'X' ==chr) fontbuilder(X)
+			else if ( U'Y' ==chr) fontbuilder(Y)
+			else if ( U'Z' ==chr) fontbuilder(Z)
+			else if (  BACKSLASH ==chr) fontbuilder(BACKSLASH)
+			else if (  UNDERSCORE ==chr) fontbuilder(UNDERSCORE)
+			else if ( U'a' ==chr) fontbuilder(a)
+			else if ( U'b' ==chr) fontbuilder(b)
+			else if ( U'c' ==chr) fontbuilder(c)
+			else if ( U'd' ==chr) fontbuilder(d)
+			else if ( U'e' ==chr) fontbuilder(e)
+			else if ( U'f' ==chr) fontbuilder(f)
+			else if ( U'g' ==chr) fontbuilder(g)
+			else if ( U'h' ==chr) fontbuilder(h)
+			else if ( U'i' ==chr) fontbuilder(i)
+			else if ( U'j' ==chr) fontbuilder(j)
+			else if ( U'k' ==chr) fontbuilder(k)
+			else if ( U'l' ==chr) fontbuilder(l)
+			else if ( U'm' ==chr) fontbuilder(m)
+			else if ( U'n' ==chr) fontbuilder(n)
+			else if ( U'o' ==chr) fontbuilder(o)
+			else if ( U'p' ==chr) fontbuilder(p)
+			else if ( U'q' ==chr) fontbuilder(q)
+			else if ( U'r' ==chr) fontbuilder(r)
+			else if ( U's' ==chr) fontbuilder(s)
+			else if ( U't' ==chr) fontbuilder(t)
+			else if ( U'u' ==chr) fontbuilder(u)
+			else if ( U'v' ==chr) fontbuilder(v)
+			else if ( U'w' ==chr) fontbuilder(w)
+			else if ( U'x' ==chr) fontbuilder(x)
+			else if (U'y' ==chr) fontbuilder(y)
+			else if (U'z' == chr ) fontbuilder(z)
+			else if ( DEGREE == chr) fontbuilder(DEGREE)
+			else {
+				pos+=17*(ht/40)+hw;
+			}
+			//glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			glBindVertexArray(0); // Unbind VAO
+			interfaceShader.Use();
+			glBindVertexArray(VAO);
+			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+
+			//glPopAttrib();
+			break;
+		}
+#else
 		glPushMatrix();
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		co.bind();
-
 		for(;;)
 		{
 			if (  SPACE ==chr) fontbuilder(SPACE);
@@ -300,6 +438,9 @@ private:
 		}
 		glPopAttrib();
 		glPopMatrix();
+#endif
+
+
 		return pos;
 	}
 
@@ -309,6 +450,7 @@ private:
 	float ht;
 	float hw,vw;
 	int h, w;
+	float bw;
 };
 
 #undef			SPACE

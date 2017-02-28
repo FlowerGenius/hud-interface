@@ -23,6 +23,16 @@ private:
 	LRAND::Colour		colour;
 	TileBuilder tiles;
 
+	ScalableVectorString s1;
+	ScalableVectorString s2;
+	ScalableVectorString 	N,NNE,NE,ENE,
+							E,ESE,SE,SSE,
+							S,SSW,SW,WSW,
+							W,WNW,NW,NNW;
+	std::vector<ScalableVectorString> card;
+	double 	viewd;
+	std::vector<double> view;
+
 };
 
 

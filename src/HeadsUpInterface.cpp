@@ -35,9 +35,6 @@ std::vector<cv::Rect> 			eyes;
 Timer        					m_timer;
 
 
-void drawCompass(HeadsUpCompass c){
-		c.draw();
-	}
 
 	void drawClock(HeadsUpDigitalClock c){
 		c.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
@@ -213,7 +210,6 @@ void drawCompass(HeadsUpCompass c){
 			bool		com	  = std::string(tassk->first_attribute("completed")->value()) == std::string("true") ?  true : false;
 
 			HeadsUpTask *t = new HeadsUpTask(getTasksFolder()+fname,taskfile_node,tassk,name,ident,sta,com);
-			addTask(t);
 
 			if (task_id == q){
 				makeActiveTask(t);
@@ -244,7 +240,7 @@ void drawCompass(HeadsUpCompass c){
 //	}
 
 	int HeadsUpInterface::getActiveTask(){
-		return active_task->getId();
+		return HeadsUpTask::active_task->getId();
 	}
 	void HeadsUpInterface::setActiveTask(int task){
 		taskfile_node->remove_attribute(taskfile_node->first_attribute("active_task"));
@@ -254,7 +250,6 @@ void drawCompass(HeadsUpCompass c){
 
 	void HeadsUpInterface::changeColours(void)
 	{
-		compass.setColour(colour);
 		map.setColour(colour);
 		batinfo.setColour(colour);
 		clockk.setColour(colour);
@@ -269,115 +264,84 @@ void drawCompass(HeadsUpCompass c){
 		//getActiveTask().drawX();
 	}
 
-	void HeadsUpInterface::addTask(HeadsUpTask* t)
-	{
-		t->setColour(colour);
-		tasks.push_back(t);
-		if (tasks.size()==1){
-			makeActiveTask(t);
-		}
-	}
-
-	void HeadsUpInterface::addTasks(std::vector<HeadsUpTask*> tks){
-		for (auto& tsk : tks) addTask(tsk);
-	}
-
-	void HeadsUpInterface::addWaypoint(HeadsUpWaypoint* w){
-		waypoints.push_back(w);
-	}
-	int i = 0;
-	void HeadsUpInterface::removeWaypoint(HeadsUpWaypoint* w){
-		i=0;
-		for (auto& wp : waypoints){
-			if (wp == w){
-				waypoints.erase(waypoints.begin()+i);
-			}
-			i++;
-		}
-	}
-
-	void HeadsUpInterface::addWaypoints(std::vector<HeadsUpWaypoint*> wps){
-		for (auto& wp : wps) addWaypoint(wp);
-	}
 
 	void HeadsUpInterface::makeActiveTask(HeadsUpTask* t)
 	{
 		setActiveTask(t->getId());
-		active_task = t;
+		HeadsUpTask::active_task = t;
 	}
-
 
 
 	void HeadsUpInterface::draw()
 	{
-		cam_texture.setAutoRelease(true);
-		cam_buffer.setAutoRelease(true);
-
-		cam_mode = get_mode();
-		cam_do_buffer = use_buffer();
-
-		if (get_frame(cam_texture, cam_buffer, cam_do_buffer) != 0)
-		{
-
-		}
-
-		switch (cam_mode)
-		{
-		case MODE_CPU: // process frame on CPU
-			processFrameCPU(cam_texture, cam_buffer, cam_do_buffer);
-			break;
-
-		case MODE_GPU: // process frame on GPU
-			processFrameGPU(cam_texture, cam_buffer, cam_do_buffer);
-			break;
-		} // switch
-
-		if (cam_do_buffer) // buffer -> texture
-		{
-			cv::Mat m(height, width, CV_8UC4);
-			cam_buffer.copyTo(m);
-			cam_texture.copyFrom(m, true);
-		}
-
-		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		{
-			glColor4f(0.5, 0.5, 0.5, 0.9);
-			glLoadIdentity();
-
-			glEnable(GL_TEXTURE_2D);
-			cam_texture.bind();
-
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 0.1f);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, -1.0f, 0.1f);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, -1.0f, 0.1f);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, 0.1f);
-			glEnd();
-
-			glDisable(GL_TEXTURE_2D);
-		}
-		glPopAttrib();
+//		cam_texture.setAutoRelease(true);
+//		cam_buffer.setAutoRelease(true);
+//
+//		cam_mode = get_mode();
+//		cam_do_buffer = use_buffer();
+//
+//		if (get_frame(cam_texture, cam_buffer, cam_do_buffer) != 0)
+//		{
+//
+//		}
+//
+//		switch (cam_mode)
+//		{
+//		case MODE_CPU: // process frame on CPU
+//			processFrameCPU(cam_texture, cam_buffer, cam_do_buffer);
+//			break;
+//
+//		case MODE_GPU: // process frame on GPU
+//			processFrameGPU(cam_texture, cam_buffer, cam_do_buffer);
+//			break;
+//		} // switch
+//
+//		if (cam_do_buffer) // buffer -> texture
+//		{
+//			cv::Mat m(height, width, CV_8UC4);
+//			cam_buffer.copyTo(m);
+//			cam_texture.copyFrom(m, true);
+//		}
+//
+//		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//		{
+//			glColor4f(0.5, 0.5, 0.5, 0.9);
+//			glLoadIdentity();
+//
+//			glEnable(GL_TEXTURE_2D);
+//			cam_texture.bind();
+//
+//			glBegin(GL_QUADS);
+//			glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 0.1f);
+//			glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, -1.0f, 0.1f);
+//			glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, -1.0f, 0.1f);
+//			glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, 0.1f);
+//			glEnd();
+//
+//			glDisable(GL_TEXTURE_2D);
+//		}
+//		glPopAttrib();
 
 	}
 
 	void HeadsUpInterface::drawGLComponents()
 	{
 
-		if (active_task->getCompleted()){
-			active_task->deactivate();
-			tasks.remove(active_task);
-			makeActiveTask(tasks.front());
-		}
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glFlush();
+		if (HeadsUpTask::active_task->getCompleted()){
+			HeadsUpTask::active_task->deactivate();
+			HeadsUpTask::tasks.remove(HeadsUpTask::active_task);
+			if (HeadsUpTask::tasks.size() > 0){
+				makeActiveTask(HeadsUpTask::tasks.front());
+			}
+		}
 
 		draw();
 		drawClock(clockk);
 		drawBat(batinfo);
 		drawMap(map);
-		drawCompass(compass);
-		drawTask(tasks.front());
+
+		drawTask(HeadsUpTask::active_task);
 
 	}
 

@@ -17,6 +17,8 @@ public:
     void					drawX(void);
 	std::list<std::string> 	displayObjectives(void);
 
+							HeadsUpTask();
+
 	void					deactivate(void);
 
 	std::string getTitle(void)
@@ -40,18 +42,21 @@ public:
 	}
 	void					setStage(int);
 
-
 	void					push_changes(void);
-
-	bool					state_changed;
-
 	void					addObjective(HeadsUpObjective*);
 	void					confirmObjective(int);
-
 	void					update();
 
-	std::vector<HeadsUpObjective*> objectives;
-	rapidxml::xml_document<> 	*doc;
+	void					addTask(HeadsUpTask* t);
+	void					addTasks(std::vector<HeadsUpTask*>);
+	void					makeActiveTask(HeadsUpTask* t);
+
+	static std::list<HeadsUpTask*> tasks;
+	bool					state_changed;
+	static HeadsUpTask*			active_task;
+
+	std::vector<HeadsUpObjective*> 	objectives;
+	rapidxml::xml_document<>		*doc;
 
 	bool operator == (const HeadsUpTask& s) const 			{ return objectives == s.objectives; }
 	bool operator != (const HeadsUpTask& s) const 			{ return !operator==(s); }

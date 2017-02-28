@@ -7,8 +7,6 @@
  
 #include <lrand/lrand.h>
 
-extern HeadsUpInterface interface;
-
 
 std::vector<std::string> tilesource;
 GLuint tex;
@@ -97,151 +95,156 @@ void assignTile(int i,int tilexx, int tileyy, int zoom){
 	tiles[i] = getTile(tilexx,tileyy,zoom);
 }
 
-void assignTiles(int tilex, int tileyy, int zoom){
+void fetchTiles(int tilex, int tileyy, int zoom){
 	std::vector<std::thread> threads;
-	if (tilex == previous_tilex-1){
-			if (tileyy == previous_tiley-1){
-				tiles[8] = tiles[4];
-				tiles[7] = tiles[3];
+		if (tilex == previous_tilex-1){
+				if (tileyy == previous_tiley-1){
+					tiles[8] = tiles[4];
+					tiles[7] = tiles[3];
+					threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+
+					tiles[5] = tiles[1];
+					tiles[4] = tiles[0];
+					threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
+
+					threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+					threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
+					threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+				}
+				else if (tileyy == previous_tiley){
+
+					tiles[2] = tiles[1];
+					tiles[1] = tiles[0];
+					threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+
+					tiles[5] = tiles[4];
+					tiles[4] = tiles[3];
+					threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
+
+					tiles[8] = tiles[7];
+					tiles[7] = tiles[6];
+					threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+
+				}
+				else if (tileyy == previous_tiley+1){
+
+					tiles[2] = tiles[4];
+					tiles[1] = tiles[3];
+					threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+
+					tiles[5] = tiles[7];
+					tiles[4] = tiles[6];
+					threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
+
+					threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+					threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
+					threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+
+				}
+			}
+			else if (tilex == previous_tilex){
+				if (tileyy == previous_tiley-1){
+
+					tiles[8] = tiles[5];
+					tiles[7] = tiles[4];
+					tiles[6] = tiles[3];
+
+					tiles[5] = tiles[2];
+					tiles[4] = tiles[1];
+					tiles[3] = tiles[0];
+
+					threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+					threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
+					threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+				}
+				else if (tileyy == previous_tiley){
+
+					//Do nothing because the context has not changed
+				}
+				else if (tileyy == previous_tiley+1){
+					tiles[0] = tiles[3];
+					tiles[1] = tiles[4];
+					tiles[2] = tiles[5];
+
+					tiles[5] = tiles[8];
+					tiles[4] = tiles[7];
+					tiles[3] = tiles[6];
+
+					threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+					threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
+					threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+				}
+			}
+			else if (tilex == previous_tilex+1){
+				if (tileyy == previous_tiley-1){
+					tiles[6] = tiles[4];
+					tiles[7] = tiles[5];
+					threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+
+					tiles[3] = tiles[1];
+					tiles[4] = tiles[2];
+					threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
+
+					threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+					threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
+					threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+
+				}
+				else if (tileyy == previous_tiley){
+					tiles[0] = tiles[1];
+					tiles[1] = tiles[2];
+					threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+
+					tiles[3] = tiles[4];
+					tiles[4] = tiles[5];
+					threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
+
+					tiles[6] = tiles[7];
+					tiles[7] = tiles[8];
+					threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+				}
+				else if (tileyy == previous_tiley+1){
+					tiles[0] = tiles[4];
+					tiles[1] = tiles[5];
+					threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
+
+					tiles[3] = tiles[7];
+					tiles[4] = tiles[8];
+					threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
+
+					threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
+					threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
+					threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+				}
+			}
+			else {
+				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
+				threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
 				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
 
-				tiles[5] = tiles[1];
-				tiles[4] = tiles[0];
+				threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
+				threads.push_back(std::thread(assignTile,4,tilex,tileyy,zoom));
 				threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
 
 				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
 				threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
 				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
 			}
-			else if (tileyy == previous_tiley){
 
-				tiles[2] = tiles[1];
-				tiles[1] = tiles[0];
-				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
+		for (auto& th : threads) th.join();
+}
 
-				tiles[5] = tiles[4];
-				tiles[4] = tiles[3];
-				threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
+void assignTiles(int tilex, int tileyy, int zoom){
 
-				tiles[8] = tiles[7];
-				tiles[7] = tiles[6];
-				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
-
-			}
-			else if (tileyy == previous_tiley+1){
-
-				tiles[2] = tiles[4];
-				tiles[1] = tiles[3];
-				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
-
-				tiles[5] = tiles[7];
-				tiles[4] = tiles[6];
-				threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
-
-				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
-				threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
-				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
-
-			}
-		}
-		else if (tilex == previous_tilex){
-			if (tileyy == previous_tiley-1){
-
-				tiles[8] = tiles[5];
-				tiles[7] = tiles[4];
-				tiles[6] = tiles[3];
-
-				tiles[5] = tiles[2];
-				tiles[4] = tiles[1];
-				tiles[3] = tiles[0];
-
-				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
-				threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
-				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
-			}
-			else if (tileyy == previous_tiley){
-
-				//Do nothing because the context has not changed
-			}
-			else if (tileyy == previous_tiley+1){
-				tiles[0] = tiles[3];
-				tiles[1] = tiles[4];
-				tiles[2] = tiles[5];
-
-				tiles[5] = tiles[8];
-				tiles[4] = tiles[7];
-				tiles[3] = tiles[6];
-
-				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
-				threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
-				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
-			}
-		}
-		else if (tilex == previous_tilex+1){
-			if (tileyy == previous_tiley-1){
-				tiles[6] = tiles[4];
-				tiles[7] = tiles[5];
-				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
-
-				tiles[3] = tiles[1];
-				tiles[4] = tiles[2];
-				threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
-
-				threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
-				threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
-				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
-
-			}
-			else if (tileyy == previous_tiley){
-				tiles[0] = tiles[1];
-				tiles[1] = tiles[2];
-				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
-
-				tiles[3] = tiles[4];
-				tiles[4] = tiles[5];
-				threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
-
-				tiles[6] = tiles[7];
-				tiles[7] = tiles[8];
-				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
-			}
-			else if (tileyy == previous_tiley+1){
-				tiles[0] = tiles[4];
-				tiles[1] = tiles[5];
-				threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
-
-				tiles[3] = tiles[7];
-				tiles[4] = tiles[8];
-				threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
-
-				threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
-				threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
-				threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
-			}
-		}
-		else {
-			threads.push_back(std::thread(assignTile,8,tilex+1,tileyy+1,zoom));
-			threads.push_back(std::thread(assignTile,7,tilex,tileyy+1,zoom));
-			threads.push_back(std::thread(assignTile,6,tilex-1,tileyy+1,zoom));
-
-			threads.push_back(std::thread(assignTile,5,tilex+1,tileyy,zoom));
-			threads.push_back(std::thread(assignTile,4,tilex,tileyy,zoom));
-			threads.push_back(std::thread(assignTile,3,tilex-1,tileyy,zoom));
-
-			threads.push_back(std::thread(assignTile,2,tilex+1,tileyy-1,zoom));
-			threads.push_back(std::thread(assignTile,1,tilex,tileyy-1,zoom));
-			threads.push_back(std::thread(assignTile,0,tilex-1,tileyy-1,zoom));
-		}
-
-	for (auto& th : threads) th.join();
+	fetchTiles(tilex,tiley,zoom);
 
 	cv::hconcat(std::vector<cv::Mat>({tiles[0],tiles[1],tiles[2]}), top);
 	cv::hconcat(std::vector<cv::Mat>({tiles[3],tiles[4],tiles[5]}), mid);
 	cv::hconcat(std::vector<cv::Mat>({tiles[6],tiles[7],tiles[8]}), bottom);
 
 	cv::vconcat(std::vector<cv::Mat>({top,mid,bottom}),resultImg);
-	for (auto& wp : interface.waypoints) {
-		if (wp->source->source == interface.active_task and wp->source->getStage() == interface.active_task->getStage()) {
+	for (auto& wp : HeadsUpWaypoint::waypoints) {
+		if (wp->source->source == HeadsUpTask::active_task and wp->source->getStage() == HeadsUpTask::active_task->getStage()) {
 			wp->draw();
 		}
 	}

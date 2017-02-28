@@ -13,10 +13,17 @@
 extern int height,width;
 bool total_complete_flag;
 bool incomplete_flag;
-extern HeadsUpInterface interface;
 extern std::string exec(const char*);
-extern double m_latitude,m_longitude;
 
+HeadsUpTask* HeadsUpTask::active_task = new HeadsUpTask();
+std::list<HeadsUpTask*> HeadsUpTask::tasks = {};
+
+	HeadsUpTask::HeadsUpTask(){
+		title 		= "default";
+		completed	= false;
+		id			= 0;
+		stage		= 0;
+	}
 
 /*
  * Initialize with the file location of the task, not the name
@@ -87,27 +94,27 @@ extern double m_latitude,m_longitude;
 
 	void HeadsUpTask::setTitle(std::string s){
 		file_node->remove_attribute(file_node->first_attribute("name"));
-		file_node->append_attribute(interface.doc->allocate_attribute("name",s.c_str()));
+		file_node->append_attribute(HeadsUpDisplay::interface.doc->allocate_attribute("name",s.c_str()));
 		title = s;
 	}
 
 	void HeadsUpTask::setCompleted(bool b){
 		file_node->remove_attribute(file_node->first_attribute("completed"));
 		persistent_completed_string = b ? "true" : "false";
-		file_node->append_attribute(interface.doc->allocate_attribute("completed",persistent_completed_string.c_str()));
+		file_node->append_attribute(HeadsUpDisplay::interface.doc->allocate_attribute("completed",persistent_completed_string.c_str()));
 		completed = b;
 	}
 
 	void HeadsUpTask::setId(int Id){
 		file_node->remove_attribute(file_node->first_attribute("id"));
 		persistent_id_string 	= std::to_string(Id);
-		file_node->append_attribute(interface.doc->allocate_attribute("id", persistent_id_string.c_str()));
+		file_node->append_attribute(HeadsUpDisplay::interface.doc->allocate_attribute("id", persistent_id_string.c_str()));
 		id = Id;
 	}
 	void HeadsUpTask::setStage(int sstage){
 		file_node->remove_attribute(file_node->first_attribute("stage"));
 		persistent_stage_string = std::to_string(sstage);
-		file_node->append_attribute(interface.doc->allocate_attribute("stage",persistent_stage_string.c_str()));
+		file_node->append_attribute(HeadsUpDisplay::interface.doc->allocate_attribute("stage",persistent_stage_string.c_str()));
 		stage = sstage;
 	}
 
@@ -121,6 +128,7 @@ extern double m_latitude,m_longitude;
 		indexx = 0;
 		total_complete_flag = true;
 		incomplete_flag = false;
+
 		for (auto& current : objectives) {
 
 				if (current->getStage() == getStage()){
@@ -140,6 +148,7 @@ extern double m_latitude,m_longitude;
 				}
 
 		}
+
 		if (!incomplete_flag){
 			setStage(stage+1);
 		}
@@ -182,6 +191,26 @@ extern double m_latitude,m_longitude;
 //			std::fprintf(stderr,"Error executing push command (fatal)");
 //		}
 	}
+
+	void HeadsUpTask::makeActiveTask(HeadsUpTask* t)
+	{
+		//setActiveTask(t->getId());
+		HeadsUpTask::active_task = t;
+	}
+
+	void HeadsUpTask::addTask(HeadsUpTask* t)
+	{
+		t->setColour(colour);
+		tasks.push_back(t);
+		if (tasks.size()==1){
+			makeActiveTask(t);
+		}
+	}
+
+	void HeadsUpTask::addTasks(std::vector<HeadsUpTask*> tks){
+		for (auto& tsk : tks) addTask(tsk);
+	}
+
 
 	std::list<std::string> HeadsUpTask::displayObjectives(void)
 	{

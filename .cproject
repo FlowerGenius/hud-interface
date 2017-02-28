@@ -25,6 +25,7 @@
 									<listOptionValue builtIn="false" value="/usr/local/include/opencv"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HUD2}&quot;"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/assimp"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.491222772" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.other.1722692095" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  " valueType="string"/>
@@ -38,8 +39,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1051612436" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool command="g++ " id="cdt.managedbuild.tool.gnu.cpp.linker.base.936583287" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
 								<option id="gnu.cpp.link.option.libs.229601365" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-									<listOptionValue builtIn="false" value="X11"/>
-									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="glfw3"/>
 									<listOptionValue builtIn="false" value="curl"/>
 									<listOptionValue builtIn="false" value="png16"/>
 									<listOptionValue builtIn="false" value="opencv_shape"/>
@@ -60,8 +60,22 @@
 									<listOptionValue builtIn="false" value="opencv_viz"/>
 									<listOptionValue builtIn="false" value="opencv_core"/>
 									<listOptionValue builtIn="false" value="Xm"/>
-									<listOptionValue builtIn="false" value="Xrender"/>
 									<listOptionValue builtIn="false" value="GL"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="rt"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="m"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="dl"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Xrandr"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Xinerama"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Xext"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Xcursor"/>
+									<listOptionValue builtIn="false" value="Xrender"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Xfixes"/>
+									<listOptionValue builtIn="false" value="X11"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="xcb"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Xau"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Xdmcp"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="assimp"/>
 								</option>
 								<option id="gnu.cpp.link.option.flags.304791048" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
 								<option id="gnu.cpp.link.option.paths.314774736" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
@@ -82,6 +96,7 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.toolchain.gnu.base.604359116.559300196" name="modern_kombat.hpp" rcbsApplicability="disable" resourcePath="lrand/glstring/fonts/modern_kombat.hpp" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="mason_packages|tizen|android|tests|fonts|bench|src|default" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>

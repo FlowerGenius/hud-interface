@@ -9,8 +9,8 @@
 
 #include <lrand/lrand.h>
 
-#define LONGITUDE	-79.395293
-#define LATITUDE	43.661802
+#define LONGITUDE	-79.395299
+#define LATITUDE	43.661793
 #define DIRECTION	-90
 
 // system gps variables
@@ -79,15 +79,19 @@ void getInformation(){
 		if (rdlen > 0) {
 			switch(buf[0]){
 			case '!':
-				split2 = s.substr(1).find('@');
-				dev_battery_state = s.substr(1,split2);
-				dev_battery_life = std::atof(s.substr(split2+2).c_str());
+				dev_battery_state = std::atof(s.substr(1).c_str());
 				break;
-			case '*':
-				split2 = s.substr(1).find('@');
-				m_direction	= std::atof(s.substr(1,split2).c_str());
-				m_pitch		= std::atof(s.substr(split2+2,s.substr(split2+2).find('@')).c_str());
-				m_roll		= std::atof(s.substr(s.substr(split2+2).find('@')).c_str());
+			case '#':
+				dev_battery_life = std::atof(s.substr(1).c_str());
+				break;
+			case 'H':
+				m_direction	= std::atof(s.substr(1).c_str());
+				break;
+			case 'P':
+				m_pitch	= std::atof(s.substr(1).c_str());
+				break;
+			case 'R':
+				m_roll	= std::atof(s.substr(1).c_str());
 				break;
 			case 'L':
 				split2 = s.substr(1).find('@');

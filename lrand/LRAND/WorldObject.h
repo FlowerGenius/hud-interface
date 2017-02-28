@@ -12,6 +12,9 @@ class WorldObject {
 public:
 	WorldObject();
 	virtual ~WorldObject();
+	static std::list<WorldObject*> world_object_collection;
+	static int k;
+	void draw();
 };
 
 #endif /* LRAND_LRAND_WORLDOBJECT_H_ */

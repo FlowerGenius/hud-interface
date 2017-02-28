@@ -55,12 +55,12 @@ protected:
 	LRAND::Colour			colour;
 	LRAND::Colour			wp_colour;
 	ScalableVectorString 	obj_text;
-	HeadsUpCheckBox 		check;
 	std::string 			name;
 	gps::Point				location;
 	int						radius = -1;
 	int						active_stage;
 	bool 					completed;
+	bool					failed;
 	bool					remove_on_complete;
 	bool					state_changed;
 	bool					optional;
@@ -83,7 +83,7 @@ public:
 			remove_on_complete = true;
 			waypoint.set(location);
 			waypoint.setText(n);
-			waypoint.setColour(wp_colour);
+			waypoint.setColour(colour);
 			initWaypoint();
 			radius = -1;
 
@@ -95,8 +95,8 @@ public:
 	}
 
 	virtual void 				checkState(void);
-	virtual void 				setColour(int R,int G,int B,int A)	{ waypoint.setColour(R,G,B,A);}
-	virtual void 				setColour(LRAND::Colour c)			{ waypoint.setColour(c);}
+	virtual void 				setColour(int R,int G,int B,int A)	{ waypoint.setColour(R,G,B,A); colour = LRAND::Colour(R,G,B,A);}
+	virtual void 				setColour(LRAND::Colour c)			{ waypoint.setColour(c); colour = c;}
 	virtual HeadsUpWaypoint* 	getWaypoint(void) 					{ return &waypoint;}
 	virtual void				deactivate();
 
@@ -122,7 +122,7 @@ public:
 			waypoint.setText("Area");
 			waypoint.setSize(radius);
 			waypoint.setFill(true);
-			waypoint.setColour(wp_colour);
+			waypoint.setColour(colour);
 			initWaypoint();
 
 
@@ -136,8 +136,8 @@ public:
 	void						setRadius(int);
 
 	virtual void 				checkState(void);
-	virtual void 				setColour(int R,int G,int B,int A)	{ waypoint.setColour(R,G,B,A);}
-	virtual void 				setColour(LRAND::Colour c)			{ waypoint.setColour(c);}
+	virtual void 				setColour(int R,int G,int B,int A)	{ waypoint.setColour(R,G,B,A); colour = LRAND::Colour(R,G,B,A);}
+	virtual void 				setColour(LRAND::Colour c)			{ waypoint.setColour(c); colour = c;}
 	virtual HeadsUpWaypoint* 	getWaypoint(void) { return &waypoint;}
 	virtual void				deactivate();
 

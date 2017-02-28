@@ -8,17 +8,16 @@
 #ifndef LRAND_LRAND_TILE_H_
 #define LRAND_LRAND_TILE_H_
 
-#include <opencv2/core/mat.hpp>
-
-namespace cv {
-
-class Tile: public Mat {
+class Tile
+{
 public:
 	Tile();
-	Tile(Mat,int,int,int);
+	Tile(int,int,int);
 	virtual ~Tile();
+	void fetch(int,int,int);
+private:
+	cv::Mat _data;
 };
 
-} /* namespace cv */
 
 #endif /* LRAND_LRAND_TILE_H_ */

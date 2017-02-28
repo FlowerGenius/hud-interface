@@ -6,7 +6,6 @@
  */
 
 #include <lrand/lrand.h>
-#include <lrand/LRAND/HeadsUpWaypoint.h>
 
 extern int tiley,tilex;
 extern cv::Mat resultImg;
@@ -30,6 +29,7 @@ namespace gps {
 	extern double polarPitch(double,double);
 }
 
+std::vector<HeadsUpWaypoint*> HeadsUpWaypoint::waypoints = {};
 
 HeadsUpWaypoint::HeadsUpWaypoint(){
 	// Null Colour initialization
@@ -222,6 +222,24 @@ int HeadsUpWaypoint::render(){
 
 	return 0;
 
+}
+
+void HeadsUpWaypoint::addWaypoint(HeadsUpWaypoint* w){
+	HeadsUpWaypoint::waypoints.push_back(w);
+}
+
+void HeadsUpWaypoint::removeWaypoint(HeadsUpWaypoint* w){
+	int i=0;
+	for (auto& wp : waypoints){
+		if (wp == w){
+			waypoints.erase(waypoints.begin()+i);
+		}
+		i++;
+	}
+}
+
+void HeadsUpWaypoint::addWaypoints(std::vector<HeadsUpWaypoint*> wps){
+	for (auto& wp : wps) addWaypoint(wp);
 }
 
 double HeadsUpWaypoint::scalarDistance(){

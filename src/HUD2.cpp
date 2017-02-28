@@ -10,8 +10,6 @@
 
 #include <lrand/lrand.h>
 
-
-
 #define LONGITUDE	-79.395293
 #define LATITUDE	43.661802
 int width, height;
@@ -19,7 +17,7 @@ int width, height;
 GLFWwindow* window;
 int mkk;
 
-
+GLuint VBO, VAO, EBO;
 
 cv::Mat m_frame_bgr, m_frame_rgba, frame_gray;
 cv::VideoCapture m_cap;
@@ -35,9 +33,6 @@ extern void getInformation();
 
 //Compile time configuration settings
 
-//Interface Proper main system
-HeadsUpInterface interface;
-std::vector<HeadsUpWaypoint*> waypoints;
 
 //Threading management
 std::atomic<bool> EXIT_THREADS;
@@ -115,6 +110,33 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+
+    if (key == GLFW_KEY_S && action == GLFW_PRESS)
+    	m_latitude = m_latitude - 0.00003;
+
+    if (key == GLFW_KEY_W && action == GLFW_PRESS)
+		m_latitude = m_latitude + 0.00003;
+
+    if (key == GLFW_KEY_A && action == GLFW_PRESS)
+		m_longitude = m_longitude - 0.00003;
+
+	if (key == GLFW_KEY_D && action == GLFW_PRESS)
+		m_longitude = m_longitude + 0.00003;
+
+    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+    	m_direction = m_direction + 1;
+
+    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+    	m_direction = m_direction - 1;
+
+    if (key == GLFW_KEY_DOWN && action == GLFW_PRESS){
+    	m_pitch = m_pitch - 1;
+    }
+
+	if (key == GLFW_KEY_UP && action == GLFW_PRESS){
+		m_pitch = m_pitch + 1;
+	}
+
 }
 static void createTheWindow() {
 	 glfwSetErrorCallback(error_callback);
@@ -122,7 +144,7 @@ static void createTheWindow() {
 		exit(EXIT_FAILURE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+	window = glfwCreateWindow(1920, 1080, "LRAND Heads Up Display Program v0.1a",  glfwGetPrimaryMonitor(), NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -131,23 +153,41 @@ static void createTheWindow() {
 
 }
 
+Model ourModel;
+Shader ourShader;
+
 static void createTheRenderContext() {
 	glfwSetKeyCallback(window, key_callback);
 	glfwMakeContextCurrent(window);
 	gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+	Shader().loadStaticShaders();
+//    glEnable(GL_DEPTH_TEST);
+//	ourShader = Shader("/home/erin/workspace/HUD2/lrand/shaders/model_loading.vs", "/home/erin/workspace/HUD2/lrand/shaders/model_loading.frag");
+//    ourModel = Model("/home/erin/untitled.obj");
+
 }
 
-
 static void redrawTheWindow() {
-	glfwGetFramebufferSize(window, &width, &height);
-	glViewport(0, 0, width, height);
+    glfwGetFramebufferSize(window, &width, &height);
+    glViewport(0, 0, width, height);
+
+    glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glFlush();
-	interface.updateGL();
-	glfwSwapBuffers(window);
+
+//	ourShader.Use();
+
+	HeadsUpDisplay::interface.updateGL();
+
+//	glm::mat4 model;
+//	model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // Translate it down a bit so it's at the center of the scene
+//	model = glm::scale(model, glm::vec3(0.02f, 0.0002f, 0.0002f));	// It's a bit too big for our scene, so scale it down
+//	glUniformMatrix4fv(glGetUniformLocation(ourShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+//	ourModel.Draw(ourShader);
+    glfwSwapBuffers(window);
 	glfwPollEvents();
 
 }
+
 
 int main(int argc, char *argv[]) {
 
@@ -162,6 +202,8 @@ int main(int argc, char *argv[]) {
 	{
 	printf("to: '%s'\n", loc);
 	}
+
+
 	EXIT_THREADS = false;
 	std::thread _bat_th(computerGetBatteryInformation);
 	std::thread _clk_th(computerGetLocalTime);
@@ -181,28 +223,28 @@ int main(int argc, char *argv[]) {
 #if COMPUTER_GPS_ENABLED || COMPUTER_GYRO_ENABLED
 	}
 #endif
-	interface.setColour(0,167,255,200);
+	HeadsUpDisplay::interface.setColour(0,167,255,200);
 
 	createTheWindow();
 	createTheRenderContext();
 
-	cv::VideoCapture cap;
+//	cv::VideoCapture cap;
+//
+//	if( !face_cascade.load( face_cascade_name ) ){ fprintf(stderr,"--(!)Error loading face cascade\n"); return -1; };
+//	if( !eyes_cascade.load( eyes_cascade_name ) ){ fprintf(stderr,"--(!)Error loading eyes cascade\n"); return -1; };
+//
+//	cap.open(0);
+//
+//	if (!cap.isOpened()) {
+//		fprintf(stderr,"can not open camera or video file\n");
+//		return -1;
+//	}
+//	m_cap = cap;
 
-	if( !face_cascade.load( face_cascade_name ) ){ fprintf(stderr,"--(!)Error loading face cascade\n"); return -1; };
-	if( !eyes_cascade.load( eyes_cascade_name ) ){ fprintf(stderr,"--(!)Error loading eyes cascade\n"); return -1; };
+	HeadsUpDisplay::interface.start_stuff();
 
-	cap.open(0);
-
-	if (!cap.isOpened()) {
-		fprintf(stderr,"can not open camera or video file\n");
-		return -1;
-	}
-	m_cap = cap;
-
-
-	interface.start_stuff();
 	while (!glfwWindowShouldClose(window)) {
-		redrawTheWindow();
+		 redrawTheWindow();
 	}
 
 	EXIT_THREADS = true;

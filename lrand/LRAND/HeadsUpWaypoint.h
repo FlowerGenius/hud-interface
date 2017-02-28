@@ -28,10 +28,6 @@ public:
 	int							render(void);
 	void						draw(void);
 
-	HeadsUpObjective			*source;
-
-	bool						active;
-
 	double						scalarDistance();
 	double						getBearing();
 	gps::Vector					getVector();
@@ -39,9 +35,18 @@ public:
 	double						getPolarPitch(double target_pitch);
 
 	double 						getPitch();
-
 	void 						setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); label.setColour(colour); distance.setColour(colour); }
 	void 						setColour(LRAND::Colour c)			{ colour = c;label.setColour(colour); distance.setColour(colour); }
+
+	static void						addWaypoint(HeadsUpWaypoint*);
+	static void						removeWaypoint(HeadsUpWaypoint*);
+	static void						addWaypoints(std::vector<HeadsUpWaypoint*>);
+	static std::vector<HeadsUpWaypoint*> waypoints;
+
+	HeadsUpObjective			*source;
+
+	bool						active;
+
 protected:
 	int							setIcon(void);
 

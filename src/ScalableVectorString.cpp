@@ -10,4 +10,3 @@ extern int width, height;
 
 
 
-

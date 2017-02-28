@@ -17,10 +17,6 @@ public:
 	void		draw(void);
 	void		makeActiveTask(HeadsUpTask* t);
 
-	void		addTask(HeadsUpTask* t);
-	void		addTasks(std::vector<HeadsUpTask*>);
-	std::list<HeadsUpTask*> 	tasks;
-
 	void		addWaypoint(HeadsUpWaypoint*);
 	void		removeWaypoint(HeadsUpWaypoint*);
 	void		addWaypoints(std::vector<HeadsUpWaypoint*>);
@@ -59,7 +55,6 @@ public:
 
 	void 				setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); changeColours();}
 	void 				setColour(LRAND::Colour c)			{ colour = c; changeColours();}
-	HeadsUpTask*				 active_task;
 	rapidxml::xml_document<> 	*doc;
 
 private:
@@ -81,7 +76,6 @@ private:
 	HeadsUpMap	map;
 	HeadsUpDigitalClock clockk;
 	HeadsUpBatteryInfo batinfo;
-	HeadsUpCompass compass;
 
 	std::string				loaded_doc;
 	std::string				tasks_folder;

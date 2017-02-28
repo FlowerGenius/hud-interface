@@ -35,6 +35,7 @@ private:
 
 class Colour {
 public:
+
 	virtual void set(int Red, int Green, int Blue, int Alpha){
 		if (0 <= Red and Red <= 255 and
 			0 <= Green and Green <= 255 and
@@ -93,27 +94,13 @@ public:
 	cv::Scalar_<int> 	BGR;
 	cv::Scalar_<int>	RGB;
 
-
-private:
+	static Colour YELLOW,RED,GREEN,BLUE;
 	int R,G,B,A;
 };
 
 class GlColour : public Colour
 {
 public:
-
-	virtual void set(float Red, float Green, float Blue, float Alpha){
-		if (0 <= Red and Red <= 255 and
-			0 <= Green and Green <= 255 and
-			0 <= Blue and Blue <= 255 and
-			0 <= Alpha and Alpha <= 255){
-			R=Red,G=Green,B=Blue,A=Alpha;
-		} else {
-			throw generic_error("Colour index out of range");
-		}
-		R=Red,G=Green,B=Blue,A=Alpha;
-		BGR = cv::Scalar(B,G,R);
-	}
 
 	GlColour(){
 		set(255.0f,255.0f,255.0f,255.0f);
@@ -132,6 +119,19 @@ public:
 		set(f.at(0),f.at(1),f.at(2),f.at(3));
 	}
 
+	virtual void set(float Red, float Green, float Blue, float Alpha){
+		if (0 <= Red and Red <= 255 and
+			0 <= Green and Green <= 255 and
+			0 <= Blue and Blue <= 255 and
+			0 <= Alpha and Alpha <= 255){
+			R=Red,G=Green,B=Blue,A=Alpha;
+		} else {
+			throw generic_error("Colour index out of range");
+		}
+		R=Red,G=Green,B=Blue,A=Alpha;
+		BGR = cv::Scalar(B,G,R);
+	}
+
 	virtual void bind(){
 		glColor4f(R,G,B,A);
 	}
@@ -140,8 +140,7 @@ public:
 
 	}
 
-
-private:
+	static GlColour YELLOW,RED,GREEN,BLUE;
 	float R,G,B,A;
 };
 
@@ -166,5 +165,8 @@ protected:
 
 
 } /* namespace LRAND */
+
+
+
 
 #endif /* LRAND_LRAND_LRAND_H_ */

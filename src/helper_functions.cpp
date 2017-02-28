@@ -27,8 +27,8 @@ bool all(std::list<bool> L){
 
 }
 
+std::array<char, 128> buffer;
 std::string exec(const char* cmd) {
-    std::array<char, 128> buffer;
     std::string result;
     std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
     if (!pipe) throw std::runtime_error("popen() failed!");
@@ -92,5 +92,7 @@ void BindCVMat2GLTexture(cv::Mat& image, GLuint& imageTexture)
 			GL_RGB,              // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
 			GL_UNSIGNED_BYTE,    // Image data type
 			image.ptr());        // The actual image data itself
-	}
+      glGenerateMipmap(GL_TEXTURE_2D);
+      glBindTexture(GL_TEXTURE_2D,0);
+  }
 }
