@@ -44,25 +44,9 @@ std::atomic<bool> EXIT_THREADS;
 extern void computerGetLocalTime();
 
 //Power Management Subsystem
-std::string 		battery_state;
-std::string 		dev_battery_state;
 
-std::atomic<double> battery_life;
-std::atomic<double> dev_battery_life;
-std::atomic<bool> 	is_charging;
-std::atomic<bool> 	dev_is_charging;
-std::atomic<bool> 	dev_is_connected;
 extern void computerGetBatteryInformation();
 
-//Map Subsystem
-gps::Point			coords;
-std::atomic<double> m_latitude;
-std::atomic<double> m_longitude;
-std::atomic<double> m_altitude;
-
-std::atomic<double>	m_direction;
-std::atomic<double> m_pitch;
-std::atomic<double> m_roll;
 
 std::atomic<bool>	direction_changed;
 std::atomic<bool>	location_changed;
@@ -112,29 +96,29 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 
     if (key == GLFW_KEY_S && action == GLFW_PRESS)
-    	m_latitude = m_latitude - 0.00003;
+    	User::m_latitude = User::m_latitude - 0.00003;
 
     if (key == GLFW_KEY_W && action == GLFW_PRESS)
-		m_latitude = m_latitude + 0.00003;
+		User::m_latitude = User::m_latitude + 0.00003;
 
     if (key == GLFW_KEY_A && action == GLFW_PRESS)
-		m_longitude = m_longitude - 0.00003;
+		User::m_longitude = User::m_longitude - 0.00003;
 
 	if (key == GLFW_KEY_D && action == GLFW_PRESS)
-		m_longitude = m_longitude + 0.00003;
+		User::m_longitude = User::m_longitude + 0.00003;
 
     if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-    	m_direction = m_direction + 1;
+    	User::m_direction = User::m_direction + 1;
 
     if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-    	m_direction = m_direction - 1;
+    	User::m_direction = User::m_direction - 1;
 
     if (key == GLFW_KEY_DOWN && action == GLFW_PRESS){
-    	m_pitch = m_pitch - 1;
+    	User::m_pitch = User::m_pitch - 1;
     }
 
 	if (key == GLFW_KEY_UP && action == GLFW_PRESS){
-		m_pitch = m_pitch + 1;
+		User::m_pitch = User::m_pitch + 1;
 	}
 
 }
@@ -144,7 +128,7 @@ static void createTheWindow() {
 		exit(EXIT_FAILURE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	window = glfwCreateWindow(1920, 1080, "LRAND Heads Up Display Program v0.1a",  glfwGetPrimaryMonitor(), NULL);
+	window = glfwCreateWindow(1920, 1080, "LRAND Heads Up Display Program v0.1a", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();

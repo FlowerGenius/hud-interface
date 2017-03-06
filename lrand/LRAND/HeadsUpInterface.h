@@ -26,20 +26,20 @@ public:
 	void		updateX(void);
 
 	std::string getTasksFolder(){
-		return tasks_folder;
+		return local_tasks_folder;
 	}
 	void setTasksFolder(std::string);
 
 	std::string getSourceFolder(){
-		return source_folder;
+		return remote_tasks_folder;
 	}
 	void setSourceFolder(std::string);
 
 	std::string getHost(){
-		return task_host;
+		return remote_host;
 	}
 	std::string getUserName(){
-		return username;
+		return remote_username;
 	}
 
 	int getActiveTask(void);
@@ -55,7 +55,6 @@ public:
 
 	void 				setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); changeColours();}
 	void 				setColour(LRAND::Colour c)			{ colour = c; changeColours();}
-	rapidxml::xml_document<> 	*doc;
 
 private:
 	LRAND::Colour 	colour;
@@ -77,16 +76,13 @@ private:
 	HeadsUpDigitalClock clockk;
 	HeadsUpBatteryInfo batinfo;
 
-	std::string				loaded_doc;
-	std::string				tasks_folder;
-	std::string				source_folder;
-	std::string				username;
-	std::string				password;
-	std::string				task_host;
+	static std::string				remote_tasks_folder;
+	static std::string				remote_username;
+	static std::string				remote_password;
+	static std::string				remote_host;
+	static std::string				local_tasks_folder;
 
-	rapidxml::xml_node<>		*taskfile_node;
-
-	DeviceAccess 	_da;
+	Device 	_da;
 	LANAccess 		_la;
 };
 

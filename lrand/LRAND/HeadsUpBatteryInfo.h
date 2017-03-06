@@ -40,9 +40,6 @@ public:
 	void 					setColour(int R,int G,int B,int A)	{ colour.set(R,G,B,A); }
 	void 					setColour(LRAND::Colour c)			{ colour = c; }
 
-	static Battery 			computer_bat;
-	static Battery 			device_bat;
-
 private:
 	LRAND::Colour 			colour;
 	LRAND::Colour			text_colour;

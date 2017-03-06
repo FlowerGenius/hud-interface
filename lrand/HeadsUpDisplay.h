@@ -37,6 +37,8 @@ public:
 	//Interface Proper main system
 	static HeadsUpInterface interface;
 
+
+
 };
 
 #endif /* LRAND_HEADSUPDISPLAY_H_ */

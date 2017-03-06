@@ -8,7 +8,6 @@
 #include <lrand/lrand.h>
 
 extern int height, width;
-extern double m_latitude,m_longitude, m_altitude;
 
 std::string	o_persistent_optional_string;
 std::string o_persistent_completed_string;
@@ -39,23 +38,28 @@ void setStringAttribute(
 HeadsUpObjective::HeadsUpObjective(){
 	name 				= 	"";
 	active_stage 		= 	0;
+	stage				= 	0;
 	completed 			= 	false;
 	failed				= 	false;
 	remove_on_complete	= 	true;
 	state_changed 		= 	true;
 	optional			= 	false;
 	remove_on_complete	= 	true;
-	file_node			=	NULL;
 	source				=	NULL;
 }
 
-HeadsUpObjective::HeadsUpObjective(std::string n,int i,bool optio,bool comple,rapidxml::xml_node<> *x_node,HeadsUpTask *t) : HeadsUpObjective() {
-	name 				= 	n;
-	active_stage 		= 	i;
-	file_node			=	x_node;
+extern std::vector<std::string> readConfigurationFile(std::string,int);
+HeadsUpObjective::HeadsUpObjective(std::string n,HeadsUpTask *t) : HeadsUpObjective() {
+	std::vector<std::string> config_vector = readConfigurationFile(n,5);
 
-	if(optio)  { optional  = true; }
-	if(comple) { completed = true; }
+	name = n.substr(n.rfind("/")+1,n.length());
+	std::replace(name.begin(),name.end(),'_',' ');
+
+	active_stage 		= 	t->getStage();
+	stage 		= std::atoi(config_vector[0].c_str());
+	location	= config_vector[2];
+	completed 	= std::atoi(config_vector[3].c_str()) == 0 ? false : true;
+	optional 	= std::atoi(config_vector[4].c_str()) == 0 ? false : true;
 
 	if(optional){
 		colour.set(0,255,255,255);
@@ -113,7 +117,7 @@ void HeadsUpObjective::draw(int position) {
 	glPopMatrix();
 
 
-	obj_text.setText(getName());
+	obj_text.setText(name);
 	obj_text.rdraw(RIGHT_MARGIN + 30,
 			height - (60 + TOP_MARGIN + MAP_HEIGHT + (position * 30)), 1.1,
 			OBJECTIVE_TEXT_HEIGHT);
@@ -136,29 +140,18 @@ void HeadsUpObjective::checkState(){
 //================================================================================================================================
 
 void HeadsUpObjective::setCompleted(bool b){
-	file_node->remove_attribute(file_node->first_attribute("completed"));
-	o_persistent_completed_string = b ? "true" : "false";
-	file_node->append_attribute(source->doc->allocate_attribute("completed",o_persistent_completed_string.c_str()));
 	completed = b;
 }
 
 void HeadsUpObjective::setLocation(gps::Point p){
-	file_node->remove_attribute(file_node->first_attribute("location"));
-	o_persistent_location_string = p.to_string();
-	file_node->append_attribute(source->doc->allocate_attribute("location",o_persistent_location_string.c_str()));
 	location = p;
 }
 
 void HeadsUpObjective::setName(std::string n){
-	file_node->remove_attribute(file_node->first_attribute("title"));
-	file_node->append_attribute(source->doc->allocate_attribute("title",n.c_str()));
 	name = n;
 }
 
 void HeadsUpObjective::setOptional(bool b){
-	file_node->remove_attribute(file_node->first_attribute("optional"));
-	o_persistent_optional_string = b ? "true" : "false";
-	file_node->append_attribute(source->doc->allocate_attribute("optional",o_persistent_optional_string.c_str()));
 	optional = b;
 }
 
@@ -176,9 +169,9 @@ void SpecificLocationObjective::deactivate(){
 }
 void SpecificLocationObjective::checkState(){
 
-	if (m_latitude - 0.0003 <= location.latitude and m_latitude + 0.0003 >= location.latitude and
-			m_longitude - 0.0003 <= location.longitude and m_longitude + 0.0003 >= location.longitude and
-				m_altitude - 0.0003 <= location.altitude and m_altitude + 0.0003 >= location.altitude){
+	if (User::m_latitude - 0.0003 <= location.latitude and User::m_latitude + 0.0003 >= location.latitude and
+			User::m_longitude - 0.0003 <= location.longitude and User::m_longitude + 0.0003 >= location.longitude and
+				User::m_altitude - 0.0003 <= location.altitude and User::m_altitude + 0.0003 >= location.altitude){
 		setCompleted(true);
 		if (remove_on_complete){
 			write();
@@ -200,8 +193,8 @@ void AreaLocationObjective::deactivate(){
 	HeadsUpWaypoint::removeWaypoint(&waypoint);
 }
 void AreaLocationObjective::checkState(){
-	if (m_latitude - (double)radius/111111.0 <= location.latitude and m_latitude + (double)radius/111111.0 >= location.latitude and
-			m_longitude - (double)radius/111111.0 <= location.longitude and m_longitude + (double)radius/111111.0 >= location.longitude){
+	if (User::m_latitude - (double)radius/111111.0 <= location.latitude and User::m_latitude + (double)radius/111111.0 >= location.latitude and
+			User::m_longitude - (double)radius/111111.0 <= location.longitude and User::m_longitude + (double)radius/111111.0 >= location.longitude){
 		setCompleted(true);
 		if (remove_on_complete){
 			write();
@@ -214,5 +207,4 @@ void AreaLocationObjective::checkState(){
 
 HeadsUpObjective::~HeadsUpObjective(){
 	HeadsUpWaypoint::removeWaypoint(&waypoint);
-
 }

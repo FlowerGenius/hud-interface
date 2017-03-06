@@ -9,12 +9,12 @@
 
 extern int tiley,tilex;
 extern cv::Mat resultImg;
-extern std::atomic<double> 	m_latitude;
-extern std::atomic<double> 	m_longitude;
-extern std::atomic<double>	m_direction;
-extern std::atomic<double> 	m_pitch;
-extern std::atomic<double>	m_roll;
-extern std::atomic<double>	m_altitude;
+extern std::atomic<double> 	User::m_latitude;
+extern std::atomic<double> 	User::m_longitude;
+extern std::atomic<double>	User::m_direction;
+extern std::atomic<double> 	User::m_pitch;
+extern std::atomic<double>	User::m_roll;
+extern std::atomic<double>	User::m_altitude;
 
 extern float long2tilex(double lon, int z);
 extern float lat2tiley(double lat, int z);
@@ -243,23 +243,23 @@ void HeadsUpWaypoint::addWaypoints(std::vector<HeadsUpWaypoint*> wps){
 }
 
 double HeadsUpWaypoint::scalarDistance(){
-	return 	gps::distance(gps::Point(m_latitude,m_longitude,m_altitude),location);
+	return 	gps::distance(gps::Point(User::m_latitude,User::m_longitude,User::m_altitude),location);
 }
 double HeadsUpWaypoint::getBearing(){
-	return 	gps::bearing(gps::Point(m_latitude,m_longitude,m_altitude), location);
+	return 	gps::bearing(gps::Point(User::m_latitude,User::m_longitude,User::m_altitude), location);
 }
 double HeadsUpWaypoint::getPolarBearing(double theta){
-	return	gps::polarBearing(m_direction,theta);
+	return	gps::polarBearing(User::m_direction,theta);
 }
 double HeadsUpWaypoint::getPitch(){
-	return	gps::pitch(gps::Point(m_latitude,m_longitude,m_altitude), location);
+	return	gps::pitch(gps::Point(User::m_latitude,User::m_longitude,User::m_altitude), location);
 }
 double HeadsUpWaypoint::getPolarPitch(double theta){
-	return	gps::polarPitch(m_pitch,theta);
+	return	gps::polarPitch(User::m_pitch,theta);
 }
 
 gps::Vector HeadsUpWaypoint::getVector(){
-	return 	gps::Vector(gps::Point(m_latitude,m_longitude,m_altitude), location);
+	return 	gps::Vector(gps::Point(User::m_latitude,User::m_longitude,User::m_altitude), location);
 }
 
 HeadsUpWaypoint::~HeadsUpWaypoint() {

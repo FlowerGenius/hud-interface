@@ -1,5 +1,5 @@
 /*
- * DeviceAccess.cpp
+ * Devic.cpp
  *
  *  Created on: Jan 23, 2017
  *      Author: erin
@@ -13,23 +13,17 @@
 #define LATITUDE	43.661793
 #define DIRECTION	-90
 
+std::string Device::battery_state 			= "charging";
+std::atomic<double> Device::battery_life;
+
+
 // system gps variables
-extern std::atomic<double> 	m_latitude;
-extern std::atomic<double> 	m_longitude;
-extern std::atomic<double>	m_altitude;
 extern std::atomic<double>	location_changed;
 
 // system vector variables
-extern std::atomic<double>	m_direction;
 extern std::atomic<double> 	direction_changed;
-extern std::atomic<double> 	m_pitch;
-extern std::atomic<double>	m_roll;
-
 
 // system battery variables
-extern std::atomic<double> 	dev_battery_life;
-extern std::atomic<bool> 	dev_is_charging;
-extern std::string			dev_battery_state;
 extern std::atomic<bool>	EXIT_THREADS;
 
 double prev_lat,prev_dir;
@@ -38,34 +32,34 @@ int bfd,rdlen,split2;
 std::string s;
 
 void getCoords(){
-	if (m_latitude == (double)0.0){
-	m_latitude 	= LATITUDE;
-	m_longitude = LONGITUDE;
+	if (User::m_latitude == (double)0.0){
+	User::m_latitude 	= LATITUDE;
+	User::m_longitude = LONGITUDE;
 	}
-	if (m_latitude != prev_lat){
+	if (User::m_latitude != prev_lat){
 		location_changed = true;
-		prev_lat = m_latitude;
+		prev_lat = User::m_latitude;
 	}
 }
 
 void getDirection(){
-	if (m_direction < -180){
-		m_direction = 179;
+	if (User::m_direction < -180){
+		User::m_direction = 179;
 	}
 	else
-	if (m_direction > 180){
-		m_direction = -179;
+	if (User::m_direction > 180){
+		User::m_direction = -179;
 	}
-	if (m_direction != prev_dir){
+	if (User::m_direction != prev_dir){
 		direction_changed = true;
-		prev_dir = m_direction;
+		prev_dir = User::m_direction;
 	}
-	if (m_pitch < -180){
-		m_pitch = 179;
+	if (User::m_pitch < -180){
+		User::m_pitch = 179;
 	}
 	else
-	if (m_pitch > 180){
-		m_pitch = -179;
+	if (User::m_pitch > 180){
+		User::m_pitch = -179;
 	}
 }
 
@@ -79,25 +73,25 @@ void getInformation(){
 		if (rdlen > 0) {
 			switch(buf[0]){
 			case '!':
-				dev_battery_state = std::atof(s.substr(1).c_str());
+				Device::battery_state = s.substr(1);
 				break;
 			case '#':
-				dev_battery_life = std::atof(s.substr(1).c_str());
+				Device::battery_life = std::atof(s.substr(1).c_str());
 				break;
 			case 'H':
-				m_direction	= std::atof(s.substr(1).c_str());
+				User::m_direction	= std::atof(s.substr(1).c_str());
 				break;
 			case 'P':
-				m_pitch	= std::atof(s.substr(1).c_str());
+				User::m_pitch	= std::atof(s.substr(1).c_str());
 				break;
 			case 'R':
-				m_roll	= std::atof(s.substr(1).c_str());
+				User::m_roll	= std::atof(s.substr(1).c_str());
 				break;
 			case 'L':
 				split2 = s.substr(1).find('@');
-				m_longitude	= std::atof(s.substr(1,split2).c_str());
-				m_latitude = std::atof(s.substr(split2+2,s.substr(split2+2).find('@')).c_str());
-				m_altitude = std::atof(s.substr(s.substr(split2+2).find('@')).c_str());
+				User::m_longitude	= std::atof(s.substr(1,split2).c_str());
+				User::m_latitude = std::atof(s.substr(split2+2,s.substr(split2+2).find('@')).c_str());
+				User::m_altitude = std::atof(s.substr(s.substr(split2+2).find('@')).c_str());
 				break;
 			}
 		} else if (rdlen < 0) {
@@ -107,7 +101,7 @@ void getInformation(){
 
 
 int
-DeviceAccess::set_interface_attribs (int fd, int speed, int parity)
+Device::set_interface_attribs (int fd, int speed, int parity)
 {
         struct termios tty;
         memset (&tty, 0, sizeof tty);
@@ -148,7 +142,7 @@ DeviceAccess::set_interface_attribs (int fd, int speed, int parity)
 }
 
 void
-DeviceAccess::set_blocking (int fd, int should_block)
+Device::set_blocking (int fd, int should_block)
 {
         struct termios tty;
         memset (&tty, 0, sizeof tty);
@@ -166,18 +160,18 @@ DeviceAccess::set_blocking (int fd, int should_block)
 }
 
 
-int DeviceAccess::setPort(std::string s){
+int Device::setPort(std::string s){
 	closePort();
 	portname = (char*)s.c_str();
 	openPort();
 	return 0;
 }
 
-std::string DeviceAccess::getPort(void){
+std::string Device::getPort(void){
 	return std::string(portname);
 }
 
-int DeviceAccess::openPort(void){
+int Device::openPort(void){
 	fd = open (portname, O_RDWR | O_NOCTTY | O_SYNC);
 	if (fd < 0)
 	{
@@ -188,13 +182,13 @@ int DeviceAccess::openPort(void){
 	return 0;
 }
 
-int DeviceAccess::closePort(void){
+int Device::closePort(void){
 	return close(fd);
 }
 
-DeviceAccess::DeviceAccess() {
+Device::Device() {
 
-	portname = "/dev/stdin";
+	portname = "/dev/ttyUSB0";
 
 	openPort();
 	set_interface_attribs (fd, B115200, 0);  // set speed to 115,200 bps, 8n1 (no parity)
@@ -211,7 +205,7 @@ DeviceAccess::DeviceAccess() {
 	bfd = fd;
 }
 
-DeviceAccess::~DeviceAccess() {
+Device::~Device() {
 	closePort();
 	// TODO Auto-generated destructor stub
 }

@@ -120,6 +120,21 @@ double polarBearing(double current_bearing, double target_bearing)
 	return u;
 }
 
+/*
+ * Note: This function is part of the LRAND proprietary coordinate and direction
+ * system. And as such a full explanation is included in the GPS.h file.
+ *
+ * Return a relative direction pitch, the definition of which is as follows:
+ *
+ * 		A bearing of 0.0 indicates the CENTER or exact middle of the FOV
+ * 		A bearing of 1.0 indicates the TOP of the 180 degree FOV
+ *		A bearing of -1.0 indicates the BOTTOM of the 180 degree FOV
+ *
+ * The FOV (field of view) measures 90 degrees up and down of the current
+ * pitch.
+ *
+ *
+ */
 double polarPitch(double current_pitch, double target_pitch)
 {
 	if (-180 <= current_pitch and current_pitch < -90){

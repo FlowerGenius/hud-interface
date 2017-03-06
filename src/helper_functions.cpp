@@ -63,6 +63,21 @@ double tiley2lat(int y, int z)
 	return 180.0 / M_PI * atan(0.5 * (exp(n) - exp(-n)));
 }
 
+std::vector<std::string> readConfigurationFile(std::string path,int verify_size){
+
+	std::ifstream infile(path);
+	std::vector<std::string> tokens;
+	if (infile.good())
+	{
+		std::string sLine;
+		getline(infile, sLine);
+		boost::split(tokens, sLine, boost::is_any_of("\t"));
+	}
+
+	infile.close();
+
+	return tokens;
+}
 
 void BindCVMat2GLTexture(cv::Mat& image, GLuint& imageTexture)
 {

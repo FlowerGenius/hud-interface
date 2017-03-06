@@ -24,10 +24,6 @@ extern std::atomic<bool> EXIT_THREADS;
 // Temp variables
 std::string pinf;
 
-Battery HeadsUpBatteryInfo::computer_bat = Battery();
-Battery HeadsUpBatteryInfo::device_bat	 = Battery();
-
-
 void getPCBatteryInformation() {
 #if  defined(_WIN32) || defined(__WIN32__)
     SYSTEM_POWER_STATUS status;
@@ -42,21 +38,17 @@ void getPCBatteryInformation() {
 	}
 
 	try {
-		HeadsUpBatteryInfo::computer_bat.state	= pinf.substr(pinf.find(":"));
-		HeadsUpBatteryInfo::computer_bat.charge = atof(pinf.substr(pinf.find('%') - 3).c_str());
+		Computer::battery_state	= pinf.substr(pinf.find(":"));
+		Computer::battery_life = atof(pinf.substr(pinf.find('%') - 3).c_str());
 	} catch(std::out_of_range *e){
 		std::fprintf(stderr,"Error parsing upower strings");
 	}
 
-	if (HeadsUpBatteryInfo::computer_bat.state == "discharging")
-		HeadsUpBatteryInfo::computer_bat.charging = false;
-	else if (HeadsUpBatteryInfo::computer_bat.state == "charging")
-		HeadsUpBatteryInfo::computer_bat.charging = true;
+	if (Computer::battery_state == "discharging")
+		Computer::is_charging = false;
+	else if (Computer::battery_state == "charging")
+		Computer::is_charging = true;
 
-	if (HeadsUpBatteryInfo::computer_bat.state == "discharging")
-		HeadsUpBatteryInfo::computer_bat.charging = false;
-	else if (HeadsUpBatteryInfo::computer_bat.state == "charging")
-		HeadsUpBatteryInfo::computer_bat.charging = true;
 #else
 
 #endif
@@ -85,8 +77,8 @@ HeadsUpBatteryInfo::HeadsUpBatteryInfo() {
  *		Processes all the information necessary to update the module.
  */
 int HeadsUpBatteryInfo::render(){
-	comp_text.setText(std::to_string(HeadsUpBatteryInfo::computer_bat.charge).erase(5));
-	dev_text.setText(std::to_string(HeadsUpBatteryInfo::device_bat.charge).erase(5));
+	comp_text.setText(std::to_string(Computer::battery_life).erase(5));
+	dev_text.setText(std::to_string(Device::battery_life).erase(5));
 	return 0;
 }
 
@@ -124,9 +116,9 @@ void HeadsUpBatteryInfo::draw() {
 		else
 			GREENshader.Use();
 #else
-		if (HeadsUpBatteryInfo::computer_bat.charge <= 10.0)
+		if (Computer::battery_life <= 10.0)
 			LRAND::Colour::RED.bind();
-		else if (HeadsUpBatteryInfo::computer_bat.charge <= 20.0)
+		else if (Computer::battery_life <= 20.0)
 			LRAND::Colour::YELLOW.bind();
 		else
 			LRAND::Colour::GREEN.bind();
@@ -135,8 +127,8 @@ void HeadsUpBatteryInfo::draw() {
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
 		glVertex2f(-0.9, -0.8);
 		glVertex2f(-0.9, 0.8);
-		glVertex2f(((HeadsUpBatteryInfo::computer_bat.charge / 125.0) * 2.0 - 0.9), 0.8);
-		glVertex2f(((HeadsUpBatteryInfo::computer_bat.charge / 125.0) * 2.0 - 0.9), -0.8);
+		glVertex2f(((Computer::battery_life / 125.0) * 2.0 - 0.9), 0.8);
+		glVertex2f(((Computer::battery_life / 125.0) * 2.0 - 0.9), -0.8);
 		glEnd();
 
 	comp_text.ldraw(width - (MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*2) + (BAT_WIDTH / 6),
@@ -169,9 +161,9 @@ void HeadsUpBatteryInfo::draw() {
 		else
 			GREENshader.Use();
 #else
-		if (HeadsUpBatteryInfo::device_bat.charge <= 10.0)
+		if (Device::battery_life <= 10.0)
 			LRAND::Colour::RED.bind();
-		else if (HeadsUpBatteryInfo::device_bat.charge <= 20.0)
+		else if (Device::battery_life <= 20.0)
 			LRAND::Colour::YELLOW.bind();
 		else
 			LRAND::Colour::GREEN.bind();
@@ -180,8 +172,8 @@ void HeadsUpBatteryInfo::draw() {
 		glBegin(GL_POLYGON); //We want to draw a map, i.e. shape with four bevel sides
 		glVertex2f(-0.9, -0.8);
 		glVertex2f(-0.9, 0.8);
-		glVertex2f(((HeadsUpBatteryInfo::device_bat.charge / 125.0) * 2.0 - 0.9), 0.8);
-		glVertex2f(((HeadsUpBatteryInfo::device_bat.charge / 125.0) * 2.0 - 0.9), -0.8);
+		glVertex2f(((Device::battery_life / 125.0) * 2.0 - 0.9), 0.8);
+		glVertex2f(((Device::battery_life / 125.0) * 2.0 - 0.9), -0.8);
 		glEnd();
 
 
@@ -229,7 +221,7 @@ void HeadsUpBatteryInfo::draw() {
 		glVertex2f(0.8, -0.35);
 		glEnd();
 
-	if (HeadsUpBatteryInfo::computer_bat.charging) {
+	if (Computer::is_charging) {
 #ifdef MODERN_OPENGL
 		YELLOWshader.Use();
 #else
@@ -263,7 +255,7 @@ void HeadsUpBatteryInfo::draw() {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-	if (HeadsUpBatteryInfo::device_bat.charging) {
+	if (Device::is_charging) {
 		GLfloat VS[] = {-0.8f, -0.8f,0.0f,0.0f, 0.67f, 1.0f, 0.9f,
 						-0.2f, 0.8f,0.0f,0.0f, 0.67f, 1.0f, 0.9f,
 						 0.0f, 0.6f,0.0f,0.0f, 0.67f, 1.0f, 0.9f,

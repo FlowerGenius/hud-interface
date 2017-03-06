@@ -13,8 +13,6 @@ GLuint tex;
 
 extern float long2tilex(double lon,int z);
 extern float lat2tiley(double lat,int z);
-extern double m_longitude;
-extern double m_latitude;
 std::pair<float,float> map_location;
 
 float bw = 0.03;
@@ -254,10 +252,10 @@ void assignTiles(int tilex, int tileyy, int zoom){
 int TileBuilder::render(){
 	dsource = datsource;
 	z = 17;
-	tilex = ((int)(floor(long2tilex(m_longitude,z))));
-	tiley = ((int)(floor(lat2tiley(m_latitude,z))));
-	map_location.first = (long2tilex(m_longitude,z)-tilex);
-	map_location.second = (lat2tiley(m_latitude,z)-tiley);
+	tilex = ((int)(floor(long2tilex(User::m_longitude,z))));
+	tiley = ((int)(floor(lat2tiley(User::m_latitude,z))));
+	map_location.first = (long2tilex(User::m_longitude,z)-tilex);
+	map_location.second = (lat2tiley(User::m_latitude,z)-tiley);
 	mmx = ((map_location.first*2)-1)/2;
 	mmy = ((map_location.second*2)-1)/2;
 

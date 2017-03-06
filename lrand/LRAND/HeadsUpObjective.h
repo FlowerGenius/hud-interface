@@ -12,15 +12,13 @@ class HeadsUpObjective
 {
 public:
 							HeadsUpObjective();
-							HeadsUpObjective(std::string,int,bool,bool,rapidxml::xml_node<> *x_node,HeadsUpTask *t);
-							HeadsUpObjective(std::string n, int i,gps::Point loc,bool optio,bool comple,rapidxml::xml_node<> *x_node,HeadsUpTask *t) : HeadsUpObjective(n,i,optio,comple,x_node,t) {
-								location = loc;
-							}
+							HeadsUpObjective(std::string,HeadsUpTask *t);
+
 	virtual 				~HeadsUpObjective();
 
 	HeadsUpTask				*source;
 
-	virtual int				getStage(void){ return active_stage; }
+	virtual int				getStage(void){ return stage; }
 	void					setStage(int);
 
 	virtual bool			getCompleted(void){ return completed; }
@@ -58,13 +56,13 @@ protected:
 	std::string 			name;
 	gps::Point				location;
 	int						radius = -1;
+	int stage;
 	int						active_stage;
 	bool 					completed;
 	bool					failed;
 	bool					remove_on_complete;
 	bool					state_changed;
 	bool					optional;
-	rapidxml::xml_node<> 	*file_node;
 private:
 	HeadsUpWaypoint			waypoint = HeadsUpWaypoint(this);
 
@@ -77,8 +75,8 @@ private:
 class SpecificLocationObjective : public HeadsUpObjective
 {
 public:
-	SpecificLocationObjective(std::string n, int stage, gps::Point loc,bool op,bool com,rapidxml::xml_node<> *x_node,HeadsUpTask *t) :
-		HeadsUpObjective(n, stage, loc, op, com,x_node,t)
+	SpecificLocationObjective(std::string n,HeadsUpTask *t) :
+		HeadsUpObjective(n,t)
 	{
 			remove_on_complete = true;
 			waypoint.set(location);
@@ -104,7 +102,6 @@ public:
 private:
 	HeadsUpWaypoint 			waypoint = HeadsUpWaypoint(this);
 	virtual void				initWaypoint(void);
-
 };
 
 /*
@@ -113,10 +110,10 @@ private:
 class AreaLocationObjective : public HeadsUpObjective
 {
 public:
-	AreaLocationObjective(std::string n, int stage, gps::Point loc,int r,bool op,bool com,rapidxml::xml_node<> *x_node,HeadsUpTask *t) :
-		HeadsUpObjective(n, stage, loc, op, com,x_node, t)
+	AreaLocationObjective(std::string n,HeadsUpTask *t) :
+		HeadsUpObjective(n, t)
 	{
-			radius = r;
+			radius = 10;
 			remove_on_complete = true;
 			waypoint.set(location);
 			waypoint.setText("Area");
@@ -154,8 +151,8 @@ class ActionObjective : public HeadsUpObjective
 {
 public:
 
-					ActionObjective(std::string n, int stage,bool op,bool com,rapidxml::xml_node<> *x_node,HeadsUpTask *t) :
-						HeadsUpObjective(n,stage,op,com,x_node,t)
+					ActionObjective(std::string n,HeadsUpTask *t) :
+						HeadsUpObjective(n,t)
 					{
 
 					}

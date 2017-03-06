@@ -75,6 +75,9 @@
 
 #include <curl/curl.h>
 
+#include "boost/filesystem.hpp"
+#include <boost/algorithm/string.hpp>
+
 #include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/highgui.hpp>
@@ -133,12 +136,12 @@ enum MODE
 #define LAN			"192.168.000.027/"
 #define WAN 		"000.000.000.000/"
 #define SRV			"leeresearchdev.ca/"
-#define LOCAL_TASKS "/home/erin/.lrand/HUD/Tasks.xml"
+#define LOCAL_TASKS std::string("/home/erin/.lrand/HUD/tasks/")
 
 #define EID			"data/worker/"+std::string(LASTNAME)+std::string(MIDDLENAME)+std::string(FIRSTNAME)
 
-#define FIL			"tasks.xml"
-#define	URL(x)		std::string(DOM)+std::string( x )+std::string(EID)+std::string(FIL)
+#define INTERFACE_CONFIG "/home/erin/.lrand/HUD/config"
+#define	URL(x)		std::string(DOM)+std::string( x )+std::string(EID)+std::string("tasks")
 
 #define COMPASS_FONT_SIZE 25
 #define COL 0,200,255,255
@@ -146,7 +149,6 @@ enum MODE
 
 
 class LANAccess;
-class DeviceAccess;
 class HeadsUpTask;
 class WorldObject;
 class HeadsUpWaypoint;
@@ -163,6 +165,10 @@ class HeadsUpDigitalClock;
 class HeadsUpInterface;
 class ScalableVectorString;
 
+class Device;
+class Computer;
+class User;
+
 
 #include <lrand/LRAND/LRAND.h>
 #include <lrand/LRAND/Shader.h>
@@ -171,8 +177,13 @@ class ScalableVectorString;
 #include <lrand/LRAND/Model.h>
 
 #include <lrand/glstring/ScalableVectorString.h>
+
 #include <lrand/GPS/GPS.h>
-#include <lrand/LRAND/DeviceAccess.h>
+#include <lrand/MPSPS/Planet.h>
+
+#include <lrand/LRAND/Device.h>
+#include <lrand/LRAND/Computer.h>
+
 #include <lrand/HeadsUpDisplay.h>
 #include <lrand/LRAND/LANAccess.h>
 #include <lrand/LRAND/Timer.hpp>
@@ -186,6 +197,8 @@ class ScalableVectorString;
 #include <lrand/LRAND/HeadsUpMap.h>
 #include <lrand/LRAND/HeadsUpDigitalClock.h>
 #include <lrand/LRAND/HeadsUpInterface.h>
+
+#include <lrand/LRAND/User.h>
 
 
 

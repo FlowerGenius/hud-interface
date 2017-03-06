@@ -34,7 +34,11 @@ std::vector<cv::Rect> 			eyes;
 
 Timer        					m_timer;
 
-
+std::string HeadsUpInterface::remote_tasks_folder 	= "";
+std::string HeadsUpInterface::remote_username 		= "";
+std::string HeadsUpInterface::remote_password		= "";
+std::string HeadsUpInterface::remote_host			= "";
+std::string HeadsUpInterface::local_tasks_folder	= LOCAL_TASKS;
 
 	void drawClock(HeadsUpDigitalClock c){
 		c.draw(MAP_WIDTH + BAT_WIDTH + RIGHT_MARGIN*4, height - 100);
@@ -171,57 +175,36 @@ Timer        					m_timer;
 		m_timer.stop();
 	}
 
+	extern std::vector<std::string> readConfigurationFile(std::string,int);
 	void HeadsUpInterface::start_stuff(){
+		std::vector<std::string> config_vector = readConfigurationFile(INTERFACE_CONFIG,4);
+		remote_tasks_folder = config_vector[0];
+		remote_username 	= config_vector[1];
+		remote_password		= config_vector[2];
+		remote_host			= config_vector[3];
+		local_tasks_folder  = LOCAL_TASKS;
+		const boost::filesystem::path & dir_path = local_tasks_folder.c_str();
+		if ( exists( dir_path ) )
+		  {
+		    boost::filesystem::directory_iterator end_itr; // default construction yields past-the-end
+		    for ( boost::filesystem::directory_iterator itr( dir_path );
+		          itr != end_itr;
+		          ++itr )
+		    {
+		      if ( is_directory(itr->status()) )
+		      {
+		        HeadsUpTask::tasks.push_back(new HeadsUpTask(itr->path().string()));
 
-		rapidxml::xml_document<> d;
-				doc = &d;
-				std::string buf;
+		      }
 
-				std::ifstream handle;
-				handle.open(LOCAL_TASKS);
-
-				if (handle.is_open()){
-				while(!handle.eof()){
-					getline(handle,buf);
-					loaded_doc += buf;
-				}
-			}
-				handle.close();
-
-		doc->parse<0>((char *)loaded_doc.c_str());
-		taskfile_node = doc->first_node();
-		tasks_folder  = std::string(taskfile_node->first_attribute("tasks_folder")->value());
-		source_folder = std::string(taskfile_node->first_attribute("source")->value());
-		username	  =	std::string(taskfile_node->first_attribute("username")->value());
-//		password	  =	std::string(taskfile_node->first_attribute("password")->value());
-		task_host	  =	std::string(taskfile_node->first_attribute("host")->value());
-
-		int task_id = std::atoi(taskfile_node->first_attribute("active_task")->value());
-		int	num_of_tasks  = std::atoi(taskfile_node->first_attribute("length")->value());
-		rapidxml::xml_node<> *tassk = taskfile_node->first_node();
-		//pull_updates();
-
-		for (int q = 1; q < num_of_tasks+1;q++){
-
-			std::string fname = std::string(tassk->first_attribute("file")->value());
-			std::string	name  = std::string(tassk->first_attribute("name")->value());
-			int			ident = std::atoi(tassk->first_attribute("id")->value());
-			int			sta	  = std::atoi(tassk->first_attribute("stage")->value());
-			bool		com	  = std::string(tassk->first_attribute("completed")->value()) == std::string("true") ?  true : false;
-
-			HeadsUpTask *t = new HeadsUpTask(getTasksFolder()+fname,taskfile_node,tassk,name,ident,sta,com);
-
-			if (task_id == q){
-				makeActiveTask(t);
-			}
-
-			tassk = tassk->next_sibling();
-		}
+		    }
+		  }
+		HeadsUpTask::active_task = HeadsUpTask::tasks.back();
 	}
 
 	void HeadsUpInterface::pull_updates(){
 		try {
-			exec(std::string("scp "+username+"@"+task_host+":"+source_folder+"* "+tasks_folder).c_str());
+			exec(std::string("scp "+remote_username+"@"+remote_host+":"+remote_tasks_folder+"* "+local_tasks_folder).c_str());
 		} catch(std::runtime_error *e){
 			std::fprintf(stderr,"Error executing scp command (fatal)");
 		}
@@ -238,15 +221,6 @@ Timer        					m_timer;
 //		rapidxml::xml_attribute<> *attr = doc->allocate_attribute("tasks_folder",folder.c_str());
 //		taskfile_node->append_attribute(attr);
 //	}
-
-	int HeadsUpInterface::getActiveTask(){
-		return HeadsUpTask::active_task->getId();
-	}
-	void HeadsUpInterface::setActiveTask(int task){
-		taskfile_node->remove_attribute(taskfile_node->first_attribute("active_task"));
-		persistent_task_string = std::to_string(task);
-		taskfile_node->append_attribute(doc->allocate_attribute("active_task",persistent_task_string.c_str()));
-	}
 
 	void HeadsUpInterface::changeColours(void)
 	{
@@ -267,7 +241,6 @@ Timer        					m_timer;
 
 	void HeadsUpInterface::makeActiveTask(HeadsUpTask* t)
 	{
-		setActiveTask(t->getId());
 		HeadsUpTask::active_task = t;
 	}
 
@@ -328,13 +301,13 @@ Timer        					m_timer;
 	{
 
 
-		if (HeadsUpTask::active_task->getCompleted()){
-			HeadsUpTask::active_task->deactivate();
-			HeadsUpTask::tasks.remove(HeadsUpTask::active_task);
-			if (HeadsUpTask::tasks.size() > 0){
-				makeActiveTask(HeadsUpTask::tasks.front());
-			}
-		}
+//		if (HeadsUpTask::active_task->getCompleted()){
+//			HeadsUpTask::active_task->deactivate();
+//			HeadsUpTask::tasks.remove(HeadsUpTask::active_task);
+//			if (HeadsUpTask::tasks.size() > 0){
+//				makeActiveTask(HeadsUpTask::tasks.front());
+//			}
+//		}
 
 		draw();
 		drawClock(clockk);

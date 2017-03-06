@@ -7,8 +7,6 @@ a * HeadsUpMap.cpp
 
 #include <lrand/lrand.h>
 
-extern std::atomic<double> 	m_latitude,m_altitude,m_longitude;
-extern std::atomic<double>	m_direction, m_pitch;
 extern std::atomic<bool>	direction_changed;
 extern std::atomic<bool>	location_changed;
 
@@ -23,7 +21,7 @@ namespace gps {
 	extern double polarBearing(double,double);
 }
 HeadsUpMap::HeadsUpMap(){
-	if (m_latitude == (double)0.0){
+	if (User::m_latitude == (double)0.0){
 		getCoords();
 	}
 	getDirection();
@@ -88,8 +86,8 @@ int	HeadsUpMap::render(){
 		tiles.draw();
 
 		glPushMatrix();
-		glRotatef(-m_direction, 0, 0, 1);
-		glRotatef(-m_pitch, 1, 0, 0);
+		glRotatef(-User::m_direction, 0, 0, 1);
+		glRotatef(-User::m_pitch, 1, 0, 0);
 
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
@@ -126,7 +124,7 @@ int	HeadsUpMap::render(){
 				glEnd();
 
 				for(size_t j = 0; j < view.size();j++){
-						viewd = gps::polarBearing(view[j],m_direction);
+						viewd = gps::polarBearing(view[j],User::m_direction);
 						double font_difference;
 
 						if ((j+1) % 2 == 0){ 			//
@@ -165,8 +163,8 @@ int	HeadsUpMap::render(){
 				glVertex2f(1.0,-1.0);
 				glEnd();
 
-				s1.setText("Alt== "+std::to_string(m_altitude)+'m');
-				s2.setText("Pitch "+std::to_string(m_pitch)+"°");
+				s1.setText("Alt== "+std::to_string(User::m_altitude)+'m');
+				s2.setText("Pitch "+std::to_string(User::m_pitch)+"°");
 				s1.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE/2, 1, CLOCK_FONT_SIZE/2);
 				s2.ldraw(0,TOP_MARGIN + CLOCK_FONT_SIZE, 1, CLOCK_FONT_SIZE/2);
 
